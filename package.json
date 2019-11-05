@@ -1,0 +1,27 @@
+{
+  "name": "tv-show-crawl",
+  "version": "1.0.0",
+  "description": "crawls tv shows",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lambdah/tv-show-crawl.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lambdah/tv-show-crawl/issues"
+  },
+  "homepage": "https://github.com/Lambdah/tv-show-crawl#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  },
+  "dependencies": {
+    "mongoose": "^5.7.8",
+    "puppeteer": "^2.0.0"
+  }
+}
