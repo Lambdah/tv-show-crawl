@@ -14,6 +14,11 @@ episodeSchema.methods.findTitleAndEpi = function(cb){
     return this.model('Episode').findOne({title: this.title, episode: this.episode}, cb);
 };
 
+episodeSchema.methods.updateNewRelease = function(cb){
+  return this.model('Episode').findOneAndUpdate({title: this.title, episode: this.episode},
+      {new_release: true}, cb);
+};
+
 var Episode = mongoose.model('Episode', episodeSchema);
 
 module.exports = Episode;

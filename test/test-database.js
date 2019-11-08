@@ -87,7 +87,7 @@ describe('Testing Inputting values to the database', function(){
 
     it('queries for an episode that does not exist', function(done){
         var new_epi = new Episode({
-            epi_id: '/shows/south-park/episode/1785418/band-in-china/',
+            epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
             title: 'South Park',
             episode: 'Weight Gain 4000',
             description: 'August 27, 1997',
@@ -101,5 +101,25 @@ describe('Testing Inputting values to the database', function(){
            done();
         });
     });
+
+    it('should update new_release to false', function(done){
+        var same_epi = new Episode({
+            epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
+            title: 'South Park',
+            episode: 'Tegridy Farms Halloween Special',
+            description: 'AIRED OCTOBER 30, 2019',
+            link: 'http://www.much.com/shows/south-park/episode/1785418/tegridy-farms-halloween-special/'
+        });
+        same_epi.updateNewRelease(function(err, epi){
+            if(err){
+                console.error(err);
+            }
+            expect(epi).to.have.property('title', 'South Park');
+            expect(epi).to.have.property('episode', 'Tegridy Farms Halloween Special');
+            expect(epi).to.have.property('new_release', false);
+            done();
+        })
+    });
+
 
 });
