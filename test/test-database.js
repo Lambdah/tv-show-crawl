@@ -102,7 +102,7 @@ describe('Testing Inputting values to the database', function(){
         });
     });
 
-    it('should update new_release to false', function(done){
+    it('should update new_release to false with an old episode', function(done){
         var same_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
             title: 'South Park',
@@ -120,6 +120,25 @@ describe('Testing Inputting values to the database', function(){
             expect(epi).to.have.property('new_release', false);
             done();
         });
+    });
+
+    it('should not update new_release to false if it is a new episode', function(done){
+        var new_epi = new Episode({
+            epi_id: '/shows/south-park/episode/1816388/season-finale/',
+            title: 'South Park',
+            episode: 'Season Finale',
+            description: 'AIRED NOVEMBER 6, 2019',
+            link: 'https://www.much.com/shows/south-park/episode/1816388/season-finale/'
+        });
+        new_epi.updateNewRelease(function(err, epi){
+            if (err){
+                console.error(err);
+            }
+            expect(epi).to.have.property('title', 'South Park');
+            expect(epi).to.have.property('episode', 'Season Finale');
+            expect(epi).to.have.property('new_release', true);
+            done();
+        })
     });
 
 

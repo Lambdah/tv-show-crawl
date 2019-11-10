@@ -17,7 +17,10 @@ episodeSchema.methods.findTitleAndEpi = function(cb){
 episodeSchema.methods.updateNewRelease = function(cb){
   return this.model('Episode').findOneAndUpdate({title: this.title, episode: this.episode},
       {new_release: false},
-      {new: true},
+      {
+          new: true,
+          upsert: true
+      },
       cb);
 };
 
