@@ -114,11 +114,12 @@ describe('Testing Inputting values to the database', function(){
             if(err){
                 console.error(err);
             }
+            if(err){ console.error(err); }
             expect(epi).to.have.property('title', 'South Park');
             expect(epi).to.have.property('episode', 'Tegridy Farms Halloween Special');
             expect(epi).to.have.property('new_release', false);
             done();
-        })
+        });
     });
 
 

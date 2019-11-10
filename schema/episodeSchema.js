@@ -16,7 +16,9 @@ episodeSchema.methods.findTitleAndEpi = function(cb){
 
 episodeSchema.methods.updateNewRelease = function(cb){
   return this.model('Episode').findOneAndUpdate({title: this.title, episode: this.episode},
-      {new_release: true}, cb);
+      {new_release: false},
+      {new: true},
+      cb);
 };
 
 var Episode = mongoose.model('Episode', episodeSchema);
