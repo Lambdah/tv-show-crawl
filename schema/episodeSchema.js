@@ -1,41 +1,27 @@
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 var episodeSchema = new Schema({
-    title: String,
-    episode: String,
+    title: {type: String, required: true},
+    episode: {type: String, required: true},
     description: String,
-    episode_url: String,
+    episode_url: {type: String, unique: true},
     date: {type: Date, default: Date.now},
-    new_release: {type: Boolean, default: true}
-});
+    new_release: {type: Boolean, default: true}},
+    {autoIndex: false});
 
 episodeSchema.methods.findTitleAndEpi = function(cb){
     return this.model('Episode').findOne({title: this.title, episode: this.episode}, cb);
 };
 
-episodeSchema.methods.updateNewRelease = function(cb){
-  return this.model('Episode').findOneAndUpdate({title: this.title, episode: this.episode, description: this.description},
-      {new_release: false},
-      {
-          new: true
-      },
-      cb);
+episodeSchema.statics.updateNewRelaseToFalse = function(cb){
+    return this.model('Episode').updateMany({new_release: true}, {new_release: false}, { new: true },cb)
 };
 
-episodeSchema.pre('findOneAndUpdate', function(next){
-    var queryObj = this.getQuery();
-    this.model.findOne(this.getQuery()).then(function(docs){
-        console.log(docs);
-        if(docs){
-            return next();
-        }
-    }).catch(function(err){
-        console.error(err);
-    });
-    this.model.create(queryObj, next);
-});
+episodeSchema.index({title: 1, episode: 1}, {unique: true});
 
+episodeSchema.plugin(uniqueValidator);
 var Episode = mongoose.model('Episode', episodeSchema);
 
 module.exports = Episode;

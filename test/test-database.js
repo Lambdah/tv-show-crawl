@@ -85,6 +85,37 @@ describe('Testing Inputting values to the database', function(){
         })
     });
 
+
+
+    it('should update new_release to false in the database', function(done){
+        Episode.updateNewRelaseToFalse(function(err, episodes){
+            for(let i=0; i < episodes.length; i++){
+                console.log(episodes[i]);
+                expect(episodes[i]).to.have.properties('new_release', false);
+            }
+            done();
+        });
+    });
+
+    it('should not contain duplicates', function(done){
+        var same_epi = new Episode({
+            epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
+            title: 'South Park',
+            episode: 'Tegridy Farms Halloween Special',
+            description: 'AIRED OCTOBER 30, 2019',
+            link: 'http://www.much.com/shows/south-park/episode/1785418/tegridy-farms-halloween-special/'
+        });
+        same_epi.save().then(function(){
+        //    Expect an error because it is trying to save same episode again
+        }).catch(function(err){
+            // console.error(err);
+            Episode.find({title: same_epi.title, episode: same_epi.episode}, function(err, docs){
+                expect(docs).to.have.lengthOf(1);
+                done();
+            });
+        });
+    });
+
     it('queries for an episode that does not exist', function(done){
         var new_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
@@ -94,52 +125,29 @@ describe('Testing Inputting values to the database', function(){
             link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
         });
         new_epi.findTitleAndEpi(function(err, epi){
-           if(err){
-               console.error(err);
-           }
-           expect(epi).to.be.null;
-           done();
-        });
-    });
-
-    it('should update new_release to false with an old episode', function(done){
-        var same_epi = new Episode({
-            epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
-            title: 'South Park',
-            episode: 'Tegridy Farms Halloween Special',
-            description: 'AIRED OCTOBER 30, 2019',
-            link: 'http://www.much.com/shows/south-park/episode/1785418/tegridy-farms-halloween-special/'
-        });
-        same_epi.updateNewRelease(function(err, epi){
             if(err){
                 console.error(err);
             }
-            if(err){ console.error(err); }
-            expect(epi).to.have.property('title', 'South Park');
-            expect(epi).to.have.property('episode', 'Tegridy Farms Halloween Special');
-            expect(epi).to.have.property('new_release', false);
+            expect(epi).to.be.null;
             done();
         });
     });
 
-    it('should not update new_release to false if it is a new episode', function(done){
+    it('should insert new episode with new_release as true', function(done){
         var new_epi = new Episode({
-            epi_id: '/shows/south-park/episode/1816388/season-finale/',
+            epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
             title: 'South Park',
-            episode: 'Season Finale',
-            description: 'AIRED NOVEMBER 6, 2019',
-            link: 'https://www.much.com/shows/south-park/episode/1816388/season-finale/'
+            episode: 'Weight Gain 4000',
+            description: 'August 27, 1997',
+            link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
         });
-        new_epi.updateNewRelease(function(err, epi){
-            if (err){
-                console.error(err);
-            }
-            expect(epi).to.have.property('title', 'South Park');
-            expect(epi).to.have.property('episode', 'Season Finale');
-            // expect(epi).to.have.property('new_release', true);
+        new_epi.save(function(err, docs){
+            if(err){ console.error(err); }
+            expect(docs).to.have.property('title', 'South Park');
+            expect(docs).to.have.property('episode', 'Weight Gain 4000');
+            expect(docs).to.have.property('new_release', true);
             done();
-        })
-    });
-
+        });
+    })
 
 });
