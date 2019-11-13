@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const mongoose = require('mongoose');
-const Episode = require('../schema/episodeSchema');
+const Episode = require('../backend/schema/episodeSchema');
 
 const database_data = [
     {
