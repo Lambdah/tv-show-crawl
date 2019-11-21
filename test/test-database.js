@@ -6,28 +6,28 @@ const database_data = [
     {
         epi_id: '/shows/south-park/episode/1785418/band-in-china/',
         title: 'South Park',
-        episode: 'Band In China',
+        episode_name: 'Band In China',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785418/band-in-china/'
     },
     {
         epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
         title: 'South Park',
-        episode: 'Tegridy Farms Halloween Special',
+        episode_name: 'Tegridy Farms Halloween Special',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785418/tegridy-farms-halloween-special/'
     },
     {
         epi_id: '/shows/south-park/episode/1785417/let-them-eat-goo/',
         title: 'South Park',
-        episode: 'Let Them Eat Goo',
+        episode_name: 'Let Them Eat Goo',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785417/let-them-eat-goo/'
     },
     {
         epi_id: '/shows/south-park/episode/1785416/shots/',
         title: 'South Park',
-        episode: 'SHOTS!!!',
+        episode_name: 'SHOTS!!!',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785416/shots/'
     }
@@ -70,7 +70,7 @@ describe('Testing Inputting values to the database', function(){
         var same_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/band-in-china/',
             title: 'South Park',
-            episode: 'Band In China',
+            episode_name: 'Band In China',
             description: 'AIRED OCTOBER 30, 2019',
             link: 'http://www.much.com/shows/south-park/episode/1785418/band-in-china/'
         });
@@ -80,7 +80,7 @@ describe('Testing Inputting values to the database', function(){
             }
             expect(epi).to.have.an('object');
             expect(epi).to.have.property('title', 'South Park');
-            expect(epi).to.have.property('episode', 'Band In China');
+            expect(epi).to.have.property('episode_name', 'Band In China');
             done();
         })
     });
@@ -101,7 +101,7 @@ describe('Testing Inputting values to the database', function(){
         var same_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
             title: 'South Park',
-            episode: 'Tegridy Farms Halloween Special',
+            episode_name: 'Tegridy Farms Halloween Special',
             description: 'AIRED OCTOBER 30, 2019',
             link: 'http://www.much.com/shows/south-park/episode/1785418/tegridy-farms-halloween-special/'
         });
@@ -109,7 +109,7 @@ describe('Testing Inputting values to the database', function(){
         //    Expect an error because it is trying to save same episode again
         }).catch(function(err){
             // console.error(err);
-            Episode.find({title: same_epi.title, episode: same_epi.episode}, function(err, docs){
+            Episode.find({title: same_epi.title, episode_name: same_epi.episode_name}, function(err, docs){
                 expect(docs).to.have.lengthOf(1);
                 done();
             });
@@ -120,7 +120,7 @@ describe('Testing Inputting values to the database', function(){
         var new_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
             title: 'South Park',
-            episode: 'Weight Gain 4000',
+            episode_name: 'Weight Gain 4000',
             description: 'August 27, 1997',
             link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
         });
@@ -137,14 +137,14 @@ describe('Testing Inputting values to the database', function(){
         var new_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
             title: 'South Park',
-            episode: 'Weight Gain 4000',
+            episode_name: 'Weight Gain 4000',
             description: 'August 27, 1997',
             link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
         });
         new_epi.save(function(err, docs){
             if(err){ console.error(err); }
             expect(docs).to.have.property('title', 'South Park');
-            expect(docs).to.have.property('episode', 'Weight Gain 4000');
+            expect(docs).to.have.property('episode_name', 'Weight Gain 4000');
             expect(docs).to.have.property('new_release', true);
             done();
         });
