@@ -7,6 +7,32 @@ router.route('/').get(function(req, res){
         .catch(err => res.status(400).json('Error' + err));
 });
 
+router.route('/:id').get(function(req, res){
+   Episode.find(req.params.id)
+       .then(episode => res.json(episode))
+       .catch(err => res.status(400).json('error' + err));
+});
+
+router.route('/:id').delete(function(req, res){
+    Episode.find(req.params.id)
+        .then(episode => res.json('Episode deleted!'))
+        .catch(err => res.status(400).json('error' + err));
+});
+
+router.route('/update/:id').post(function(req, res){
+   Episode.find(req.params.id)
+       .then(episode => {
+           episode.title = req.body.title;
+           episode.episode_name = req.body.episode_name;
+           episode.description = req.body.description;
+           episode.episode_url = req.body.episode_url;
+
+           episode.save()
+               .then(() => res.json('Episode Updated'))
+               .catch(err => res.status(400).json('error' + err));
+       })
+});
+
 router.route('/add').post(function(req, res){
     const title = req.body.title;
     const episode = req.body.episode;
@@ -21,7 +47,7 @@ router.route('/add').post(function(req, res){
 
     newEpisode.save()
         .then(() => res.json("Episode Added"))
-        .catch((err) => console.error(err));
+        .catch((err) => res.json(400).json('error' + err));
 });
 
 router.route('/:tvTitle').get(function(req, res){
