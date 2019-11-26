@@ -8,7 +8,7 @@ router.route('/').get(function(req, res){
 });
 
 router.route('/:id').get(function(req, res){
-   Episode.find(req.params.id)
+   Episode.find({_id: req.params.id})
        .then(episode => res.json(episode))
        .catch(err => res.status(400).json('error' + err));
 });
@@ -49,14 +49,14 @@ router.route('/add').post(function(req, res){
         .catch((err) => res.json(400).json('error' + err));
 });
 
-router.route('/:tvTitle').get(function(req, res){
+router.route('/tv/:tvTitle').get(function(req, res){
    Episode.find({title: req.params['tvTitle']})
        .then(tvShow => res.json(tvShow))
        .catch(err => res.status(400).join('Error' + err));
 });
 
-router.route('/:tvTitle/:tvEpisode').get(function(req, res){
-    Episode.find({title: req.params['tvTitle'], episode_nam: req.params['tvEpisode']})
+router.route('/tv/:tvTitle/:tvEpisode').get(function(req, res){
+    Episode.find({title: req.params['tvTitle'], episode_name: req.params['tvEpisode']})
         .then(episode => res.json(episode))
         .catch(err => res.status(400).join('Error' + err));
 });
