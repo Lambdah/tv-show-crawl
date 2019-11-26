@@ -50,13 +50,13 @@ router.route('/add').post(function(req, res){
 });
 
 router.route('/tv/:tvTitle').get(function(req, res){
-   Episode.find({title: req.params['tvTitle']})
+   Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}})
        .then(tvShow => res.json(tvShow))
        .catch(err => res.status(400).join('Error' + err));
 });
 
 router.route('/tv/:tvTitle/:tvEpisode').get(function(req, res){
-    Episode.find({title: req.params['tvTitle'], episode_name: req.params['tvEpisode']})
+    Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}, episode_name: {$regex: new RegExp(req.params['tvEpisode'], "i")}})
         .then(episode => res.json(episode))
         .catch(err => res.status(400).join('Error' + err));
 });
