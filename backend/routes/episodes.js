@@ -35,16 +35,15 @@ router.route('/update/:id').post(function(req, res){
 
 router.route('/add').post(function(req, res){
     const title = req.body.title;
-    const episode = req.body.episode;
+    const episode_name = req.body.episode_name;
     const description = req.body.description;
     const episode_url = req.body.episode_url;
     const newEpisode = new Episode({
         title,
-        episode,
+        episode_name,
         description,
         episode_url,
     });
-
     newEpisode.save()
         .then(() => res.json("Episode Added"))
         .catch((err) => res.json(400).json('error' + err));
