@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 const mongoose = require('mongoose');
 const Episode = require('../backend/schema/episodeSchema');
+process.env.NODE_ENV = 'test';
 
 const database_data = [
     {

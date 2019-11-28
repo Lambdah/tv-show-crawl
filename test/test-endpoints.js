@@ -6,7 +6,7 @@ let chaiHttp = require('chai-http');
 let server = require("../backend/server");
 let should = chai.should();
 let db_data = require("../mock-data/data");
-
+process.env.NODE_ENV = 'test';
 chai.use(chaiHttp);
 
 describe('Episode',function() {

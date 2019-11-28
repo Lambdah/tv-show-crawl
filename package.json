@@ -4,7 +4,8 @@
   "description": "crawls tv shows",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "start": "SET NODE_ENV=default && node ./backend/server.js",
+    "test": "mocha --timeout 10000"
   },
   "repository": {
     "type": "git",
