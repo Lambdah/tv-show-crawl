@@ -52,17 +52,24 @@ router.route('/add').post(function(req, res){
 router.route('/tv/:tvTitle').get(function(req, res){
    Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}})
        .then(tvShow => {
-           if(tvShow){
-               res.json(tvShow)
+           if(tvShow.length === 0){
+               res.status(404).json([{err: "TV show does not exist"}]);
+           }else{
+               res.status(200).json(tvShow);
            }
-            res.status(400).json({error: 'TV Show does not exist'});
        })
        .catch(err => res.status(400).json({error: err}));
 });
 
 router.route('/tv/:tvTitle/:tvEpisode').get(function(req, res){
     Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}, episode_name: {$regex: new RegExp(req.params['tvEpisode'], "i")}})
-        .then(episode => res.json(episode))
+        .then(episode => {
+            if (episode.length === 0){
+                res.status(404).json([{err: "TV Show or Episode does not exist"}]);
+            }else{
+                res.json(episode);
+            }
+        })
         .catch(err => res.status(400).join('Error' + err));
 });
 

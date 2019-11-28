@@ -155,14 +155,44 @@ describe('Episode',function() {
             });
     });
 
-    it('/episodes/tv/lkjasdfnml should get 400 error for no tv show', function(done){
+    it('/episodes/tv/lkjasdfnml should get 404 error for no tv show', function(done){
         chai.request(server)
             .get('/episodes/tv/lkjasdfnml')
             .end(function(err, res){
                 if(err){
                     console.error(err);
                 }
-                res.should.have.status(400);
+                res.should.have.status(404);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(1);
+                done();
+            });
+    });
+
+    it('/episodes/tv/lkjasdfnml/lkiajdkd should get 404 error for no tv show and episode', function(done){
+        chai.request(server)
+            .get('/episodes/tv/lkjasdfnml/lkiajdk')
+            .end(function(err, res){
+                if(err){
+                    console.error(err);
+                }
+                res.should.have.status(404);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(1);
+                done();
+            });
+    });
+
+    it('/episodes/tv/south park/No Show South Park should get 400 error for exist tv show and no episode', function(done){
+        chai.request(server)
+            .get('/episodes/tv/South Park/No Show South Park')
+            .end(function(err, res){
+                if(err){
+                    console.error(err);
+                }
+                res.should.have.status(404);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(1);
                 done();
             });
     });
