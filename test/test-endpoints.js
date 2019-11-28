@@ -196,4 +196,20 @@ describe('Episode',function() {
                 done();
             });
     });
+
+    it('/episodes/add/ adds a new tv show and episode', function(done){
+        let episode = {
+            title: "South Park",
+            episode_name: "Cartman Gets an Anal Probe",
+            description: "Cartman tells his friends Stan, Kyle, and Kenny he had a dream about being abducted by aliens. The boys realize that this did actually happen when Kyle's baby brother, Ike is abducted also. They manage to rescue Ike while the aliens conclude that cows are the most intelligent species on the planet.",
+            episode_url: "https://www.much.com/shows/south-park/episode/1824093/Cartman-Gets-an-Anal-Probe/"
+        };
+        chai.request(server)
+            .post('/episodes/add')
+            .send(episode)
+            .end(function(err, res){
+               res.should.have.status(200);
+               done();
+            });
+    })
 });
