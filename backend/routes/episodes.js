@@ -15,22 +15,32 @@ router.route('/:id').get(function(req, res){
 
 router.route('/:id').delete(function(req, res){
     Episode.find(req.params.id)
-        .then(episode => res.json('Episode deleted!'))
+        .then(episode => res.json({status: 'Episode deleted!'}))
         .catch(err => res.status(400).json('error' + err));
 });
 
 router.route('/update/:id').post(function(req, res){
-   Episode.find({_id: req.params.id})
-       .then(episode => {
-           episode.title = req.body.title;
-           episode.episode_name = req.body.episode_name;
-           episode.description = req.body.description;
-           episode.episode_url = req.body.episode_url;
-
-           episode.save()
-               .then(() => res.json({status: 'Episode Updated'}))
-               .catch(err => res.status(400).json('error' + err));
-       })
+    if(!req.body.title && !req.body.episode_name){
+        return res.status(400).json({err: "TV show and Episode Name must not be empty"});
+    }
+    let episode = {
+        title : req.body.title,
+        episode_name : req.body.episode_name,
+        description : req.body.description,
+        episode_url : req.body.episode_url
+    };
+    Episode.findOneAndUpdate({_id: req.params.id}, {episode},
+        {new: true}).then(epi => {
+            if(!epi){
+                return res.status(404).json({err: "No associated id with " + req.params.id})
+            }
+            res.json(episode);
+    }).catch(error => {
+        if(error.kind === 'ObjectId'){
+            return res.status(404).json({err: "No associated id with " + req.params.id});
+        }
+        return res.status(500).json({err: "Error updating with " + req.params.id});
+    });
 });
 
 router.route('/add').post(function(req, res){
