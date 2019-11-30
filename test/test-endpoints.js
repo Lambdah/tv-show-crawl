@@ -209,7 +209,46 @@ describe('Episode',function() {
             .send(episode)
             .end(function(err, res){
                res.should.have.status(200);
+               res.body.should.be.a('object');
+               res.body.should.include({status: "Episode Added"});
                done();
             });
-    })
+    });
+
+    it('/episodes/:id get the id of a tv show episode', function(done){
+        let epi_id = new Promise(function(resolve, reject){
+            chai.request(server)
+                .get('/episodes/tv/South Park/Cartman Gets an Anal Probe')
+                .end(function(err, res){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(res.body[0]._id);
+                });
+        });
+        epi_id.then(function(_id){
+            chai.request(server)
+                .get('/episodes/'+_id)
+                .end(function(err, res){
+                    if(err){
+                        console.error(err)
+                    }
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                    res.body[0].should.include({
+                        title: 'South Park',
+                        episode_name: 'Cartman Gets an Anal Probe'});
+                    done();
+                });
+        });
+    });
+
+    it('/episodes/:id if the id does not exist, it should give 400', function(done){
+        chai.request(server)
+            .get('/episodes/kldj390klad903jklam_')
+            .end(function(err, res){
+               res.should.have.status(400);
+               done();
+            });
+    });
 });

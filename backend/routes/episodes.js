@@ -20,7 +20,7 @@ router.route('/:id').delete(function(req, res){
 });
 
 router.route('/update/:id').post(function(req, res){
-   Episode.find(req.params.id)
+   Episode.find({_id: req.params.id})
        .then(episode => {
            episode.title = req.body.title;
            episode.episode_name = req.body.episode_name;
@@ -28,7 +28,7 @@ router.route('/update/:id').post(function(req, res){
            episode.episode_url = req.body.episode_url;
 
            episode.save()
-               .then(() => res.json('Episode Updated'))
+               .then(() => res.json({status: 'Episode Updated'}))
                .catch(err => res.status(400).json('error' + err));
        })
 });
@@ -45,7 +45,7 @@ router.route('/add').post(function(req, res){
         episode_url,
     });
     newEpisode.save()
-        .then(() => res.json("Episode Added"))
+        .then(() => res.json({status: "Episode Added"}))
         .catch((err) => res.status(400).join('error' + err));
 });
 
