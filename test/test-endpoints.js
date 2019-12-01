@@ -251,4 +251,63 @@ describe('Episode',function() {
                done();
             });
     });
+
+    it('/episodes/update/:id should update the current episode', function(done){
+        let epi_id = new Promise(function(resolve, reject){
+            chai.request(server)
+                .get('/episodes/tv/South Park/Cartman Gets an Anal Probe')
+                .end(function(err, res){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(res.body[0]._id);
+                });
+        });
+
+        epi_id.then(function(_id){
+            let episode = {
+                title: "South Park",
+                episode_name: "Cartman Gets an Anal Probe",
+                description: "Updated description",
+                episode_url: "https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/"
+            };
+            chai.request(server)
+                .post('/episodes/update/' + _id)
+                .send(episode)
+                .end(function(err, res){
+                    if (err){
+                        console.error(err);
+                    }
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.include({
+                        title: 'South Park',
+                        episode_name: 'Cartman Gets an Anal Probe',
+                        description: 'Updated description',
+                        episode_url: 'https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/'
+
+                    });
+                    done();
+                });
+        });
+    });
+
+    it('/episodes/update/:id should give error if id does not exist', function(done){
+        let episode = {
+            title: "South Park",
+            episode_name: "Cartman Gets an Anal Probe",
+            description: "random description",
+            episode_url: "https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/"
+        };
+        chai.request(server)
+            .post('/episodes/update/390nmjsdaklfma90p8')
+            .send(episode)
+            .end(function(err, res){
+                if (err){
+                    console.error(err);
+                }
+                res.should.have.status(404);
+                done();
+            });
+    });
 });

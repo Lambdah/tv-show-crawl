@@ -29,7 +29,7 @@ router.route('/update/:id').post(function(req, res){
         description : req.body.description,
         episode_url : req.body.episode_url
     };
-    Episode.findOneAndUpdate({_id: req.params.id}, {episode},
+    Episode.findOneAndUpdate({_id: req.params.id}, episode,
         {new: true}).then(epi => {
             if(!epi){
                 return res.status(404).json({err: "No associated id with " + req.params.id})
