@@ -373,4 +373,75 @@ describe('Episode',function() {
                 });
         });
     });
+
+    it('/episodes/update/new/:id updates the episode so new_release is false', function(done){
+        let epi_id = new Promise(function(resolve, reject){
+            chai.request(server)
+                .get('/episodes/tv/South Park/Cartman Gets an Anal Probe')
+                .end(function(err, res){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(res.body[0]._id);
+                });
+        });
+
+        epi_id.then(function(_id){
+            let new_r = {new_release:"false"};
+            chai.request(server)
+                .post('/episodes/update/new/' + _id)
+                .send(new_r)
+                .end(function(err, res){
+                    if(err){
+                        console.error(err);
+                    }
+                    res.should.have.status(200);
+                    res.body.should.include({
+                       new_release: false,
+                       title: 'South Park',
+                       episode_name: 'Cartman Gets an Anal Probe'
+                    });
+                    done();
+                });
+        });
+    });
+
+    it('/episodes/update/new/:id does not update if the id does not exist', function(done){
+        chai.request(server)
+            .post('/episodes/update/new/89023nmjiodfjio23dal')
+            .send({new_release: "false"})
+            .end(function(err, res){
+                if(err){
+                    console.error(err);
+                }
+                res.should.have.status(404);
+                res.body.should.include({ err: 'No associated id with 89023nmjiodfjio23dal' });
+                done();
+            });
+    });
+
+    it('/episodes/update/new/:id gives 400 when property is not true or false', function(done){
+        let epi_id = new Promise(function(resolve, reject){
+            chai.request(server)
+                .get('/episodes/tv/South Park/Cartman Gets an Anal Probe')
+                .end(function(err, res){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(res.body[0]._id);
+                });
+        });
+
+        epi_id.then(function(_id){
+            let new_r = {new_release: "truthy"};
+            chai.request(server)
+                .post('/episodes/update/new/' + _id)
+                .send(new_r)
+                .end(function(err, res){
+                    res.should.have.status(400);
+                    res.body.should.include({ err: 'Property of new_release is a boolean' });
+                    done();
+                });
+        });
+    });
 });

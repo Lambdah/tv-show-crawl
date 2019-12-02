@@ -43,6 +43,32 @@ router.route('/update/:id').post(function(req, res){
     });
 });
 
+router.route('/update/new/:id').post(function(req, res){
+   if(!req.body.new_release){
+       return res.status(400).json({err: "Requires new_release"});
+   }
+   let new_release = null;
+   if(req.body.new_release === 'true'){
+       new_release = {new_release: true};
+   }else if (req.body.new_release === 'false'){
+       new_release = {new_release: false}
+   }else{
+       return res.status(400).json({err: "Property of new_release is a boolean"});
+   }
+   Episode.findOneAndUpdate({_id: req.params.id}, new_release,
+       {new: true, useFindAndModify: false}).then(epi =>{
+           if(!epi){
+               return res.status(404).json({err: "No associated id with " + req.params.id});
+           }
+           res.json(epi);
+   }).catch(error =>{
+       if(error.kind ==='ObjectId'){
+           return res.status(404).json({err: "No associated id with " + req.params.id})
+       }
+      return res.status(500).json({err: error});
+   });
+});
+
 router.route('/add').post(function(req, res){
     const title = req.body.title;
     const episode_name = req.body.episode_name;
