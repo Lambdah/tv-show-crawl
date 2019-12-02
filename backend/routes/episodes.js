@@ -82,7 +82,7 @@ router.route('/add').post(function(req, res){
     });
     newEpisode.save()
         .then(() => res.json({status: "Episode Added"}))
-        .catch((err) => res.status(400).join('error' + err));
+        .catch((error) => res.status(400).json({err: error}));
 });
 
 router.route('/tv/:tvTitle').get(function(req, res){

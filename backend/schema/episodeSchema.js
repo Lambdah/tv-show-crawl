@@ -15,7 +15,7 @@ episodeSchema.methods.findTitleAndEpi = function(cb){
     return this.model('Episode').findOne({title: this.title, episode_name: this.episode_name}, cb);
 };
 
-episodeSchema.statics.updateNewRelaseToFalse = function(cb){
+episodeSchema.statics.updateNewReleaseToFalse = function(cb){
     return this.model('Episode').updateMany({new_release: true}, {new_release: false}, { new: true },cb)
 };
 
