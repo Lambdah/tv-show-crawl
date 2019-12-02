@@ -20,8 +20,8 @@ router.route('/:id').delete(function(req, res){
 });
 
 router.route('/update/:id').post(function(req, res){
-    if(!req.body.title && !req.body.episode_name){
-        return res.status(400).json({err: "TV show and Episode Name must not be empty"});
+    if(!req.body.title || !req.body.episode_name || !req.body.episode_url){
+        return res.status(400).json({err: "TV show, Episode Name and Episode URL must not be empty"});
     }
     let episode = {
         title : req.body.title,
@@ -30,7 +30,7 @@ router.route('/update/:id').post(function(req, res){
         episode_url : req.body.episode_url
     };
     Episode.findOneAndUpdate({_id: req.params.id}, episode,
-        {new: true}).then(epi => {
+        {new: true, useFindAndModify: false}).then(epi => {
             if(!epi){
                 return res.status(404).json({err: "No associated id with " + req.params.id})
             }

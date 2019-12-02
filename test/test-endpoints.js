@@ -310,4 +310,67 @@ describe('Episode',function() {
                 done();
             });
     });
+
+    it('/episodes/update/:id should give 400 error if the json ' +
+        'does not have the episode name, description, and url', function(done){
+        let epi_id = new Promise(function(resolve, reject){
+            chai.request(server)
+                .get('/episodes/tv/South Park/Cartman Gets an Anal Probe')
+                .end(function(err, res){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(res.body[0]._id);
+                });
+        });
+
+        epi_id.then(function(_id){
+            let episode = {};
+           chai.request(server)
+               .post('/episodes/update/' + _id)
+               .send(episode)
+               .end(function(err, res){
+                   if (err){
+                       console.error(err);
+                   }
+                   res.should.have.status(400);
+                   res.body.should.include({
+                       err: "TV show, Episode Name and Episode URL must not be empty"
+                   });
+                   done();
+               });
+        });
+    });
+
+    it('/episodes/update/:id should give 400 error if json only has episode name', function(done){
+        let epi_id = new Promise(function(resolve, reject){
+            chai.request(server)
+                .get('/episodes/tv/South Park/Cartman Gets an Anal Probe')
+                .end(function(err, res){
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(res.body[0]._id);
+                });
+        });
+
+        epi_id.then(function(_id){
+            let episode = {
+                title: "South Parker"
+            };
+            chai.request(server)
+                .post('/episodes/update/' + _id)
+                .send(episode)
+                .end(function(err, res){
+                    if (err){
+                        console.error(err);
+                    }
+                    res.should.have.status(400);
+                    res.body.should.include({
+                        err: "TV show, Episode Name and Episode URL must not be empty"
+                    });
+                    done();
+                });
+        });
+    });
 });
