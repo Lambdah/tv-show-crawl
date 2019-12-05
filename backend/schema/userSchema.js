@@ -2,6 +2,11 @@ var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
+
+var showSchema = new Schema({
+    title: {type: String},
+    subscribeTime: {type: Date, default: Date.now}
+});
 var userSchema = new Schema({
     email: {
         type: String,
@@ -22,7 +27,7 @@ var userSchema = new Schema({
         default: Date.now
     },
     subscribedShows:{
-        type: Array
+        type: [showSchema]
     }
 });
 
