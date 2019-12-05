@@ -2,6 +2,7 @@
 *.log
 *.idea
 node_modules
+mock-website/
 package-lock.json
 output.txt
 ./mock-data

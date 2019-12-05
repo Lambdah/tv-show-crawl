@@ -21,5 +21,4 @@ async function much(){
     });
 }
 
-// much();
 module.exports = much;
