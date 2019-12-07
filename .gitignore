@@ -3,10 +3,11 @@
 *.idea
 node_modules
 mock-website/
+config/
 package-lock.json
 output.txt
 ./mock-data
 ./mock-website
 ./config/default.json
 ./config/production.json
-config
+config/

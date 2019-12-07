@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
-const url = 'https://www.much.com/shows/';
+// const url = 'https://www.much.com/shows/';
 
-async function muchScrape(){
+async function muchScrape(url){
     try{
         var browser = await puppeteer.launch({headless: true});
         var page = await browser.newPage();

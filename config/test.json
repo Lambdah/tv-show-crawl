@@ -1,4 +1,5 @@
 {
   "DBHost": "mongodb://localhost/test",
-  "PORT": 5000
+  "PORT": 5000,
+  "MuchHomeIndex": "file:/home/eiji/WebstormProjects/tv-show-crawl/mock-website/www.much.com/shows/index.html"
 }

@@ -89,7 +89,7 @@ describe('Testing Inputting values to the database', function(){
 
 
     it('should update new_release to false in the database', function(done){
-        Episode.updateNewRelaseToFalse(function(err, episodes){
+        Episode.updateNewReleaseToFalse(function(err, episodes){
             for(let i=0; i < episodes.length; i++){
                 console.log(episodes[i]);
                 expect(episodes[i]).to.have.properties('new_release', false);

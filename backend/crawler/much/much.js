@@ -2,7 +2,7 @@ const muchScrape = require('./muchScrape');
 const muchParse = require('./muchParse');
 
 async function much(){
-    return muchScrape()
+    return muchScrape('https://www.much.com/shows/')
         .then(function(tv){
             var muchTv = [];
             for (let i = 0; i < tv.length; i++){
