@@ -33,7 +33,7 @@ async function cityTvShow(url){
         for (let i=0; i < tvShow.length; i++){
             tvShow[i].link = url + "?video=" + tvShow[i].epi_id
         }
-        return JSON.stringify(tvShow);
+        return tvShow;
     } catch (err){
         console.error(err);
         await browser.close();

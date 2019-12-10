@@ -41,7 +41,7 @@ describe('Testing web crawlers for home page for show links', function(){
    });
 });
 
-describe('Testing that web crawler is getting the correct information', function(){
+describe('Testing that web parser MUCH is getting the correct information', function(){
    it('should parses South Park episodes', function(done){
         muchParse(config.MuchShowDir + "south-park/index.html")
             .then(function(episodes){
@@ -103,4 +103,60 @@ describe('Testing that web crawler is getting the correct information', function
                 done();
             });
    });
+});
+
+describe('Testing web parser for cityTV is retrieving the correct information', function(){
+    it('parses episodes from dancing with the stars', function(done){
+        cityTVParse(config.CityTvShowDir + "dancing-with-the-stars/index.html")
+            .then(function(episodes){
+                expect(episodes).to.have.length(11);
+                expect(episodes).to.be.a('array');
+                for(let i=0; i < episodes.length; i++){
+                    expect(episodes[i]).to.have.property('title', 'Dancing With The Stars');
+                }
+                done();
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    });
+
+    it('parses episodes from Hell\'s kitchen', function(done){
+        cityTVParse(config.CityTvShowDir + "hells-kitchen/index.html")
+            .then(function(episode){
+                expect(episode).to.have.length(16);
+                expect(episode).to.be.a('array');
+                for(let i=0; i < episode.length; i++){
+                    expect(episode[i]).to.have.property("title", "Hell's Kitchen");
+                }
+                done();
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    });
+
+    it('parses episodes from bachelorette', function(done){
+       cityTVParse(config.CityTvShowDir + "the-bachelorette-reunion/index.html")
+           .then(function(episode){
+               expect(episode).to.have.length(1);
+               expect(episode).to.be.a('array');
+               expect(episode[0]).to.have.property("title", "The Bachelorette Reunion");
+               done();
+           })
+           .catch(function(err){
+               console.error(err);
+           });
+    });
+
+    it('parses no episodes from price is right', function(done){
+       cityTVParse(config.CityTvShowDir + "the-price-is-right/index.html")
+           .then(function(episode){
+               expect(episode).to.be.null;
+               done();
+           })
+           .catch(function(err){
+               console.error(err);
+           });
+    });
 });
