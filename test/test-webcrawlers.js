@@ -8,6 +8,8 @@ const muchScrape = require('../backend/crawler/much/muchScrape');
 const muchParse = require('../backend/crawler/much/muchParse');
 const cityTVScrape = require('../backend/crawler/cityTV/cityTVScraper');
 const cityTVParse = require('../backend/crawler/cityTV/cityTVParse');
+const cbcScrape = require('../backend/crawler/cbc/cbcScraper');
+const cbcParser = require('../backend/crawler/cbc/cbcParse');
 
 
 describe('Testing web crawlers for home page for show links', function(){
@@ -24,6 +26,15 @@ describe('Testing web crawlers for home page for show links', function(){
       cityTVScrape(config.CityTvHomeIndex)
           .then(function(links){
               expect(links).to.have.length(49);
+              expect(links).to.be.a('array');
+              done();
+          });
+   });
+
+   it('should webcrawl TV shows on CBC', function(done){
+      cbcScrape(config.CBCHomeIndex)
+          .then(function(links){
+              expect(links).to.have.length(71);
               expect(links).to.be.a('array');
               done();
           });

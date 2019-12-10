@@ -4,10 +4,9 @@ const url = 'https://www.cbc.ca/tv/shows';
 
 process.setMaxListeners(0);
 const cbcCrawl =
-    cbcScraper()
+    cbcScraper(url)
     .then(function(tvUrls){
         for (let i = 0; i < tvUrls.length; i++){
-            // console.log(tvUrls[i]);
             cbcParse(tvUrls[i])
                 .then(function(tv){
                     if (tv){
