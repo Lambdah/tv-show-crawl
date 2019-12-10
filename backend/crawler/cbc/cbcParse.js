@@ -12,7 +12,7 @@ async function cbcTvParse(url){
             await page.waitForSelector('.client-logo-nav > img');
             await page.waitForSelector('.media-thumbnail.media-image.loaded', {timeout: 10000});
         } catch(e){
-            console.log(url);
+            // console.log(url);
             await browser.close();
             return null;
         }
@@ -42,7 +42,7 @@ async function cbcTvParse(url){
             tvShow[i].link = baseUrl + tvShow[i].link;
         }
         // console.log(tvShow);
-        return JSON.stringify(tvShow);
+        return tvShow;
     }catch(err){
         console.error(err);
         browser.close();

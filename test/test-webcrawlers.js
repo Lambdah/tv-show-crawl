@@ -160,3 +160,31 @@ describe('Testing web parser for cityTV is retrieving the correct information', 
            });
     });
 });
+
+describe('Testing parser for CBC is retrieving the correct information', function(){
+   it('parses everything indigenous with no episodes', function(done){
+       cbcParser(config.CBCShowDir + "everything-indigenous/index.html")
+           .then(function(episode){
+                expect(episode).to.be.null;
+                done();
+           })
+           .catch(function(err){
+               console.error(err);
+           });
+   });
+
+   it('parses kim\'s convenience episodes', function(done){
+       cbcParser(config.CBCShowDir + "kims-convenience/index.html")
+           .then(function(episode){
+               expect(episode).to.have.length(13);
+               expect(episode).to.be.a('array');
+               for(let i=0; i < episode.length; i++){
+                   expect(episode[i]).to.have.property("title", "kim's convenience");
+               }
+               done();
+           })
+           .catch(function(err){
+               console.error(err);
+           });
+   });
+});

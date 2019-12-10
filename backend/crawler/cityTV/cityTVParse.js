@@ -11,7 +11,6 @@ async function cityTvShow(url){
             await page.waitForSelector(".hero-image");
             await page.waitForSelector(".video-card__thumbnail > img", {timeout: 3000});
         }catch(e){
-            console.log(url);
             await browser.close();
             return null;
         }
