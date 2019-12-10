@@ -1,5 +1,6 @@
 const cbcScraper = require('./cbcScraper');
 const cbcParse = require('./cbcParse');
+const url = 'https://www.cbc.ca/tv/shows';
 
 process.setMaxListeners(0);
 const cbcCrawl =

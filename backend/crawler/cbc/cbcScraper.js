@@ -1,7 +1,6 @@
-const url = 'https://www.cbc.ca/tv/shows';
 const puppeteer = require('puppeteer');
 
-async function cbcScraper(){
+async function cbcScraper(url){
     try{
         var browser = await puppeteer.launch({headless: true});
         var page = await browser.newPage();

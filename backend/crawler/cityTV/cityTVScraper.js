@@ -1,22 +1,26 @@
-const rp = require('request-promise');
-const $ = require('cheerio');
-const url = 'https://www.citytv.com/toronto/shows/';
+const puppeteer = require('puppeteer');
 
-function cityTVScraper(){
-    return rp(url)
-        .then(function(html){
-            tvShowUrl = [];
-            const numOfTvShows = $('.boxes-list-item', html).length;
-            console.log(numOfTvShows);
-            for (let i=0; i < numOfTvShows; i++){
-                tvShowUrl.push($('.boxes-list-picblock', html)[i].attribs.href)
+async function cityTVScraper(url){
+    try{
+        var browser = await puppeteer.launch({headless: true});
+        var page = await browser.newPage();
+        await page.goto(url, {waitUntil: 'networkidle0'});
+        let tvShows = await page.evaluate(() => {
+            var tvShowUrl = [];
+            const tvLinks = document.querySelectorAll('.boxes-list-picblock');
+            for (let i = 0; i < tvLinks.length; i++){
+                tvShowUrl.push(tvLinks[i].getAttribute("href"));
             }
             return tvShowUrl;
-        })
-        .catch(function(err){
-            console.log(err);
-            throw err;
         });
+        await browser.close();
+        return tvShows;
+    }catch(err){
+        console.error(err);
+        throw err;
+    }
+
+
 }
 
 

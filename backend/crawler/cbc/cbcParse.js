@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 
-// const url = 'https://gem.cbc.ca/season/murdoch-mysteries/season-13/1f641619-433c-49d1-84d6-bbfb189fae76';
 
 async function cbcTvParse(url){
     try{

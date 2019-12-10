@@ -6,6 +6,9 @@ process.env.NODE_ENV = 'test';
 
 const muchScrape = require('../backend/crawler/much/muchScrape');
 const muchParse = require('../backend/crawler/much/muchParse');
+const cityTVScrape = require('../backend/crawler/cityTV/cityTVScraper');
+const cityTVParse = require('../backend/crawler/cityTV/cityTVParse');
+
 
 describe('Testing web crawlers for home page for show links', function(){
    it('should webcrawl MUCH website', function(done){
@@ -15,6 +18,15 @@ describe('Testing web crawlers for home page for show links', function(){
               expect(links).to.be.a('array');
               done();
            });
+   });
+
+   it('should webcrawl TV shows on CityTV', function(done){
+      cityTVScrape(config.CityTvHomeIndex)
+          .then(function(links){
+              expect(links).to.have.length(49);
+              expect(links).to.be.a('array');
+              done();
+          });
    });
 });
 
@@ -71,5 +83,13 @@ describe('Testing that web crawler is getting the correct information', function
                expect(episodes[0]).to.have.property('title', 'Tosh.0');
                done();
            });
+   });
+
+   it('parses The Simpsons to have no episodes', function(done){
+        muchParse(config.MuchShowDir + "the-simpsons/index.html")
+            .then(function(episodes){
+                expect(episodes).to.be.null;
+                done();
+            });
    });
 });

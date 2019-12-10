@@ -6,7 +6,7 @@ const Process = require('process');
 
 process.setMaxListeners(0);
 const cityTv =
-    cityTVScraper()
+    cityTVScraper('https://www.citytv.com/toronto/shows/')
     .then(function(tvShowUrl){
         for (let i=0; i < tvShowUrl.length; i++){
             cityTvShow(tvShowUrl[i])
