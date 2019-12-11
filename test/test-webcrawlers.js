@@ -187,4 +187,64 @@ describe('Testing parser for CBC is retrieving the correct information', functio
                console.error(err);
            });
    });
+
+    it('parses marketplace episodes', function(done){
+        cbcParser(config.CBCShowDir + "marketplace/index.html")
+            .then(function(episode){
+               expect(episode).to.have.length(20);
+               expect(episode).to.be.a('array');
+               for(let i=0; i < episode.length; i++){
+                   expect(episode[i]).to.have.property("title", "marketplace");
+               }
+               done();
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    });
+
+    it('parses Mr. D episodes', function(done){
+        cbcParser(config.CBCShowDir + "mr-d/index.html")
+            .then(function(episode){
+                expect(episode).to.have.length(8);
+                expect(episode).to.be.a('array');
+                for(let i=0; i < episode.length; i++){
+                    expect(episode[i]).to.have.property("title", "mr. d");
+                }
+                done();
+            })
+            .catch(function(err){
+                console.error(err)
+            });
+    });
+
+    it('parses Murdoch Mystery episodes', function(done){
+       cbcParser(config.CBCShowDir + "murdoch-mysteries/index.html")
+           .then(function(episode){
+               expect(episode).to.have.length(10);
+               expect(episode).to.be.a('array');
+               for(let i=0; i < episode.length; i++){
+                   expect(episode[i]).to.have.property("title", "murdoch mysteries");
+               }
+               done();
+           })
+           .catch(function(err){
+               console.error(err);
+           });
+    });
+
+    it('parses Anne with an E episodes', function(done){
+       cbcParser(config.CBCShowDir + "anne-with-an-e/index.html")
+           .then(function(episode){
+              expect(episode).to.have.length(11);
+              expect(episode).to.be.a('array');
+              for(let i=0; i < episode.length; i++){
+                  expect(episode[i]).to.have.property("title", "anne with an e");
+              }
+              done();
+           })
+           .catch(function(err){
+               console.error(err);
+           });
+    });
 });

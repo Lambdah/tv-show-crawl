@@ -30,7 +30,8 @@ async function cbcTvParse(url){
                     title: tvShowName,
                     description: epiName + " : " + epiDescription,
                     link: tvShowUrl[i].getAttribute("href")
-                }
+                };
+
             }
             return titles;
         });
