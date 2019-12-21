@@ -28,7 +28,8 @@ async function cbcTvParse(url){
                 titles[i] = {
                     epi_id: description[i].getAttribute("id"),
                     title: tvShowName,
-                    description: epiName + " : " + epiDescription,
+                    episode: epiName,
+                    description: epiDescription,
                     link: tvShowUrl[i].getAttribute("href")
                 };
 

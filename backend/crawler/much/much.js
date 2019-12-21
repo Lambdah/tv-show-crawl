@@ -10,7 +10,7 @@ async function much(){
                 muchTv[i] = muchParse(tv[i])
                     .then(function(tvShow){
                         if(tvShow){
-                            console.log(tvShow);
+                            // console.log(tvShow);
                             return tvShow;
                         }
                     });
