@@ -4,8 +4,8 @@
   "description": "crawls tv shows",
   "main": "index.js",
   "scripts": {
-    "start": "SET NODE_ENV=default && node ./backend/server.js",
-    "test": "mocha --timeout 30000"
+    "start": "SET NODE_ENV=default && node server.js",
+    "test": "./node_modules/.bin/mocha --timeout 30000"
   },
   "repository": {
     "type": "git",
@@ -29,8 +29,10 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "helmet": "^3.21.2",
     "mongoose": "^5.7.8",
     "mongoose-unique-validator": "^2.0.3",
+    "morgan": "^1.9.1",
     "puppeteer": "^2.0.0"
   }
 }

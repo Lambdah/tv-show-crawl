@@ -1,15 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config();
+const helmet = require('helmet');
+const morgan = require('morgan');
 let config = require('config');
 
 const app = express();
 const port = config.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
-
 
 
 mongoose.connect(config.DBHost, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
@@ -18,9 +15,17 @@ conn.once('open', function(){
    console.log("Successfully connected to the database");
 });
 
-const episodeRouter = require('./routes/episodes');
+app.use(express.json());
+app.use(helmet());
+app.use(cors());
+if (process.env.NODE_ENV !== 'test'){
+    app.use(morgan('combined'));
+}
 
+const episodeRouter = require('./routes/episodes');
 app.use('/episodes', episodeRouter);
+
+
 
 app.listen(port, ()=> {
     console.log(`Server running on: ${port}`);
