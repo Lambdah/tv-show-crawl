@@ -149,6 +149,23 @@ describe('Testing Inputting values to the database', function(){
             expect(docs).to.have.property('new_release', true);
             done();
         });
-    })
+    });
+
+    it('should updateEpiNewReleaseToFalse makes new_release: true to new_release: false', function(done){
+        var old_epi = new Episode({
+            epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
+            title: 'South Park',
+            episode_name: 'Weight Gain 4000',
+            description: 'August 27, 1997',
+            link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
+        });
+        old_epi.updateEpiNewReleaseToFalse(function(err, epi){
+            if(err){ console.error(err) }
+            expect(epi).to.have.property('title', 'South Park');
+            expect(epi).to.have.property('episode_name', 'Weight Gain 4000');
+            expect(epi).to.have.property('new_release', false);
+            done();
+        });
+    });
 
 });

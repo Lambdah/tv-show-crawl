@@ -10,7 +10,7 @@ const app = express();
 const port = config.PORT || 5000;
 
 
-mongoose.connect(config.DBHost, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+mongoose.connect(config.DBHost, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false});
 const conn = mongoose.connection;
 conn.once('open', function(){
    console.log("Successfully connected to the database");

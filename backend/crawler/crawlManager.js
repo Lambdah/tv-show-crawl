@@ -17,7 +17,15 @@ async function episodeInputDatabase(episodes) {
         });
         epi.save(function (err) {
             if (err !== null) {
-                console.error(err);
+                if(err.name === 'ValidationError'){
+                    epi.updateEpiNewReleaseToFalse(function(err){
+                        if(err){
+                            console.error(err);
+                        }
+                    });
+                }else{
+                    console.error(err);
+                }
             }
         });
     }
