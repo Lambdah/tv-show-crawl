@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const morgan = require('morgan');
 let config = require('config');
-const {muchCrawl} = require('./crawler/crawlManager');
+const {crawlManager} = require('./crawler/crawlManager');
 
 const app = express();
 const port = config.PORT || 5000;
@@ -14,7 +14,7 @@ mongoose.connect(config.DBHost, { useNewUrlParser: true, useCreateIndex: true, u
 const conn = mongoose.connection;
 conn.once('open', function(){
    console.log("Successfully connected to the database");
-    muchCrawl();
+    crawlManager();
 });
 
 app.use(express.json());
