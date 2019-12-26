@@ -14,7 +14,9 @@ mongoose.connect(config.DBHost, { useNewUrlParser: true, useCreateIndex: true, u
 const conn = mongoose.connection;
 conn.once('open', function(){
    console.log("Successfully connected to the database");
-    crawlManager();
+   if(process.env.NODE_ENV !== 'test'){
+       crawlManager();
+   }
 });
 
 app.use(express.json());

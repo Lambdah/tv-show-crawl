@@ -1,9 +1,12 @@
 const muchScraper = require('./much/muchScrape');
 const muchParser = require('./much/muchParse');
 const cityTv = require('./cityTV/cityTV');
+const cityTvScraper = require('./cityTV/cityTVScraper');
+const cityTvParser = require('./cityTV/cityTVParse');
 const Episode = require('../schema/episodeSchema');
 
 let muchUrl = 'https://www.much.com/shows/';
+let cityTvUrl = 'https://www.citytv.com/toronto/shows/';
 
 process.setMaxListeners(0);
 async function episodeInputDatabase(episodes) {
@@ -20,6 +23,11 @@ async function episodeInputDatabase(episodes) {
                 if(err.name === 'ValidationError'){
                     epi.updateEpiNewReleaseToFalse(function(err){
                         if(err){
+                            console.error(err);
+                        }
+                    });
+                    epi.updateEpiToListed(function(err){
+                        if (err){
                             console.error(err);
                         }
                     });
@@ -68,7 +76,11 @@ async function puppetCrawler(scraper, parser, url){
 }
 
 function crawlManager(){
-    Promise.all([puppetCrawler(muchScraper, muchParser, muchUrl)]);
+    Episode.updateUnlistedToTrue();
+    Promise.all([
+        puppetCrawler(muchScraper, muchParser, muchUrl),
+        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl)
+    ]);
 }
 
 

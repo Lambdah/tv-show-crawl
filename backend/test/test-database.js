@@ -39,9 +39,12 @@ describe('Testing Inputting values to the database', function(){
         mongoose.connect('mongodb://localhost/test1',
             {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
             .catch(function(err){
-                console.log("Make sure mongo is running locally by - 'sudo mongod'");
+                console.log("Make sure mongo is running locally by - 'sudo mongod' or 'sudo service mongod start'");
                 console.error(err)
             });
+        mongoose.connection.dropDatabase(function(){
+
+        });
         Episode.insertMany(database_data, function(err, docs){
             if (err){
                 console.error(err)
@@ -63,7 +66,27 @@ describe('Testing Inputting values to the database', function(){
                console.error(err);
            }
            expect(docs).to.have.lengthOf(4);
+           for(let i=0; i < docs.length; i++){
+               expect(docs[i]).to.have.property('unlisted', false);
+           }
            done();
+        });
+    });
+
+    it('should update all unlisted properties to true', function(done){
+        Episode.updateUnlistedToTrue(function(err, epi){
+            if (err){
+                console.error(err);
+            }
+        });
+        Episode.find(function(err, epi){
+            if (err){
+                console.error(err);
+            }
+            for(let i=0; i < epi.length; i++){
+                expect(epi[i]).to.have.property('unlisted', true);
+            }
+            done();
         });
     });
 
@@ -86,14 +109,25 @@ describe('Testing Inputting values to the database', function(){
         })
     });
 
-
-
     it('should update new_release to false in the database', function(done){
         Episode.updateNewReleaseToFalse(function(err, episodes){
             for(let i=0; i < episodes.length; i++){
-                console.log(episodes[i]);
                 expect(episodes[i]).to.have.properties('new_release', false);
             }
+            done();
+        });
+    });
+
+    it('should an episode to unlisted false', function(done){
+        var listed_episode = new Episode({
+            epi_id: '/shows/south-park/episode/1785418/band-in-china/',
+            title: 'South Park',
+            episode_name: 'Band In China',
+            description: 'AIRED OCTOBER 30, 2019',
+            link: 'http://www.much.com/shows/south-park/episode/1785418/band-in-china/'
+        });
+        listed_episode.updateEpiToListed(function(err, epi){
+            expect(epi).to.have.property('unlisted', false);
             done();
         });
     });
