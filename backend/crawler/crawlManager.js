@@ -9,34 +9,44 @@ let muchUrl = 'https://www.much.com/shows/';
 let cityTvUrl = 'https://www.citytv.com/toronto/shows/';
 
 process.setMaxListeners(0);
-async function episodeInputDatabase(episodes) {
+function episodeInputDatabase(episodes) {
+    const epiSavePromises = [];
     for (let k = 0; k < episodes.length; k++) {
         let epi = new Episode({
             epi_id: episodes[k].epi_id,
             title: episodes[k].title,
             episode_name: episodes[k].episode,
             description: episodes[k].description,
-            link: episodes[k].link
+            episode_url: episodes[k].link
         });
-        epi.save(function (err) {
+        epiSavePromises[k] = episodeDocumentSave(epi)
+    }
+    return Promise.all(epiSavePromises);
+}
+
+function episodeDocumentSave(epi){
+    return epi.save()
+        .then(function (epi) {
+            console.log("saved: " + epi);
+        })
+        .catch(function (err) {
             if (err !== null) {
-                if(err.name === 'ValidationError'){
-                    epi.updateEpiNewReleaseToFalse(function(err){
-                        if(err){
+                if (err.name === 'ValidationError') {
+                    epi.updateEpiNewReleaseToFalse(function (err) {
+                        if (err) {
                             console.error(err);
                         }
                     });
-                    epi.updateEpiToListed(function(err){
-                        if (err){
+                    epi.updateEpiToListed(function (err) {
+                        if (err) {
                             console.error(err);
                         }
                     });
-                }else{
+                } else {
                     console.error(err);
                 }
             }
         });
-    }
 }
 
 async function tvShowCrawl(scraper, parser, url){
@@ -79,9 +89,10 @@ function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
         puppetCrawler(muchScraper, muchParser, muchUrl),
-        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl)
+        // puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl)
     ]);
+    Episode.updateUnlistedNewReleaseToFalse();
 }
 
 
-module.exports = {crawlManager};
+module.exports = {crawlManager, episodeInputDatabase};

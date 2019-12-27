@@ -2,6 +2,8 @@ const chai = require('chai');
 const expect = chai.expect;
 const path = require('path');
 const config = require('config');
+const mongoose = require('mongoose');
+const Episode = require('../schema/episodeSchema');
 process.env.NODE_ENV = 'test';
 
 const muchScrape = require('../crawler/much/muchScrape');
@@ -10,7 +12,7 @@ const cityTVScrape = require('../crawler/cityTV/cityTVScraper');
 const cityTVParse = require('../crawler/cityTV/cityTVParse');
 const cbcScrape = require('../crawler/cbc/cbcScraper');
 const cbcParser = require('../crawler/cbc/cbcParse');
-
+const {crawlManager, episodeInputDatabase} = require('../crawler/crawlManager');
 
 describe('Testing web crawlers for home page for show links', function(){
    it('should webcrawl MUCH website', function(done){
@@ -255,5 +257,121 @@ describe('Testing parser for CBC is retrieving the correct information', functio
            .catch(function(err){
                console.error(err);
            });
+    });
+});
+
+var database_1 =
+    [{
+    "title": "Crank Yankers",
+    "episode_name": "Sarah Silverman, Tiffany Haddish & Kevin Nealon",
+    "description": "AIRED OCTOBER 30, 2019",
+    "episode_url": "http://www.much.com/shows/crank-yankers/episode/1811367/sarah-silverman-tiffany-haddish-and-kevin-nealon/"
+    },
+    {
+        "title": "Crank Yankers",
+        "episode_name": "Jimmy Kimmel, Tracy Morgan & David Alan Grier",
+        "description": "AIRED OCTOBER 30, 2019",
+        "episode_url": "http://www.much.com/shows/crank-yankers/episode/1786809/jimmy-kimmel-tracy-morgan-and-david-alan-grier/"
+    }];
+
+
+var mock_webcrawl_data_1 =
+    [
+        {
+            "epi_id": "/shows/crank-yankers/episode/1786809/jimmy-kimmel-tracy-morgan-and-david-alan-grier/",
+            "title": "Crank Yankers",
+            "episode": "Jimmy Kimmel, Tracy Morgan & David Alan Grier",
+            "description": "AIRED OCTOBER 30, 2019",
+            "link": "http://www.much.com/shows/crank-yankers/episode/1786809/jimmy-kimmel-tracy-morgan-and-david-alan-grier/"
+        },
+        {
+            "epi_id": "/shows/crank-yankers/episode/1786808/sarah-silverman-abbi-jacobson-and-will-forte/",
+            "title": "Crank Yankers",
+            "episode": "Sarah Silverman, Abbi Jacobson & Will Forte",
+            "description": "AIRED OCTOBER 30, 2019",
+            "link": "http://www.much.com/shows/crank-yankers/episode/1786808/sarah-silverman-abbi-jacobson-and-will-forte/"
+        }
+    ];
+
+describe('Tests with the crawl manager', function(){
+    before(function(done){
+        mongoose.connection.dropDatabase();
+        Episode.insertMany(database_1, function(err, docs){
+           if (err){
+               console.error(err);
+           }
+        done();
+        });
+    });
+
+    after(function(done){
+        mongoose.connection.dropDatabase(function(err){
+            if (err){
+                console.error(err);
+            }
+            done();
+        });
+    });
+
+    it('web crawler input data to the database', function(done){
+        Episode.updateUnlistedToTrue(function(err, epi){
+            if (err){
+                console.error(err);
+            }
+            expect(epi).to.have.property("n", 2);
+        });
+        episodeInputDatabase(mock_webcrawl_data_1)
+            .then(function(){
+                Episode.updateUnlistedNewReleaseToFalse(function(){
+                    done();
+                });
+            });
+    });
+
+    it('the database should contain three documents', function(done){
+        Episode.find({}, function(err, docs){
+           expect(docs).to.be.an('array');
+           expect(docs).to.have.length(3);
+           done();
+        });
+    });
+
+    it('expects episodes that are not crawled to be unlisted', function(done){
+        Episode.findOne({
+                "title": "Crank Yankers",
+                "episode_name": "Sarah Silverman, Tiffany Haddish & Kevin Nealon"},
+            function(err, epi){
+                if(err){
+                    console.error(err);
+                }
+                expect(epi).to.have.property("unlisted", true);
+                expect(epi).to.have.property("new_release", false);
+                done();
+            });
+    });
+
+    it('expects episodes that is in the database and crawled before to still not be unlisted but no longer new_release', function(done){
+        Episode.findOne({
+            "title": "Crank Yankers",
+            "episode_name": "Jimmy Kimmel, Tracy Morgan & David Alan Grier"
+        }, function(err, epi){
+            if(err){
+                console.error(err);
+            }
+            expect(epi).to.have.property("unlisted", false);
+            expect(epi).to.have.property("new_release", false);
+            done();
+        });
+    });
+
+    it('expects episode that has not been crawled before to not be unlisted and new_release', function(done){
+        Episode.findOne({
+            "title": "Crank Yankers",
+            "episode_name": "Sarah Silverman, Abbi Jacobson & Will Forte"
+        }, function(err, epi){
+            expect(epi).to.have.property("unlisted", false);
+            expect(epi).to.have.property("new_release", true);
+            done();
+        });
     });
 });

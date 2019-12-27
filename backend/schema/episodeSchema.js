@@ -33,7 +33,10 @@ episodeSchema.statics.updateNewReleaseToFalse = function(cb){
 };
 
 episodeSchema.statics.updateUnlistedToTrue = function(cb){
-    return this.model('Episode').updateMany({unlisted: false}, {unlisted: true}, {new: true}, cb);
+    return this.model('Episode').updateMany({unlisted: false}, {"$set": {unlisted: true}}, {new: true}, cb);
+};
+episodeSchema.statics.updateUnlistedNewReleaseToFalse = function(cb){
+    return this.model('Episode').updateMany({unlisted: true}, {"$set": {new_release: false}}, {new: true}, cb);
 };
 
 episodeSchema.index({title: 1, episode_name: 1}, {unique: true});
