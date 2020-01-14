@@ -27,7 +27,7 @@ function episodeInputDatabase(episodes) {
 function episodeDocumentSave(epi){
     return epi.save()
         .then(function (epi) {
-            console.log("saved: " + epi);
+            // console.log("saved: " + epi);
         })
         .catch(function (err) {
             if (err !== null) {
@@ -89,7 +89,7 @@ function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
         puppetCrawler(muchScraper, muchParser, muchUrl),
-        // puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl)
+        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl)
     ]);
     Episode.updateUnlistedNewReleaseToFalse();
 }
