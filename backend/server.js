@@ -29,6 +29,8 @@ if (process.env.NODE_ENV !== 'test'){
 const episodeRouter = require('./routes/episodes');
 app.use('/episodes', episodeRouter);
 
+const networkRouter = require('./routes/networks');
+app.use('/networks', networkRouter);
 
 
 app.listen(port, ()=> {
