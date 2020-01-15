@@ -1,0 +1,13 @@
+var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+var Schema = mongoose.Schema;
+
+var networkSchema = new Schema({
+    network: {type: String, required: true},
+    tvTitle: {type: String, unique: true},
+    metaTags: {type: [String]}
+});
+
+networkSchema.plugin(uniqueValidator);
+var Network = mongoose.model('Network', networkSchema);
+module.exports = Network;
