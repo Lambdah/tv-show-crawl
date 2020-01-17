@@ -1,11 +1,11 @@
 let mongoose = require("mongoose");
 let Episode = require("../schema/episodeSchema");
-
+const Network = require('../schema/networkSchema');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require("../server");
 let should = chai.should();
-let db_data = require("../mock-data/data");
+let {db_data, network_data} = require("../mock-data/data");
 process.env.NODE_ENV = 'test';
 chai.use(chaiHttp);
 
@@ -444,4 +444,114 @@ describe('Episode',function() {
                 });
         });
     });
+});
+
+describe('Network', function(){
+    before(function (done) {
+        mongoose.connect('mongodb://localhost/test',
+            {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
+            .catch(function (err) {
+                console.log("Make sure mongo is running locally by - 'sudo mongod'");
+                console.error(err)
+            });
+        Network.insertMany(network_data, function (err, docs) {
+            if (err) {
+                console.error(err)
+            }
+            done()
+        });
+    });
+
+    after(function(done){
+        // const db = mongoose.connection;
+        mongoose.connection.collections['networks'].drop(function(){
+            mongoose.connection.close(done);
+        });
+    });
+
+    it('retrieves all the tv shows network', function(done){
+        chai.request(server)
+            .get('/networks')
+            .end(function(err, res){
+                if(err){
+                    console.error(err);
+                }
+               res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(7);
+               done();
+            });
+    });
+
+    it('retrieves tv shows from a specific network: much', function(done){
+        chai.request(server)
+            .get('/networks/tv/much')
+            .end(function(err, res){
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(5);
+                for (let i=0 ; i < res.body.length; i++){
+                    res.body[i].should.have.property("network").eql("much");
+                }
+                done();
+            });
+    });
+
+    it('retrieves tv show from specific network: CBC', function(done){
+        chai.request(server)
+            .get('/networks/tv/cbc')
+            .end(function(err, res){
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(2);
+                for (let i=0; i < res.body.length; i++){
+                    res.body[i].should.have.property('network').eql('cbc');
+                }
+                done();
+            });
+    });
+
+    it('gets a status 404 error when no network does not exist', function(done){
+       chai.request(server)
+           .get('/networks/tv/lk23kld9')
+           .end(function(err, res){
+               res.should.have.status(404);
+               done();
+           });
+    });
+
+    it('gets the tag: Comedy', function(done){
+        chai.request(server)
+            .get('/networks/categories/comedy')
+            .end(function(err, res){
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                res.body.length.should.be.eql(3);
+                for(let i=0; i < res.body.length; i++){
+                    res.body[i].should.have.property('metaTags').includes('Comedy');
+                }
+                done();
+            });
+    });
+
+    it('gets the tag: Mystery', function(done){
+       chai.request(server)
+           .get('/networks/categories/mystery')
+           .end(function(err, res){
+               res.should.have.status(200);
+               res.body.should.be.a('array');
+               res.body.length.should.be.eql(1);
+               res.body[0].should.have.property('metaTags').includes('Mystery');
+               done();
+           })
+    });
+
+    it('gets 404 when no tag does not exist', function(done){
+        chai.request(server)
+            .get('/networks/categories/kljasdlk')
+            .end(function(err, res){
+                res.should.have.status(404);
+                done();
+            });
+    })
 });
