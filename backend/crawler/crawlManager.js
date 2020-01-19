@@ -3,6 +3,7 @@ const muchParser = require('./much/muchParse');
 const cityTv = require('./cityTV/cityTV');
 const cityTvScraper = require('./cityTV/cityTVScraper');
 const cityTvParser = require('./cityTV/cityTVParse');
+const networkAPI = require('../api/OMDb_api');
 const Episode = require('../schema/episodeSchema');
 
 let muchUrl = 'https://www.much.com/shows/';
@@ -65,7 +66,7 @@ async function tvShowCrawl(scraper, parser, url){
         });
 }
 
-async function puppetCrawler(scraper, parser, url){
+async function puppetCrawler(scraper, parser, url, network){
     try{
         tvShowCrawl(scraper, parser, url)
             .then(async function(tvShow){
@@ -88,8 +89,8 @@ async function puppetCrawler(scraper, parser, url){
 function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
-        puppetCrawler(muchScraper, muchParser, muchUrl),
-        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl)
+        puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
+        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
     ]);
     Episode.updateUnlistedNewReleaseToFalse();
 }
