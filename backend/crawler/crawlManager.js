@@ -3,9 +3,9 @@ const muchParser = require('./much/muchParse');
 const cityTv = require('./cityTV/cityTV');
 const cityTvScraper = require('./cityTV/cityTVScraper');
 const cityTvParser = require('./cityTV/cityTVParse');
-const networkAPI = require('../api/OMDb_api');
+const OMDbAPI = require('../api/OMDb_api');
 const Episode = require('../schema/episodeSchema');
-
+const Network = require('../schema/networkSchema');
 let muchUrl = 'https://www.much.com/shows/';
 let cityTvUrl = 'https://www.citytv.com/toronto/shows/';
 
@@ -74,6 +74,21 @@ async function puppetCrawler(scraper, parser, url, network){
                     let episodes = tvShow[i];
                     if (Array.isArray(episodes)){
                         await episodeInputDatabase(episodes);
+                        console.log(episodes);
+                        let tvTitle = episodes[0].title;
+                        OMDbAPI(tvTitle)
+                            .then(tvData => {
+                                            const net = new Network({
+                                                network: network,
+                                                tvTitle: tvData.tvTitle,
+                                                synopsis: tvData.synopsis,
+                                                metaTags: tvData.metaTags
+                                            });
+                                            net.save();
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                        });
                         }
                     }
                 console.log("done crawling");
@@ -90,7 +105,7 @@ function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
         puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
-        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
+        // puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
     ]);
     Episode.updateUnlistedNewReleaseToFalse();
 }
