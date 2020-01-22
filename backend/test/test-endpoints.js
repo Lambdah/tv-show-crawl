@@ -5,7 +5,7 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require("../server");
 let should = chai.should();
-let {db_data, network_data} = require("../mock-data/data");
+let {test_data, network_data} = require("../mock-data/data");
 process.env.NODE_ENV = 'test';
 chai.use(chaiHttp);
 
@@ -18,7 +18,7 @@ describe('Episode',function() {
                 console.error(err)
             });
         mongoose.connection.db.dropDatabase();
-        Episode.insertMany(db_data, function (err, docs) {
+        Episode.insertMany(test_data, function (err, docs) {
             if (err) {
                 console.error(err)
             }
