@@ -6,7 +6,8 @@ var networkSchema = new Schema({
     network: {type: String, required: true},
     tvTitle: {type: String, unique: true},
     synopsis: {type: String},
-    metaTags: {type: [String]}
+    metaTags: {type: [String]},
+    poster: {type: String}
 });
 
 networkSchema.plugin(uniqueValidator);

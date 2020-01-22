@@ -74,7 +74,6 @@ async function puppetCrawler(scraper, parser, url, network){
                     let episodes = tvShow[i];
                     if (Array.isArray(episodes)){
                         await episodeInputDatabase(episodes);
-                        console.log(episodes);
                         let tvTitle = episodes[0].title;
                         OMDbAPI(tvTitle)
                             .then(tvData => {
@@ -82,7 +81,8 @@ async function puppetCrawler(scraper, parser, url, network){
                                                 network: network,
                                                 tvTitle: tvData.tvTitle,
                                                 synopsis: tvData.synopsis,
-                                                metaTags: tvData.metaTags
+                                                metaTags: tvData.metaTags,
+                                                poster: tvData.poster
                                             });
                                             net.save();
                                         })
