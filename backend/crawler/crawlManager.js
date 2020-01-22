@@ -18,7 +18,8 @@ function episodeInputDatabase(episodes) {
             title: episodes[k].title,
             episode_name: episodes[k].episode,
             description: episodes[k].description,
-            episode_url: episodes[k].link
+            episode_url: episodes[k].link,
+            episode_poster: episodes[k].episode_poster
         });
         epiSavePromises[k] = episodeDocumentSave(epi)
     }

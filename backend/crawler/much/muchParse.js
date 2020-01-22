@@ -24,6 +24,7 @@ async function muchParse(url){
             const tvShowTitle = tvShowName.replace(" on MUCH.com", "");
             const episode = document.querySelectorAll('.episode-item > .ep-num');
             const airdate = document.querySelectorAll('.episode-item > .airdate');
+            const episodePoster = document.querySelectorAll('.episode-item > .tnail > img');
             var tv = [];
             for (let i=0; i < tvUrl.length; i++){
                 tv[i] = {
@@ -31,6 +32,7 @@ async function muchParse(url){
                     title: tvShowTitle,
                     episode: title[i].innerText.trim(),
                     description: airdate[0].innerText.trim(),
+                    episode_poster: episodePoster[i].src
                 }
             }
             return tv;

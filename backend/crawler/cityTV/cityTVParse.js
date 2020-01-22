@@ -17,13 +17,15 @@ async function cityTvShow(url){
         var tvShow = await page.evaluate(() => {
             const titleNode = document.querySelectorAll(".video-card__title");
             const descriptNode = document.querySelectorAll(".video-card__description");
+            const episodePoster = document.querySelectorAll(".video-card__thumbnail > img");
             var titles = [];
             for (let i=0; i < titleNode.length; i++){
                 titles[i] = {
                     epi_id: titleNode[i].getAttribute("data-video-id"),
                     title: titleNode[i].getAttribute("data-show-name"),
                     episode: titleNode[i].innerText.trim(),
-                    description: descriptNode[i].innerText.trim()
+                    description: descriptNode[i].innerText.trim(),
+                    episode_poster: episodePoster[i].src
                     }
             }
             return titles;

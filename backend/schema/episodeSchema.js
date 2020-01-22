@@ -9,7 +9,8 @@ var episodeSchema = new Schema({
     episode_url: {type: String, unique: true},
     date: {type: Date, default: Date.now},
     new_release: {type: Boolean, default: true},
-    unlisted: {type: Boolean, default: false}},
+    unlisted: {type: Boolean, default: false},
+    episode_poster: String},
     {autoIndex: false});
 
 episodeSchema.methods.findTitleAndEpi = function(cb){
