@@ -16,7 +16,6 @@ async function call_api(tvShowName){
         if (response.data.Response === 'False'){
             return { error: 'Does not exist.' };
         }
-        console.log(response);
         return {
             tvTitle: response.data.Title,
             synopsis: response.data.Plot,
