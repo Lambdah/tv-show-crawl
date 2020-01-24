@@ -10,7 +10,10 @@ var episodeSchema = new Schema({
     date: {type: Date, default: Date.now},
     new_release: {type: Boolean, default: true},
     unlisted: {type: Boolean, default: false},
-    episode_poster: String},
+    episode_poster: String,
+    episode_poster_alt: String,
+    season: Number,
+    episode_num: Number},
     {autoIndex: false});
 
 episodeSchema.methods.findTitleAndEpi = function(cb){

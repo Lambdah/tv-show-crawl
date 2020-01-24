@@ -85,7 +85,14 @@ async function puppetCrawler(scraper, parser, url, network){
                                                 metaTags: tvData.metaTags,
                                                 poster: tvData.poster
                                             });
-                                            net.save();
+                                            // console.log(net);
+                                            net.save(err => {
+                                                if (err && err.name === 'ValidationError'){
+                                                    // Suppress unique tvTitle error
+                                                }else{
+                                                    console.error(err);
+                                                }
+                                            });
                                         })
                                         .catch(error => {
                                             console.error(error);

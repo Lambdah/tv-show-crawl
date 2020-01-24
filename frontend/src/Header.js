@@ -24,8 +24,8 @@ export default function Header(){
                             </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button class="btn btn-outline-light my-2 my-sm-0" type="Submit">Search</button>
+                            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                            <button className="btn btn-outline-light my-2 my-sm-0" type="Submit">Search</button>
                         </form>
                     </div> {/* navbar */}
                 </div> {/* container */}

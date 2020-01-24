@@ -25,14 +25,19 @@ async function muchParse(url){
             const episode = document.querySelectorAll('.episode-item > .ep-num');
             const airdate = document.querySelectorAll('.episode-item > .airdate');
             const episodePoster = document.querySelectorAll('.episode-item > .tnail > img');
+            const seasonEpisode = document.querySelectorAll('.episode-item > .ep-num');
             var tv = [];
             for (let i=0; i < tvUrl.length; i++){
+                let epiSeason = seasonEpisode[i];
+                let seasonArr = [epiSeason.match(/S\d{2}/g), epiSeason.match(/E\d{2}/g)].map(epi => parseInt(epi.slice(1)));
                 tv[i] = {
                     epi_id: tvUrl[i].getAttribute("href"),
                     title: tvShowTitle,
                     episode: title[i].innerText.trim(),
                     description: airdate[0].innerText.trim(),
-                    episode_poster: episodePoster[i].src
+                    episode_poster: episodePoster[i].src,
+                    season: seasonArr[0],
+                    episode_num: seasonArr[1]
                 }
             }
             return tv;
