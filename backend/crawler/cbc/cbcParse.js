@@ -22,6 +22,7 @@ async function cbcTvParse(url){
             const description = document.querySelectorAll('.episode-info > .description');
             const tvShowName = document.documentElement.getElementsByClassName("series-title")[0].innerText.trim().toLowerCase();
             const episodePoster = document.querySelectorAll('.media-thumbnail.media-image');
+            const episodeNumber = document.querySelectorAll(".episode-number-short");
             titles = [];
             for (let i = 0; i < tvShowUrl.length; i++){
                 let epiName = epiTitle[i].innerText.trim();
@@ -32,7 +33,9 @@ async function cbcTvParse(url){
                     episode: epiName,
                     description: epiDescription,
                     link: tvShowUrl[i].getAttribute("href"),
-                    episode_poster: episodePoster[i].src
+                    episode_poster: episodePoster[i].src,
+                    season: parseInt(document.querySelectorAll('.selected')[0].innerText.match(/\d.*$/g)[0]),
+                    episode_num: parseInt(episodeNumber.match(/\d.*$/g)[0])
                 };
 
             }

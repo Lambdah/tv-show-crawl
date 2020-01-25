@@ -19,7 +19,9 @@ function episodeInputDatabase(episodes) {
             episode_name: episodes[k].episode,
             description: episodes[k].description,
             episode_url: episodes[k].link,
-            episode_poster: episodes[k].episode_poster
+            episode_poster: episodes[k].episode_poster,
+            season: episodes[k].season,
+            episode_num: episodes[k].episode_num
         });
         epiSavePromises[k] = episodeDocumentSave(epi)
     }
