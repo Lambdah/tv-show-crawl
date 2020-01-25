@@ -18,7 +18,7 @@ async function cityTvShow(url){
             const titleNode = document.querySelectorAll(".video-card__title");
             const descriptNode = document.querySelectorAll(".video-card__description");
             const episodePoster = document.querySelectorAll(".video-card__thumbnail > img");
-            const seasonNum = document.querySelectorAll('.select-box > .dropdown-toggle')[0].getAttribute('data-value');
+            const seasonNum = parseInt(document.querySelectorAll('.select-box > .dropdown-toggle')[0].getAttribute('data-value'));
             var titles = [];
             for (let i=0; i < titleNode.length; i++){
                 let epiTitlesplit = titleNode[i].innerText.split(/\./g);
@@ -29,7 +29,7 @@ async function cityTvShow(url){
                     description: descriptNode[i].innerText.trim(),
                     episode_poster: episodePoster[i].src,
                     season: seasonNum,
-                    episode_num: epiTitlesplit[0]
+                    episode_num: parseInt(epiTitlesplit[0])
                     }
             }
             return titles;
