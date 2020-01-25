@@ -28,6 +28,22 @@ async function call_api(tvShowName){
     }
 }
 
+async function callEpisodeApi(tvShowName, seasonNum, episodeNum){
+    try{
+        const response = await axios.get(config.OMDb_key + tvShowName + "&season=" + seasonNum +"&episode=" + episodeNum);
+        if (response.data.Response === 'False'){
+            return {error: 'Does not exist.'};
+        }
+        return {
+            plot: response.data.Plot,
+            epi_poster: response.data.Poster,
+            release: response.data.Released
+        }
+    } catch (err){
+        console.error(err);
+    }
+}
+
 /**
  * Returns back a promise
  */
