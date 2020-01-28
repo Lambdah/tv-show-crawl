@@ -78,27 +78,19 @@ async function puppetCrawler(scraper, parser, url, network){
                     if (Array.isArray(episodes)){
                         await episodeInputDatabase(episodes);
                         let tvTitle = episodes[0].title;
-                        OMDbAPI(tvTitle)
-                            .then(tvData => {
-                                            const net = new Network({
-                                                network: network,
-                                                tvTitle: tvData.tvTitle,
-                                                synopsis: tvData.synopsis,
-                                                metaTags: tvData.metaTags,
-                                                poster: tvData.poster
-                                            });
-                                            // console.log(net);
-                                            net.save(err => {
-                                                if (err && err.name === 'ValidationError'){
-                                                    // Suppress unique tvTitle error
-                                                }else{
-                                                    console.error(err);
-                                                }
-                                            });
-                                        })
-                                        .catch(error => {
-                                            console.error(error);
-                                        });
+                        OMDbAPI(new Network({tvTitle: tvTitle, network: network}))
+                            .then(networkObj => {
+                                networkObj.save(err => {
+                                    if (!err || err.name === 'ValidationError'){
+                                        // suppress the error
+                                    }else{
+                                        console.error(err);
+                                    }
+                                })
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            })
                         }
                     }
                 console.log("done crawling");

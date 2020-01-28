@@ -14,7 +14,6 @@ function fixString(name){
  * returns back a promise of the updated tvObject
  */
 function callAPI(tvObject){
-    console.log(tvObject.collection.collectionName);
     switch(tvObject.collection.collectionName){
         case 'episodes':
             return callEpisodeAPI(tvObject, tvObject.title, tvObject.season, tvObject.episode_num);
