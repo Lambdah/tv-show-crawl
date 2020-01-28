@@ -31,6 +31,9 @@ function episodeInputDatabase(episodes) {
 function episodeDocumentSave(epi){
     return OMDbAPI(epi)
         .then(epiObject =>{
+            if (!(epiObject instanceof Episode)){
+                return;
+            }
             epiObject.save(function(err){
                 if (err && err.name === 'ValidationError') {
                     epiObject.updateEpiNewReleaseToFalse(function (err) {
@@ -80,6 +83,9 @@ async function puppetCrawler(scraper, parser, url, network){
                         let tvTitle = episodes[0].title;
                         OMDbAPI(new Network({tvTitle: tvTitle, network: network}))
                             .then(networkObj => {
+                                if (!(networkObj instanceof Network)){
+                                    return;
+                                }
                                 networkObj.save(err => {
                                     if (!err || err.name === 'ValidationError'){
                                         // suppress the error
@@ -106,8 +112,8 @@ async function puppetCrawler(scraper, parser, url, network){
 function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
-        puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
-        // puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
+        // puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
+        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
     ]);
     Episode.updateUnlistedNewReleaseToFalse();
 }

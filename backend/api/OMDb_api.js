@@ -33,7 +33,8 @@ function callAPI(tvObject){
 async function callTvShowAPI(tvObject, tvShowName){
     try{
         tvShowName = fixString(tvShowName);
-        const response = await axios.get(config.OMDb_key + tvShowName);
+        let uri = config.OMDb_key + tvShowName;
+        const response = await axios.get(encodeURI(uri));
         if (response.data.Response === 'False'){
             // console.log("The error on " + tvShowName);
             return { error: 'Does not exist.' };
@@ -61,7 +62,8 @@ async function callTvShowAPI(tvObject, tvShowName){
  */
 async function callEpisodeAPI(tvObject, tvShowName, seasonNum, episodeNum){
     try{
-        const response = await axios.get(config.OMDb_key + tvShowName + "&season=" + seasonNum +"&episode=" + episodeNum);
+        let uri = config.OMDb_key + tvShowName + "&season=" + seasonNum +"&episode=" + episodeNum;
+        const response = await axios.get(encodeURI(uri));
         if (response.data.Response === 'False'){
             // return {error: 'Does not exist.'};
             return tvObject;
