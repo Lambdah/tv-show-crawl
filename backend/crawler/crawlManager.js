@@ -29,27 +29,27 @@ function episodeInputDatabase(episodes) {
 }
 
 function episodeDocumentSave(epi){
-    return epi.save()
-        .then(function (epi) {
-            // console.log("saved: " + epi);
-        })
-        .catch(function (err) {
-            if (err !== null) {
-                if (err.name === 'ValidationError') {
-                    epi.updateEpiNewReleaseToFalse(function (err) {
+    return OMDbAPI(epi)
+        .then(epiObject =>{
+            epiObject.save(function(err){
+                if (err && err.name === 'ValidationError') {
+                    epiObject.updateEpiNewReleaseToFalse(function (err) {
                         if (err) {
                             console.error(err);
                         }
                     });
-                    epi.updateEpiToListed(function (err) {
+                    epiObject.updateEpiToListed(function (err) {
                         if (err) {
                             console.error(err);
                         }
                     });
-                } else {
+                } else if (err){
                     console.error(err);
                 }
-            }
+            });
+        })
+        .catch(function (err) {
+            console.error(err);
         });
 }
 

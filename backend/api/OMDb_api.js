@@ -24,12 +24,18 @@ function callAPI(tvObject){
     }
 }
 
+/**
+ * Calls OMDb api with tv show name to get poster, and overall theme of tv show.
+ * @param tvObject
+ * @param tvShowName
+ * @returns {Promise<{error: string}|any>}
+ */
 async function callTvShowAPI(tvObject, tvShowName){
     try{
         tvShowName = fixString(tvShowName);
         const response = await axios.get(config.OMDb_key + tvShowName);
         if (response.data.Response === 'False'){
-            console.log("The error");
+            // console.log("The error on " + tvShowName);
             return { error: 'Does not exist.' };
         }
         return Object.assign(tvObject,
@@ -45,11 +51,20 @@ async function callTvShowAPI(tvObject, tvShowName){
     }
 }
 
+/**
+ * Calls OMDb api with tv show name, season, and episode number to request plot information.
+ * @param tvObject
+ * @param tvShowName
+ * @param seasonNum
+ * @param episodeNum
+ * @returns {Promise<any>}
+ */
 async function callEpisodeAPI(tvObject, tvShowName, seasonNum, episodeNum){
     try{
         const response = await axios.get(config.OMDb_key + tvShowName + "&season=" + seasonNum +"&episode=" + episodeNum);
         if (response.data.Response === 'False'){
-            return {error: 'Does not exist.'};
+            // return {error: 'Does not exist.'};
+            return tvObject;
         }
         return Object.assign(tvObject,
             {
