@@ -1,13 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import EpisodeCard from './child/episodeCard';
 
-// export default function Home(){
-//     return(
-//         <div className="container">
-//             Home Page
-//         </div>
-//     );
-// }
 
 export default class Home extends React.Component{
     constructor(props) {
@@ -25,17 +19,24 @@ export default class Home extends React.Component{
             })
     }
 
+    tvShowCard(){
+
+    }
+
     render(){
         return(
             <div className="container">
-                {this.state.tvShows.map(tvShow =>
-                    <div className="card">
-                        <div className="card-body">
-                            <img className="card-img-top" src={tvShow.episode_poster} alt="Episode poster" />
-                            <h5 className="card-title">{tvShow.episode_name}</h5>
-                            <p className="card-text">{tvShow.description}</p>
-                        </div>
-                    </div>)}
+                <div className="row">
+                    <h2 className="col-0">New Releases</h2>
+                </div>
+                <div className="row">
+                    {this.state.tvShows.map(tvShow =>
+                        <div className="card col-3">
+                            <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
+                                         description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }/>
+                        </div>)}
+                </div>
+
             </div>
         )
     }
