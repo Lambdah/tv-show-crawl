@@ -19,9 +19,6 @@ export default class Home extends React.Component{
             })
     }
 
-    tvShowCard(){
-
-    }
 
     render(){
         return(

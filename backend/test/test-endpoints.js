@@ -444,6 +444,35 @@ describe('Episode',function() {
                 });
         });
     });
+
+    it('/episodes/new_releases gets recently added episodes', function(done){
+        chai.request(server)
+            .get('/episodes/new_releases')
+            .end(function(err, res){
+               if (err){
+                   console.error(err);
+               }
+               res.should.have.status(200);
+               res.body.length.should.be.eql(18);
+               for (let i=0; i < res.body.length; i++){
+                   res.body[i].should.have.property('new_release').to.eql(true);
+               }
+               done();
+            });
+    });
+});
+
+describe('No new episodes', function(){
+   it('/episodes/new_releases has no new episodes', function(done){
+      chai.request(server)
+          .get('/episodes/new_releases')
+          .end(function(err, res){
+              res.should.have.status(404);
+              res.body.should.have.property('error').to.eql('No new Content');
+              // console.log(res.body);
+              done();
+          });
+   });
 });
 
 describe('Network', function(){

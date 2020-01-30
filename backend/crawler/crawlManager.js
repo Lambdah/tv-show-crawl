@@ -112,8 +112,8 @@ async function puppetCrawler(scraper, parser, url, network){
 function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
-        // puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
-        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
+        puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
+        // puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
     ]);
     Episode.updateUnlistedNewReleaseToFalse();
 }

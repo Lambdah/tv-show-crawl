@@ -9,9 +9,9 @@ function fixString(name){
 }
 
 /**
-* callAPI on a mongoose model of Episode or Network
-* @param tvObject
- * returns back a promise of the updated tvObject
+ * callAPI on a mongoose model of Episode or Network
+ * @param tvObject
+ * @returns back a promise of the updated tvObject
  */
 function callAPI(tvObject){
     switch(tvObject.collection.collectionName){
@@ -79,8 +79,5 @@ async function callEpisodeAPI(tvObject, tvShowName, seasonNum, episodeNum){
     }
 }
 
-/**
- * Returns back a promise
- */
 
 module.exports = callAPI;
