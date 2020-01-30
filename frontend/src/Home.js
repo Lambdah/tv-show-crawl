@@ -12,7 +12,7 @@ export default class Home extends React.Component{
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8018/episodes`)
+        axios.get(`http://localhost:8018/episodes/new_release`)
             .then(res => {
                 const tvShows = res.data;
                 this.setState({tvShows});
