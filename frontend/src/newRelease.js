@@ -11,7 +11,7 @@ export default class NewRelease extends React.Component{
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8018/episodes/new_release`)
+        axios.get(`http://localhost:8018/episodes/new_releases`)
             .then(res => {
                 const newReleases = res.data;
                 this.setState({newReleases});
@@ -22,14 +22,14 @@ export default class NewRelease extends React.Component{
         return (
             <div className="container">
                 <div className="row">
-                    <h3 className="col-0">New Releases</h3>
+                    <h3 className="col-0">New Release</h3>
                 </div>
                 <div className="row">
                         {this.state.newReleases.map(tvShow =>
-                            <div className="col-4">
+                            <div className="card col-3">
                                 <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                              description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                            episode_url={tvShow.episode_url}/>
+                                             episode_url={tvShow.episode_url}/>
                             </div>
                         )}
                 </div>
