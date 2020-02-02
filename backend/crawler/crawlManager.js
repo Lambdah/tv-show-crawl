@@ -113,7 +113,7 @@ function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
         puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
-        // puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
+        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
     ]);
     Episode.updateUnlistedNewReleaseToFalse();
 }
