@@ -6,6 +6,7 @@ import Categories from './Categories';
 import NewRelease from './newRelease';
 import Home from './Home';
 import Networks from './Networks';
+import TvShow from "./tvShow";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route exact path="/networks">
                 <Networks />
             </Route>
+            <Route path="/show/:title" children={<TvShow />} />
         </Switch>
       </Router>
     </div>

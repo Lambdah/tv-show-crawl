@@ -15,6 +15,7 @@ export default class Categories extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleGenre = this.handleGenre.bind(this);
+        this.handleUrl = this.handleUrl.bind(this);
     }
 
     handleChange(event){
@@ -33,6 +34,10 @@ export default class Categories extends React.Component{
         this.setState({genre: this.state.search}, this.handleGenre);
 
         event.preventDefault();
+    }
+
+    handleUrl(url){
+        return `http://localhost:3000/show/${url}`
     }
 
     render(){
@@ -67,6 +72,7 @@ export default class Categories extends React.Component{
                     {this.state.tvShows.map(tv =>
                         <div className="col-4 my-2">
                             <img className="rounded float-left" src={tv.poster} alt={tv.tvTitle} />
+                            <a href={this.handleUrl(tv.tvTitle)} className="stretched-link" aria-hidden="true" />
                         </div>
                     )}
                 </div>{/* row */}

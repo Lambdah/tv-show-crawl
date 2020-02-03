@@ -33,7 +33,7 @@ function callAPI(tvObject){
 async function callTvShowAPI(tvObject, tvShowName){
     try{
         tvShowName = fixString(tvShowName);
-        let uri = config.OMDb_key + tvShowName;
+        let uri = config.OMDb_key + tvShowName + '&type=series';
         const response = await axios.get(encodeURI(uri));
         if (response.data.Response === 'False'){
             // console.log("The error on " + tvShowName);
