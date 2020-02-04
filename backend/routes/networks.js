@@ -13,8 +13,16 @@ router.route('/:id').get(function(req, res){
        .catch(err => res.status(400).json('Error' + err));
 });
 
+router.route('/title/:tvTitle').get(function(req, res){
+    let tvTitle = new RegExp(req.params.tvTitle, "i");
+   Network.findOne({tvTitle: {$regex: tvTitle}})
+       .then(show => res.json(show))
+       .catch(err => res.status(400).json('Error' + err));
+});
+
 router.route('/tv/:network').get(function(req, res){
-   Network.find({network: req.params.network})
+    let network = new RegExp(req.params.network, "i");
+   Network.find({network: {$regex: req.params.network}})
        .then(network => !network.length ? res.status(404).send("No Content") : res.json(network))
        .catch(err => res.status(400).json('Error' + err));
 });

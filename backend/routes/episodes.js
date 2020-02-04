@@ -97,7 +97,7 @@ router.route('/add').post(function(req, res){
 });
 
 router.route('/tv/:tvTitle').get(function(req, res){
-   Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}})
+   Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false})
        .then(tvShow => {
            if(tvShow.length === 0){
                res.status(404).json([{err: "TV show does not exist"}]);

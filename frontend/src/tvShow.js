@@ -49,6 +49,7 @@ class TvShow extends React.Component{
                 </div> {/* jumbotron */}
                 <h1 className="display-5 text-left">Episodes</h1>
                 <div className="row">
+                    {this.state.episodes.length === 0 ? <p>Seems like it is empty down here...</p> : <p></p>}
                     {this.state.episodes.map(epi =>
                         <div className="card col-12 border-0">
                             <div className="card-body row">
