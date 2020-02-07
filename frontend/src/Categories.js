@@ -32,7 +32,6 @@ export default class Categories extends React.Component{
 
     handleSubmit(event){
         this.setState({genre: this.state.search}, this.handleGenre);
-
         event.preventDefault();
     }
 

@@ -7,6 +7,7 @@ import NewRelease from './newRelease';
 import Home from './Home';
 import Networks from './Networks';
 import TvShow from "./tvShow";
+import Search from "./Search";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 <Networks />
             </Route>
             <Route path="/show/:title" children={<TvShow />} />
+            <Route path="/search/:search" component={Search} />
         </Switch>
       </Router>
     </div>

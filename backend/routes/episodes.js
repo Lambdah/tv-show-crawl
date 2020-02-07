@@ -120,5 +120,18 @@ router.route('/tv/:tvTitle/:tvEpisode').get(function(req, res){
         .catch(err => res.status(400).join('Error' + err));
 });
 
+router.route('/title/:tvEpisode').get(function(req, res){
+    let tvEpisode = new RegExp(req.params['tvEpisode'], "i");
+    Episode.find({episode_name: {$regex: tvEpisode}})
+        .then(episode => {
+            if (!episode){
+                res.status(404).json({err: "Episode does not exist"});
+            }else{
+                res.json(episode);
+            }
+        })
+        .catch(err => res.status(400).join('Error: ' + err));
+});
+
 
 module.exports = router;
