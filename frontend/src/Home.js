@@ -31,7 +31,7 @@ export default class Home extends React.Component{
                         <div className="card col-3">
                             <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                         episode_url={tvShow.episode_url}/>
+                                         episode_url={tvShow.episode_url} sizeWidth={200}/>
                         </div>)}
                 </div>
 
