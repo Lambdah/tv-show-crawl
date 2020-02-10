@@ -2,7 +2,7 @@ const router = require('express').Router();
 var Episode = require('../schema/episodeSchema');
 
 router.route('/').get(function(req, res){
-    Episode.find()
+    Episode.find({unlisted: false})
         .then(episodes => res.json(episodes))
         .catch(err => res.status(400).json('Error' + err));
 });
@@ -97,7 +97,7 @@ router.route('/add').post(function(req, res){
 });
 
 router.route('/tv/:tvTitle').get(function(req, res){
-   Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false})
+   Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false}).sort({season: -1, episode_num: -1})
        .then(tvShow => {
            if(tvShow.length === 0){
                res.status(404).json([{err: "TV show does not exist"}]);
