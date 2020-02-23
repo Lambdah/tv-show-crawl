@@ -7,6 +7,7 @@ async function muchScrape(url){
         var page = await browser.newPage();
         await page.goto(url);
         await page.waitForSelector(".show-item.top > a > img");
+        await page.screenshot({path: './crawler/much/buddy-screenshot.png'});
         const tvShows = await page.evaluate(() => {
             const tvLinks = [];
             const tv = document.querySelectorAll(".show-item.top > a");

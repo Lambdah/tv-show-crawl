@@ -50,7 +50,7 @@ class TvShow extends React.Component{
                 <div className="row">
                     {this.state.episodes.length === 0 ? <p>Seems like it is empty down here...</p> : <p></p>}
                     {this.state.episodes.map(epi =>
-                        <div className="card col-12 border-0">
+                        <div className="card col-12 border-0" key={epi._id}>
                             <div className="card-body row">
                                 <div className="col-6">
                                     <img src={epi.episode_poster} className="rounded float-left" alt="epi poster" />

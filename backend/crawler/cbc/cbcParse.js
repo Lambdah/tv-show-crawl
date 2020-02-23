@@ -35,7 +35,7 @@ async function cbcTvParse(url){
                     link: tvShowUrl[i].getAttribute("href"),
                     episode_poster: episodePoster[i].src,
                     season: parseInt(document.querySelectorAll('.selected')[0].innerText.match(/\d.*$/g)[0]),
-                    episode_num: parseInt(episodeNumber.match(/\d.*$/g)[0])
+                    episode_num: parseInt(episodeNumber[i].innerHTML.match(/\d.*$/g)[0])
                 };
 
             }

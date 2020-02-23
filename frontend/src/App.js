@@ -8,6 +8,8 @@ import Home from './Home';
 import Networks from './Networks';
 import TvShow from "./tvShow";
 import Search from "./Search";
+import Callback from "./Callback";
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
             <Route exact path="/networks">
                 <Networks />
             </Route>
+            <Route exact path='/callback' component={Callback} />
             <Route path="/show/:title" children={<TvShow />} />
             <Route path="/search/:search" component={Search} />
         </Switch>

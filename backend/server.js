@@ -26,11 +26,18 @@ if (process.env.NODE_ENV !== 'test'){
     app.use(morgan('combined'));
 }
 
+const checkJwt = require('./routes/checkJwt');
+
 const episodeRouter = require('./routes/episodes');
 app.use('/episodes', episodeRouter);
 
 const networkRouter = require('./routes/networks');
 app.use('/networks', networkRouter);
+
+app.post('/users/', checkJwt, (req, res) => {
+   const {username} = req.body;
+   res.status(200).send();
+});
 
 
 app.listen(port, ()=> {

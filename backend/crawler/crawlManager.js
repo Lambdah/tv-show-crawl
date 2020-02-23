@@ -3,12 +3,14 @@ const muchParser = require('./much/muchParse');
 const cityTv = require('./cityTV/cityTV');
 const cityTvScraper = require('./cityTV/cityTVScraper');
 const cityTvParser = require('./cityTV/cityTVParse');
+let cbcScraper = require('./cbc/cbcScraper');
+let cbcParser = require('./cbc/cbcParse');
 const OMDbAPI = require('../api/OMDb_api');
 const Episode = require('../schema/episodeSchema');
 const Network = require('../schema/networkSchema');
 let muchUrl = 'https://www.much.com/shows/';
 let cityTvUrl = 'https://www.citytv.com/toronto/shows/';
-
+let cbcUrl = 'https://www.cbc.ca/tv/shows';
 process.setMaxListeners(0);
 function episodeInputDatabase(episodes) {
     const epiSavePromises = [];
@@ -113,7 +115,8 @@ function crawlManager(){
     Episode.updateUnlistedToTrue();
     Promise.all([
         puppetCrawler(muchScraper, muchParser, muchUrl, "much"),
-        puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
+        // puppetCrawler(cityTvScraper, cityTvParser, cityTvUrl, "cityTV")
+        // puppetCrawler(cbcScraper, cbcParser, cbcUrl, "cbc")
     ]);
     Episode.updateUnlistedNewReleaseToFalse();
 }

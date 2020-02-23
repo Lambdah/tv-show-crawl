@@ -89,6 +89,7 @@ router.route('/add').post(function(req, res){
         title,
         episode_name,
         description,
+        description,
         episode_url,
     });
     newEpisode.save()

@@ -1,12 +1,17 @@
 import React from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
+import auth0Client from "./Auth";
 
 
-export default class Header extends React.Component{
+class Header extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             search: ""
+        };
+        this.signOut = () => {
+            auth0Client.signOut();
+            props.history.replace('/')
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,6 +46,17 @@ export default class Header extends React.Component{
                                 <Link className="nav-link" to="/categories">Categories</Link>
                             </li>
                         </ul>
+                        {
+                            !auth0Client.isAuthenticated() &&
+                                <button className="btn btn-dark" onClick={auth0Client.signIn}>Sign In</button>
+                        }
+                        {
+                            auth0Client.isAuthenticated() &&
+                                <div>
+                                    <label className="mr-2 text-white">{auth0Client.getProfile().name}</label>
+                                    <button className="btn btn-dark" onClick={() => {this.signOut()}}>Sign Out</button>
+                                </div>
+                        }
                         <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
                             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={this.handleChange}/>
                             <Link to={this.handleSubmit}>
@@ -54,3 +70,5 @@ export default class Header extends React.Component{
     }
 
 }
+
+export default withRouter(Header);

@@ -27,7 +27,10 @@ export default class Categories extends React.Component{
             .then(res => {
                 const tvShows = res.data;
                 this.setState({tvShows});
-            });
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 
     handleSubmit(event){
@@ -69,7 +72,7 @@ export default class Categories extends React.Component{
                 </div>
                 <div className="row">
                     {this.state.tvShows.map(tv =>
-                        <div className="col-4 my-2">
+                        <div className="col-4 my-2" key={tv._id}>
                             <img className="rounded float-left" src={tv.poster} alt={tv.tvTitle} />
                             <a href={this.handleUrl(tv.tvTitle)} className="stretched-link" aria-hidden="true" />
                         </div>

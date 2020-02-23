@@ -3,6 +3,7 @@ import axios from 'axios';
 import EpisodeCard from './child/episodeCard';
 
 
+
 export default class Home extends React.Component{
     constructor(props) {
         super(props);
@@ -28,10 +29,10 @@ export default class Home extends React.Component{
                 </div>
                 <div className="row">
                     {this.state.tvShows.map(tvShow =>
-                        <div className="card col-3">
+                        <div className="card col-3" key={tvShow._id}>
                             <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                         episode_url={tvShow.episode_url} sizeWidth={200}/>
+                                         episode_url={tvShow.episode_url} sizeWidth={200} />
                         </div>)}
                 </div>
 
