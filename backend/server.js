@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== 'test'){
 
 const checkJwt = require('./routes/checkJwt');
 
-app.post('/users',checkJwt , (req, res) => {
+app.post('/users', checkJwt, (req, res) => {
     const {email} = req.body;
     if (req.user.email !== email) return res.status(401);
     let userQuery = User.where({email: email});
@@ -49,6 +49,37 @@ app.post('/users',checkJwt , (req, res) => {
                }
             });
        }
+    });
+});
+
+app.get('/users/subscribed', checkJwt, (req, res) => {
+   const {email} = req.user.email;
+   let userQuery = User.where({email: email});
+   userQuery.findOne(function(err, user){
+      if(err) return res.status(500).send();
+      res.status(200).json({subscribedShows: user.subscribedShows});
+   });
+});
+
+app.post('/users/subscribed', checkJwt, (req, res) =>{
+    const email = req.user.email;
+    const {tvShow} = req.body;
+    let userQuery = User.where({email: email});
+    userQuery.findOne(function(err, user){
+        if (err) return res.status(500).send();
+        const isSubscribed = user.subscribedShows.includes(tvShow);
+        if(isSubscribed){
+            return user.subscribedShows = user.subscribedShows.filter(show => show !== tvShow);
+        }else{
+            return user.subscribedShows.append(tvShow);
+        }
+    }).then(function(user){
+        user.save(function(err){
+            if (err){
+                console.error(err);
+                res.status(500).send();
+            }
+        });
     });
 });
 
