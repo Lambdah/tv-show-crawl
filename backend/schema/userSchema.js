@@ -14,10 +14,6 @@ var userSchema = new Schema({
         required: true,
         unique: true
     },
-    isAuthenticated: {
-        type: Boolean,
-        default: false
-    },
     isAdmin: {
         type: Boolean,
         default: false
@@ -33,7 +29,7 @@ var userSchema = new Schema({
 
 userSchema.path('email').validate({
    validator: function(v){
-       return /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$.test(v)
+       return /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(v)
    },
     message: props => `${props.value} is not a valid email`
 });

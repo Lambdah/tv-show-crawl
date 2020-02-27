@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 let config = require('config');
 const {crawlManager} = require('./crawler/crawlManager');
+const User = require('./schema/userSchema');
 
 const app = express();
 const port = config.PORT || 5000;
@@ -28,16 +29,36 @@ if (process.env.NODE_ENV !== 'test'){
 
 const checkJwt = require('./routes/checkJwt');
 
+app.post('/users',checkJwt , (req, res) => {
+    const {email} = req.body;
+    if (req.user.email !== email) return res.status(401);
+    let userQuery = User.where({email: email});
+    userQuery.findOne(function(err, user){
+       if (err){
+           console.error(err);
+           return res.status(500).send();
+       }
+       if (user){
+            res.status(200).json(user.subscribedShows);
+       }else{
+            const newUser = new User({email: email});
+            newUser.save(function(err){
+               if(err){
+                   console.error(err);
+                   return res.status(406).send();
+               }
+            });
+       }
+    });
+});
+
 const episodeRouter = require('./routes/episodes');
 app.use('/episodes', episodeRouter);
 
 const networkRouter = require('./routes/networks');
 app.use('/networks', networkRouter);
 
-app.post('/users/', checkJwt, (req, res) => {
-   const {username} = req.body;
-   res.status(200).send();
-});
+
 
 
 app.listen(port, ()=> {
