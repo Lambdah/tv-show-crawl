@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import axios from 'axios';
+import SubscribeButton from "./child/SubscribeButton";
 
 
 class TvShow extends React.Component{
@@ -42,7 +43,9 @@ class TvShow extends React.Component{
                             <h1 className="display-4 text-left">{this.state.title}</h1>
                             <hr className="my-0" />
                             <p className="lead my-5 text-left">{this.state.tvShow.synopsis}</p>
+                            <SubscribeButton tvShow={this.state.title} />
                         </div>
+
                     </div> {/* row */}
 
                 </div> {/* jumbotron */}

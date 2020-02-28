@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import EpisodeCard from './child/episodeCard';
+import UserShows from './child/UserShows';
 
 
 
@@ -24,6 +25,7 @@ export default class Home extends React.Component{
     render(){
         return(
             <div className="container">
+                <UserShows/>
                 <div className="row">
                     <h2 className="col-0">New Releases</h2>
                 </div>

@@ -1,14 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-// export default function Networks(){
-//     return(
-//         <div className="container">
-//             Networks Page
-//         </div>
-//     );
-// }
-
 export default class Networks extends React.Component{
     constructor(props) {
         super(props);
