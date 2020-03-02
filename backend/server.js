@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 let config = require('config');
 const {crawlManager} = require('./crawler/crawlManager');
-const User = require('./schema/userSchema');
+const {User, Show} = require('./schema/userSchema');
 
 const app = express();
 const port = config.PORT || 5000;
@@ -52,34 +52,38 @@ app.post('/users', checkJwt, (req, res) => {
     });
 });
 
-app.get('/users/subscribed', checkJwt, (req, res) => {
-   const {email} = req.user.email;
-   let userQuery = User.where({email: email});
-   userQuery.findOne(function(err, user){
-      if(err) return res.status(500).send();
-      res.status(200).json({subscribedShows: user.subscribedShows});
-   });
-});
 
 app.post('/users/subscribed', checkJwt, (req, res) =>{
     const email = req.user.email;
     const {tvShow} = req.body;
     let userQuery = User.where({email: email});
     userQuery.findOne(function(err, user){
-        if (err) return res.status(500).send();
-        const isSubscribed = user.subscribedShows.includes(tvShow);
-        if(isSubscribed){
-            return user.subscribedShows = user.subscribedShows.filter(show => show !== tvShow);
-        }else{
-            return user.subscribedShows.append(tvShow);
-        }
-    }).then(function(user){
-        user.save(function(err){
-            if (err){
-                console.error(err);
-                res.status(500).send();
+        try{
+            let isSubscribed = false;
+            const subList = user.subscribedShows;
+            for(let i=0; i < subList.length; i++){
+                if (tvShow === subList[i].title){
+                    isSubscribed = true;
+                    break;
+                }
             }
-        });
+            if (isSubscribed){
+                user.subscribedShows = user.subscribedShows.filter(show => show.title !== tvShow);
+                console.log(user);
+                user.save();
+            }else{
+                user.subscribedShows.push({title: tvShow});
+                user.save();
+            }
+        }
+        catch(err){
+            if(err instanceof TypeError){
+                console.log("It is a type error");
+                user.subscribedShows.push({title: tvShow});
+                user.save();
+            }
+        }
+
     });
 });
 

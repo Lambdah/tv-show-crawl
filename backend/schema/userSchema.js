@@ -27,6 +27,8 @@ var userSchema = new Schema({
     }
 });
 
+
+
 userSchema.path('email').validate({
    validator: function(v){
        return /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(v)
@@ -36,5 +38,6 @@ userSchema.path('email').validate({
 userSchema.plugin(uniqueValidator);
 
 var User = mongoose.model('User', userSchema);
+var Show = mongoose.model('Show', showSchema);
 
-module.exports = User;
+module.exports = {User, Show};

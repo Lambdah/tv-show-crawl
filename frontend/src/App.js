@@ -54,7 +54,7 @@ class App extends React.Component{
                         <Networks />
                     </Route>
                     <Route exact path='/callback' component={Callback} />
-                    <Route path="/show/:title" children={<TvShow />} />
+                    <Route path="/show/:title" component={TvShow} />
                     <Route path="/search/:search" component={Search} />
                 </Switch>
             </Router>
