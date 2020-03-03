@@ -11,26 +11,26 @@ class UserShows extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (auth0Client.isAuthenticated()){
-            const email = auth0Client.getProfile().email;
-            axios.post(`http://localhost:8018/users`, {email}, {
+            const {email} = auth0Client.getProfile();
+            const {data} = await axios.post(`http://localhost:8018/users`, {email}, {
                 headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
-            }).then(function(res){
-                const {subscribedShows} = res.data;
-                if(subscribedShows){
-                    this.setState({subscribedShows});
-                }
             });
-            this.props.history.push('/');
+            const subscribedShows = [];
+            for (let i=0; i < data.length; i++){
+                subscribedShows.push(data[i].title);
+            }
+            this.setState({subscribedShows});
         }
     }
 
     render(){
         if (!auth0Client.isAuthenticated()) return null;
         return (
-            <h2>You are logged in</h2>
-
+            <div className="container">
+                <h2>You are logged in</h2>
+            </div>
         )
     }
 }

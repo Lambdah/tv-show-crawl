@@ -37,7 +37,7 @@ export default class SubscribeButton extends React.Component{
 
     async handleCheckLogin(){
         if (auth0Client.isAuthenticated()){
-            const email = auth0Client.getProfile().email;
+            const {email} = auth0Client.getProfile();
             const subscribedShows = await axios.post(`http://localhost:8018/users`, {email}, {
                 headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
             });
