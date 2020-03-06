@@ -12,7 +12,6 @@ export default class Home extends React.Component{
             tvShows: [],
             ListedShows: []
         };
-        this.orderShows = this.orderShows.bind(this);
     }
 
     componentDidMount() {
@@ -25,17 +24,11 @@ export default class Home extends React.Component{
 
     }
 
-    orderShows(){
-        const shows = this.state.tvShows;
-        
-    }
 
 
     render(){
-        this.orderShows();
         return(
             <div className="container">
-                <UserShows/>
                 <div className="row">
                     <h2 className="col-0">New Releases</h2>
                 </div>
