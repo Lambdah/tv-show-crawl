@@ -5,6 +5,11 @@ import styled from "styled-components";
 const Link = styled.a`
    display:flex;
    align-items: center;
+   
+   .tooltip > .tooltip-inner {
+       background-color: purple;
+       color: green;
+   }
 `;
 
 const Image = styled.img`
@@ -19,7 +24,7 @@ const Image = styled.img`
 const Play = styled.div`
     opacity: 0.0;
     position: absolute;
-    bottom: 70%;
+    bottom: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: black;
@@ -32,14 +37,13 @@ const Play = styled.div`
 export default function EpisodeCard(props){
         return(
             <div className="card-body">
-                <Link href={props.episode_url}>
+                <Link data-toggle="tooltip" data-placement="top" title={props.description} href={props.episode_url}>
                         <Image className="rounded float-center" src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode poster" />
                         <Play>PLAY</Play>
                 </Link>
 
                 <h5 className="card-title text-dark">{props.title}</h5>
-                <h5 className="card-text text-dark">{props.episode}</h5>
-                <p className="card-text">{props.description}</p>
+                <h5 className="card-text text-dark">(S{props.season}E{props.episode_num}) {props.episode}</h5>
             </div>
         )
 

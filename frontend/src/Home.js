@@ -10,20 +10,29 @@ export default class Home extends React.Component{
         super(props);
         this.state = {
             tvShows: [],
-            subscribedShows: []
-        }
+            ListedShows: []
+        };
+        this.orderShows = this.orderShows.bind(this);
     }
 
     componentDidMount() {
+        window.$('[data-toggle="tooltip"]').tooltip();
         axios.get(`http://localhost:8018/episodes/new_releases`)
             .then(res => {
                 const tvShows = res.data;
                 this.setState({tvShows});
             });
+
+    }
+
+    orderShows(){
+        const shows = this.state.tvShows;
+        
     }
 
 
     render(){
+        this.orderShows();
         return(
             <div className="container">
                 <UserShows/>
@@ -32,11 +41,11 @@ export default class Home extends React.Component{
                 </div>
                 <div className="row">
                     {this.state.tvShows.map(tvShow =>
-                        <div className="card col-3" key={tvShow._id}>
+                        <li className="card col-4 my-2 border-0" key={tvShow._id}>
                             <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                         episode_url={tvShow.episode_url} sizeWidth={200} />
-                        </div>)}
+                                         episode_url={tvShow.episode_url} sizeWidth={300} season={tvShow.season} episode_num={tvShow.episode_num}/>
+                        </li>)}
                 </div>
 
             </div>
