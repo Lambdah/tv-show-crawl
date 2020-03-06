@@ -58,9 +58,6 @@ class Auth{
     }
 
     signOut(){
-        // this.idToken = null;
-        // this.profile = null;
-        // this.expiresAt = null;
         this.auth0.logout({
             returnTo: 'http://localhost:3000',
             clientID: `${config.Auth0Client}`

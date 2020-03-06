@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import auth0Client from "../Auth";
+import SubscriptionCard from "./subscriptionCard";
 
 class UserShows extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            subscribedShows: []
+            subscribedShows: [],
+            numOfShows: 20
         };
+
     }
 
     async componentDidMount() {
@@ -25,11 +28,19 @@ class UserShows extends Component {
         }
     }
 
+
+
     render(){
         if (!auth0Client.isAuthenticated()) return null;
         return (
-            <div className="container">
-                <h2>You are logged in</h2>
+            <div>
+                <div className="display-4 row text-left">Your Shows</div>
+                {this.state.subscribedShows.map((tvShow, index) =>
+                <div key={new Date().getTime() * index}>
+                    <div className="display-5 row">{tvShow}</div>
+                    <SubscriptionCard tvShow={tvShow}/>
+                </div>
+                )}
             </div>
         )
     }

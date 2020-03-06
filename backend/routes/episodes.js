@@ -121,6 +121,18 @@ router.route('/tv/:tvTitle/:tvEpisode').get(function(req, res){
         .catch(err => res.status(400).join('Error' + err));
 });
 
+router.route('/tv/new/listed/:tvTitle').get(function(req, res){
+    Episode.find({title: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false, new_release: true}).sort({season: -1, episode_num: -1})
+        .then(tvShow => {
+            if(tvShow.length === 0){
+                res.status(404).json([{err: "TV show does not exist"}]);
+            }else{
+                res.status(200).json(tvShow);
+            }
+        })
+        .catch(err => res.status(400).json({error: err}));
+});
+
 router.route('/title/:tvEpisode').get(function(req, res){
     let tvEpisode = new RegExp(req.params['tvEpisode'], "i");
     Episode.find({episode_name: {$regex: tvEpisode}})
