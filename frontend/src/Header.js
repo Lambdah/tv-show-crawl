@@ -45,6 +45,9 @@ class Header extends React.Component{
                             <li className="nav-link">
                                 <Link className="nav-link" to="/categories">Categories</Link>
                             </li>
+                            <li className="nav-link">
+                                <Link className="nav-link" to="/subscriptions">Subscriptions</Link>
+                            </li>
                         </ul>
                         {
                             !auth0Client.isAuthenticated() &&
@@ -53,7 +56,7 @@ class Header extends React.Component{
                         {
                             auth0Client.isAuthenticated() &&
                                 <div>
-                                    <label className="mr-2 text-white">{auth0Client.getProfile().name}</label>
+                                    <label className="mr-2 mt-2 text-white">{auth0Client.getProfile().name}</label>
                                     <button className="btn btn-dark" onClick={() => {this.signOut()}}>Sign Out</button>
                                 </div>
                         }

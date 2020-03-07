@@ -1,49 +1,72 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {withRouter} from 'react-router-dom';
-import auth0Client from "../Auth";
 import SubscriptionCard from "./subscriptionCard";
+import resizeImgUrl from '../helper/resizeImgUrl';
+import styled from "styled-components";
+
+const Show = styled.div`
+    
+`;
+
+const Poster = styled.img`
+    max-height: 10%;
+    max-width: 10%;
+`;
+
+const ButtonSub = styled.button`
+    
+`;
+
 
 class UserShows extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            subscribedShows: [],
-            numOfShows: 20
+            tvShow: [],
+            isChecked: true
         };
-
+        this.handleChange = this.handleChange.bind(this);
     }
 
     async componentDidMount() {
-        if (auth0Client.isAuthenticated()){
-            const {email} = auth0Client.getProfile();
-            const {data} = await axios.post(`http://localhost:8018/users`, {email}, {
-                headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
-            });
-            const subscribedShows = [];
-            for (let i=0; i < data.length; i++){
-                subscribedShows.push(data[i].title);
-            }
-            this.setState({subscribedShows});
-        }
+        console.log(this.props.title);
+        const {data} = await axios.get(`http://localhost:8018/networks/title/${this.props.title}`);
+        console.log(data);
+        this.setState({tvShow: data});
+    }
+
+    handleChange(){
+        this.setState({isChecked: !this.state.isChecked});
     }
 
 
-
     render(){
-        if (!auth0Client.isAuthenticated()) return null;
         return (
-            <div>
-                <div className="display-4 row text-left">Your Shows</div>
-                {this.state.subscribedShows.map((tvShow, index) =>
-                <div key={new Date().getTime() * index}>
-                    <div className="display-5 row">{tvShow}</div>
-                    <SubscriptionCard tvShow={tvShow}/>
-                </div>
-                )}
-            </div>
+            <React.Fragment>
+                <Show>
+                    <div className="row">
+                        <Poster src={resizeImgUrl(this.state.tvShow.poster, 200)} className="rounded col-4 float-left" alt="poster" />
+                        <div className="col-6 display-3 text-center text-white mx-5 mt-2">{this.state.tvShow.tvTitle}</div>
+                        <div className="col-3">
+                            <div className="row">
+                                {/*<button className="btn btn-primary ml-5 mb-3 px-4">Subscribe</button>*/}
+                                <div className="custom-control custom-switch">
+                                    <input type="checkbox" className="custom-control-input" checked={this.state.isChecked} onClick={this.handleChange} id={this.state.tvShow.tvTitle}/>
+                                    <label className="custom-control-label" for={this.state.tvShow.tvTitle}>Subscribe</label>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <button className="btn btn-outline-info ml-5">Expand Episodes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </Show>
+
+            </React.Fragment>
+
         )
     }
 }
 
-export default withRouter(UserShows);
+export default UserShows;

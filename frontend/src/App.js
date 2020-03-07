@@ -8,6 +8,7 @@ import Home from './Home';
 import Networks from './Networks';
 import TvShow from "./tvShow";
 import Search from "./Search";
+import Subscriptions from "./Subscriptions";
 import Callback from "./Callback";
 import SecuredRoute from "./securedRoute/SecuredRoute";
 import auth0Client from "./Auth";
@@ -56,6 +57,7 @@ class App extends React.Component{
                     <Route exact path='/callback' component={Callback} />
                     <Route path="/show/:title" component={TvShow} />
                     <Route path="/search/:search" component={Search} />
+                    <SecuredRoute path="/subscriptions" component={Subscriptions}/>
                 </Switch>
             </Router>
         </div>

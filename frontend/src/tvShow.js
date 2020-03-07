@@ -57,7 +57,6 @@ class TvShow extends React.Component{
                             <div className="card-body row">
                                 <div className="col-6">
                                     <img src={epi.episode_poster} className="rounded float-left" alt="epi poster" />
-
                                 </div> {/* card-image */}
                                 <div className="col-6">
                                     <h5 className="card-title">{epi.episode_name} (S{epi.season}E{epi.episode_num})</h5>
