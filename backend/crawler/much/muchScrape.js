@@ -6,8 +6,8 @@ async function muchScrape(url){
         var browser = await puppeteer.launch({headless: true});
         var page = await browser.newPage();
         await page.goto(url);
-        await page.waitForSelector(".show-item.top > a > img");
         await page.screenshot({path: './crawler/much/buddy-screenshot.png'});
+        await page.waitForSelector(".show-item.top > a > img");
         const tvShows = await page.evaluate(() => {
             const tvLinks = [];
             const tv = document.querySelectorAll(".show-item.top > a");
@@ -16,6 +16,7 @@ async function muchScrape(url){
             }
             return tvLinks;
         });
+        console.log(tvShows);
         await browser.close();
         return tvShows;
     } catch(err){
