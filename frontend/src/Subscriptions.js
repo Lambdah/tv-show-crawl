@@ -5,6 +5,7 @@ import axios from 'axios';
 import styled from "styled-components";
 import UserShows from "./child/UserShows";
 import Sidebar from "./child/Sidebar";
+import UserShow from "./child/UserShow";
 
 const Container = styled.div`
     
@@ -20,30 +21,30 @@ const Jumbotron = styled.div`
     }
 `;
 
-const Vertical = styled.div`
-    
-    .position-fixed{
-        border-left: 1px solid rgba(0,0,0,0.1);
-    }
-`;
 class Subscriptions extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            subList: []
+            subList: [],
+            episodes: [],
+            isLoaded: false
         }
     }
 
     async componentDidMount(){
         const {email} = auth0Client.getProfile();
-        const {data} = await axios.post(`http://localhost:8018/users`, {email}, {
+        await axios.post(`http://localhost:8018/users`, {email}, {
             headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
-        });
-        this.setState({subList: data});
+        })
+            .then((res) =>{
+                const {data} = res;
+                this.setState({subList: data, isLoaded: true});
+            })
+
     }
 
     render(){
-        if (this.state.subList === []) return(
+        if (this.state.subList.length === 0) return(
           <Container className="container">
               <div className="row text-left display-4 mt-4">Subscribe to shows through Network</div>
           </Container>
@@ -51,30 +52,10 @@ class Subscriptions extends React.Component{
         return(
             <Container className="container">
                 <div className="row py-2">
-                    {/*<div className="col-1 order-2 pl-5 ml-5 py-5 d-flex bd-sidebar" id="sticky-sidebar">*/}
-                    {/*    <Vertical>*/}
-                    {/*        <div className="position-fixed text-center px-4">*/}
-                    {/*            <div className="sidebar-header">*/}
-                    {/*                <h4>Subscriptions</h4>*/}
-                    {/*            </div>*/}
-                    {/*            <ul className="list-unstyled components">*/}
-                    {/*                {this.state.subList.map((tv, index) =>*/}
-                    {/*                    <li key={index}>*/}
-                    {/*                        {tv.title}*/}
-                    {/*                    </li>*/}
-                    {/*                )}*/}
-                    {/*            </ul>*/}
-                    {/*        </div>*/}
-                    {/*    </Vertical>*/}
-                    {/*</div>*/}
                     <Sidebar subscription={this.state.subList}/>
                     <div className="col" id="main">
-                        <div className="row text-right display-3 mt-4">Your Shows</div>
-                        {this.state.subList.map((tv,index) =>
-                            <Jumbotron key={index} className="jumbotron">
-                                <UserShows title={tv.title} />
-                            </Jumbotron>
-                        )}
+                        <div className="row text-right display-4">Your Shows</div>
+                        {this.state.isLoaded ? <UserShow subscription={this.state.subList}/> : <p>Loading ...</p>}
                     </div>
 
                 </div>

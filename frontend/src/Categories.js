@@ -46,9 +46,9 @@ export default class Categories extends React.Component{
         return(
             <div className="container">
                 <div className="row">
-                    <h3 className="col-0">
+                    <div className="col-0 display-4">
                         Categories Search
-                    </h3>
+                    </div>
                 </div>
                 <div className="jumbotron">
                     <form onSubmit={this.handleSubmit}>
