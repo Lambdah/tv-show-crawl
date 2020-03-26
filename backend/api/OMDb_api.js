@@ -16,7 +16,7 @@ function fixString(name){
 function callAPI(tvObject){
     switch(tvObject.collection.collectionName){
         case 'episodes':
-            return callEpisodeAPI(tvObject, tvObject.title, tvObject.season, tvObject.episode_num);
+            return callEpisodeAPI(tvObject, tvObject.tvTitle, tvObject.season, tvObject.episode_num);
         case 'networks':
             return callTvShowAPI(tvObject, tvObject.tvTitle);
         default:

@@ -27,7 +27,7 @@ export default class Sidebar extends React.Component{
                   <ul className="list-unstyled components">
                       {this.props.subscription.map((tv) =>
                           <li key={tv._id}>
-                              <a href={`/show/${tv.title}`}>{tv.title}</a>
+                              <a href={`/show/${tv.show}`}>{tv.show}</a>
                           </li>
                       )}
 

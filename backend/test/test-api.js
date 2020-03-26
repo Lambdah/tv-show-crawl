@@ -103,7 +103,7 @@ describe('OMDb episode api', function(){
 
     it('gets the episode information of South Park', function(done){
         OMDb(new Episode({
-            title: 'South Park',
+            show: 'South Park',
             episode_name: 'Tegridy Farms Halloween Special',
             season: 23,
             episode_num: 5

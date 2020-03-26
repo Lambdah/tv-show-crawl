@@ -35,7 +35,7 @@ export default class Home extends React.Component{
                 <div className="row">
                     {this.state.tvShows.map(tvShow =>
                         <li className="card col-4 my-2 border-0" key={tvShow._id}>
-                            <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
+                            <EpisodeCard title={tvShow.show} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
                                          episode_url={tvShow.episode_url} sizeWidth={300} season={tvShow.season} episode_num={tvShow.episode_num}/>
                         </li>)}

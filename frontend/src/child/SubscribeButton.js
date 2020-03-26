@@ -43,7 +43,7 @@ export default class SubscribeButton extends React.Component{
             });
             let subbedShows = [];
             for (let i=0; i < subscribedShows.data.length; i++){
-                subbedShows.push(subscribedShows.data[i].title);
+                subbedShows.push(subscribedShows.data[i].show);
             }
             this.setState({subscribedShows: subbedShows});
             this.setState({isLoading: false});

@@ -3,7 +3,7 @@ var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 var episodeSchema = new Schema({
-    title: {type: String, required: true},
+    show: {type: String, required: true},
     episode_name: {type: String, required: true},
     description: String,
     description_alt: String,
@@ -19,17 +19,17 @@ var episodeSchema = new Schema({
     {autoIndex: false});
 
 episodeSchema.methods.findTitleAndEpi = function(cb){
-    return this.model('Episode').findOne({title: this.title, episode_name: this.episode_name}, cb);
+    return this.model('Episode').findOne({show: this.show, episode_name: this.episode_name}, cb);
 };
 
 episodeSchema.methods.updateEpiNewReleaseToFalse = function(cb){
-  return this.model('Episode').findOneAndUpdate({title: this.title, episode_name: this.episode_name},
+  return this.model('Episode').findOneAndUpdate({show: this.show, episode_name: this.episode_name},
       {new_release: false},
       {new: true}, cb);
 };
 
 episodeSchema.methods.updateEpiToListed = function(cb){
-    return this.model('Episode').findOneAndUpdate({title: this.title, episode_name: this.episode_name},
+    return this.model('Episode').findOneAndUpdate({show: this.show, episode_name: this.episode_name},
         {unlisted: false},
         {new: true}, cb);
 };
@@ -45,7 +45,7 @@ episodeSchema.statics.updateUnlistedNewReleaseToFalse = function(cb){
     return this.model('Episode').updateMany({unlisted: true}, {"$set": {new_release: false}}, {new: true}, cb);
 };
 
-episodeSchema.index({title: 1, episode_name: 1}, {unique: true});
+episodeSchema.index({show: 1, episode_name: 1}, {unique: true});
 
 episodeSchema.plugin(uniqueValidator);
 var Episode = mongoose.model('Episode', episodeSchema);

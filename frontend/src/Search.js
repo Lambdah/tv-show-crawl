@@ -17,7 +17,7 @@ export default class Search extends React.Component{
     handleSearch(){
         const {search} = this.state;
         const filtered = this.state.episodes.filter(episode => {
-            return episode.title.toLowerCase().includes(search.toLowerCase());
+            return episode.show.toLowerCase().includes(search.toLowerCase());
         });
         this.setState(filtered);
     }
@@ -27,7 +27,7 @@ export default class Search extends React.Component{
         this.setState(prevState => {
             const filtered = prevState.episodes.filter(epi => {
                 let epiDesc = epi.description_alt ? epi.description_alt : epi.description;
-                return epi.title.toLowerCase().includes(search.toLowerCase()) || epiDesc.toLowerCase().includes(search.toLowerCase());
+                return epi.show.toLowerCase().includes(search.toLowerCase()) || epiDesc.toLowerCase().includes(search.toLowerCase());
             });
             return {
                 search,
@@ -44,7 +44,7 @@ export default class Search extends React.Component{
                 const episodes = res.data;
                 const filtered = episodes.filter(epi => {
                     let epiDesc = epi.description_alt ? epi.description_alt : epi.description;
-                    return epi.title.toLowerCase().includes(search.toLowerCase()) || epiDesc.toLowerCase().includes(search.toLowerCase());
+                    return epi.show.toLowerCase().includes(search.toLowerCase()) || epiDesc.toLowerCase().includes(search.toLowerCase());
                 });
                 this.setState({episodes, filtered});
             });
@@ -61,7 +61,7 @@ export default class Search extends React.Component{
                 <div className="row">
                     {this.state.filtered.map(tvShow =>
                         <div className="card col-4" key={tvShow._id}>
-                            <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
+                            <EpisodeCard title={tvShow.show} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
                                          episode_url={tvShow.episode_url} sizeWidth={300}/>
                         </div>)}

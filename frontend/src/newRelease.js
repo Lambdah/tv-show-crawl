@@ -27,7 +27,7 @@ export default class NewRelease extends React.Component{
                 <div className="row">
                         {this.state.newReleases.map(tvShow =>
                             <div className="card col-3">
-                                <EpisodeCard title={tvShow.title} episode={tvShow.episode_name} poster={tvShow.episode_poster}
+                                <EpisodeCard title={tvShow.show} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                              description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
                                              episode_url={tvShow.episode_url} sizeWidth={200}/>
                             </div>

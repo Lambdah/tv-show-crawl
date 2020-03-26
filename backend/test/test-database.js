@@ -6,28 +6,28 @@ process.env.NODE_ENV = 'test';
 const database_data = [
     {
         epi_id: '/shows/south-park/episode/1785418/band-in-china/',
-        title: 'South Park',
+        show: 'South Park',
         episode_name: 'Band In China',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785418/band-in-china/'
     },
     {
         epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
-        title: 'South Park',
+        show: 'South Park',
         episode_name: 'Tegridy Farms Halloween Special',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785418/tegridy-farms-halloween-special/'
     },
     {
         epi_id: '/shows/south-park/episode/1785417/let-them-eat-goo/',
-        title: 'South Park',
+        show: 'South Park',
         episode_name: 'Let Them Eat Goo',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785417/let-them-eat-goo/'
     },
     {
         epi_id: '/shows/south-park/episode/1785416/shots/',
-        title: 'South Park',
+        show: 'South Park',
         episode_name: 'SHOTS!!!',
         description: 'AIRED OCTOBER 30, 2019',
         link: 'http://www.much.com/shows/south-park/episode/1785416/shots/'
@@ -61,7 +61,7 @@ describe('Testing Inputting values to the database', function(){
     });
 
     it('should query all South Park Episodes', function(done){
-        const query = Episode.find({title: "South Park"}, function(err, docs){
+        const query = Episode.find({show: "South Park"}, function(err, docs){
            if (err){
                console.error(err);
            }
@@ -93,7 +93,7 @@ describe('Testing Inputting values to the database', function(){
     it('should get a particular episode with this method', function(done){
         var same_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/band-in-china/',
-            title: 'South Park',
+            show: 'South Park',
             episode_name: 'Band In China',
             description: 'AIRED OCTOBER 30, 2019',
             link: 'http://www.much.com/shows/south-park/episode/1785418/band-in-china/'
@@ -121,7 +121,7 @@ describe('Testing Inputting values to the database', function(){
     it('should an episode to unlisted false', function(done){
         var listed_episode = new Episode({
             epi_id: '/shows/south-park/episode/1785418/band-in-china/',
-            title: 'South Park',
+            show: 'South Park',
             episode_name: 'Band In China',
             description: 'AIRED OCTOBER 30, 2019',
             link: 'http://www.much.com/shows/south-park/episode/1785418/band-in-china/'
@@ -135,7 +135,7 @@ describe('Testing Inputting values to the database', function(){
     it('should not contain duplicates', function(done){
         var same_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/tegridy-farms-halloween-special/',
-            title: 'South Park',
+            show: 'South Park',
             episode_name: 'Tegridy Farms Halloween Special',
             description: 'AIRED OCTOBER 30, 2019',
             link: 'http://www.much.com/shows/south-park/episode/1785418/tegridy-farms-halloween-special/'
@@ -144,7 +144,7 @@ describe('Testing Inputting values to the database', function(){
         //    Expect an error because it is trying to save same episode again
         }).catch(function(err){
             // console.error(err);
-            Episode.find({title: same_epi.title, episode_name: same_epi.episode_name}, function(err, docs){
+            Episode.find({show: same_epi.show, episode_name: same_epi.episode_name}, function(err, docs){
                 expect(docs).to.have.lengthOf(1);
                 done();
             });
@@ -154,7 +154,7 @@ describe('Testing Inputting values to the database', function(){
     it('queries for an episode that does not exist', function(done){
         var new_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
-            title: 'South Park',
+            show: 'South Park',
             episode_name: 'Weight Gain 4000',
             description: 'August 27, 1997',
             link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
@@ -171,7 +171,7 @@ describe('Testing Inputting values to the database', function(){
     it('should insert new episode with new_release as true', function(done){
         var new_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
-            title: 'South Park',
+            show: 'South Park',
             episode_name: 'Weight Gain 4000',
             description: 'August 27, 1997',
             link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
@@ -188,7 +188,7 @@ describe('Testing Inputting values to the database', function(){
     it('should updateEpiNewReleaseToFalse makes new_release: true to new_release: false', function(done){
         var old_epi = new Episode({
             epi_id: '/shows/south-park/episode/1785418/weight-gain-4000/',
-            title: 'South Park',
+            show: 'South Park',
             episode_name: 'Weight Gain 4000',
             description: 'August 27, 1997',
             link: 'http://www.much.com/shows/south-park/episode/1785418/weight-gain-4000/'
