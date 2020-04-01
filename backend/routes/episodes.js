@@ -8,7 +8,7 @@ router.route('/').get(function(req, res){
 });
 
 router.route('/new_releases').get(function(req, res){
-    Episode.find({new_release: true})
+    Episode.find({new_release: true, unlisted: false})
         .then(episodes => {
             if (Array.isArray(episodes) && episodes.length === 0){
                 return res.status(404).json({error: 'No new Content'});

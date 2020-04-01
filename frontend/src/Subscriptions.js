@@ -3,7 +3,6 @@ import {withRouter} from 'react-router-dom';
 import auth0Client from "./Auth";
 import axios from 'axios';
 import styled from "styled-components";
-import UserShows from "./child/UserShows";
 import Sidebar from "./child/Sidebar";
 import UserShow from "./child/UserShow";
 
@@ -27,7 +26,8 @@ class Subscriptions extends React.Component{
         this.state = {
             subList: [],
             episodes: [],
-            isLoaded: false
+            isSubLoaded: false,
+            isEpiLoaded: false
         }
     }
 
@@ -38,8 +38,15 @@ class Subscriptions extends React.Component{
         })
             .then((res) =>{
                 const {data} = res;
-                this.setState({subList: data, isLoaded: true});
-            })
+                this.setState({subList: data, isSubLoaded: true});
+            });
+        await axios.post(`http://localhost:8018/users/shows`, {email}, {
+            headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
+        })
+            .then((res) => {
+                const {data} = res;
+                this.setState({episodes: data, isEpiLoaded: true});
+            });
 
     }
 
@@ -52,10 +59,10 @@ class Subscriptions extends React.Component{
         return(
             <Container className="container">
                 <div className="row py-2">
-                    <Sidebar subscription={this.state.subList}/>
+                    {this.state.isSubLoaded ? <Sidebar subscription={this.state.subList}/> : <p>Loading...</p>}
                     <div className="col" id="main">
                         <div className="row text-right display-4">Your Shows</div>
-                        {this.state.isLoaded ? <UserShow subscription={this.state.subList}/> : <p>Loading ...</p>}
+                        {this.state.isEpiLoaded ? <UserShow subscription={this.state.episodes}/> : <p>Loading ...</p>}
                     </div>
 
                 </div>

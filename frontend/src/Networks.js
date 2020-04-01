@@ -5,7 +5,7 @@ export default class Networks extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            networks: ["cityTV", "much"],
+            networks: ["citytv", "much"],
             tvShows: []
         };
         this.filterNetworks = this.filterNetworks.bind(this);

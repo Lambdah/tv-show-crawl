@@ -16,7 +16,7 @@ function fixString(name){
 function callAPI(tvObject){
     switch(tvObject.collection.collectionName){
         case 'episodes':
-            return callEpisodeAPI(tvObject, tvObject.tvTitle, tvObject.season, tvObject.episode_num);
+            return callEpisodeAPI(tvObject, tvObject.show, tvObject.season, tvObject.episode_num);
         case 'networks':
             return callTvShowAPI(tvObject, tvObject.tvTitle);
         default:
@@ -61,6 +61,7 @@ async function callTvShowAPI(tvObject, tvShowName){
  * @returns {Promise<any>}
  */
 async function callEpisodeAPI(tvObject, tvShowName, seasonNum, episodeNum){
+    if (seasonNum === 0) return tvObject;
     try{
         let uri = config.OMDb_key + tvShowName + "&season=" + seasonNum +"&episode=" + episodeNum;
         const response = await axios.get(encodeURI(uri));

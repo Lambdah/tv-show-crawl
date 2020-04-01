@@ -6,6 +6,7 @@ const morgan = require('morgan');
 let config = require('config');
 const {crawlManager} = require('./crawler/crawlManager');
 const {User, Show} = require('./schema/userSchema');
+const Episode = require('./schema/episodeSchema');
 const showCrawl = require(__dirname + '/crawler/herokuCrawl/showCrawl');
 
 const app = express();
@@ -18,7 +19,7 @@ conn.once('open', function(){
    console.log("Successfully connected to the database");
    if(process.env.NODE_ENV !== 'test'){
        // crawlManager();
-       showCrawl();
+       // showCrawl();
    }
 });
 
@@ -83,10 +84,39 @@ app.post('/users/subscribed', checkJwt, (req, res) =>{
                 console.log("It is a type error");
                 user.subscribedShows.push({title: tvShow});
                 user.save();
+            }else{
+                console.error(err);
             }
         }
 
     });
+});
+
+app.post('/users/shows', checkJwt, (req, res) => {
+    const email = req.user.email;
+    const query = User.findOne({email: email}).select('subscribedShows');
+    query.exec((err, shows) => {
+        if (err){
+            console.log(err);
+            res.json({err: 'Error has occurred'});
+        }
+        const subShows = shows.subscribedShows.map(show => {return show.title});
+        try{
+            const episodeQuery = Episode.find({show: {$in: subShows}}).sort({show: 1, date: -1});
+            episodeQuery.exec((err, episode) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({error: 'Error has occurred'});
+                }
+                res.status(200).json(episode);
+            });
+        } catch (err) {
+            console.error('Error' + err);
+            res.status(500).json({err: 'Error has occurred'});
+        }
+
+    });
+
 });
 
 const episodeRouter = require('./routes/episodes');
