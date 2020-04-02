@@ -32,10 +32,15 @@ class Subscriptions extends React.Component{
             episodes: [],
             isSubLoaded: false,
             isEpiLoaded: false
-        }
+        };
+        this.handleUserCall = this.handleUserCall.bind(this);
     }
 
-    async componentDidMount(){
+    componentDidMount(){
+        setTimeout(this.handleUserCall, 1000);
+    }
+
+    async handleUserCall(){
         const {email} = auth0Client.getProfile();
         await axios.post(`http://localhost:8018/users`, {email}, {
             headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
@@ -51,7 +56,6 @@ class Subscriptions extends React.Component{
                 const {data} = res;
                 this.setState({episodes: data, isEpiLoaded: true});
             });
-
     }
 
     render(){
