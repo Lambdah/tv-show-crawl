@@ -1,3 +1,7 @@
+/**
+ * Button for subscribing to a show in /show/:title
+ */
+
 import React from 'react';
 import axios from "axios";
 import auth0Client from "../Auth";
@@ -7,9 +11,9 @@ export default class SubscribeButton extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            subscribedShows: [],
             didClick: false,
-            isLoading: true
+            isLoading: true,
+            isSubscribed: false
         };
         this.handleClick = this.handleClick.bind(this);
         this.handleCheckLogin = this.handleCheckLogin.bind(this);
@@ -23,7 +27,8 @@ export default class SubscribeButton extends React.Component{
     componentWillUnmount() {
         if(auth0Client.isAuthenticated() && this.state.didClick){
             const tvShow = this.props.tvShow;
-            axios.post(`${dev.Server}/users/subscribed`, {tvShow}, {
+            const isSub = this.state.isSubscribed;
+            axios.post(`${dev.Server}/users/subscribed`, {tvShow, isSub}, {
                 headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
             }).catch(function(error){
                 if(error.response){
@@ -41,21 +46,16 @@ export default class SubscribeButton extends React.Component{
             const subscribedShows = await axios.post(`http://localhost:8018/users`, {email}, {
                 headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
             });
-            let subbedShows = [];
-            for (let i=0; i < subscribedShows.data.length; i++){
-                subbedShows.push(subscribedShows.data[i].show);
-            }
-            this.setState({subscribedShows: subbedShows});
-            this.setState({isLoading: false});
+
+            const subbedShows = subscribedShows.data.map(epi => {
+               return epi.title;
+            });
+            this.setState({isSubscribed: subbedShows.includes(this.props.tvShow), isLoading: false});
         }
     }
 
     handleClick(){
-        let subList = this.state.subscribedShows;
-        (subList.includes(this.props.tvShow) ?
-            subList = subList.filter(show => show !== this.props.tvShow) : subList.push(this.props.tvShow));
-        this.setState({subscribedShows: subList});
-        this.setState({didClick: true});
+        this.setState({isSubscribed: !this.state.isSubscribed, didClick: true});
     }
 
     render(){
@@ -64,9 +64,8 @@ export default class SubscribeButton extends React.Component{
             <button type="button" className="btn btn-secondary btn-lg" disabled>Subscribe</button>
             )
         }
-        let subscribed = this.state.subscribedShows.includes(this.props.tvShow);
         return(
-            <button type="button" className="btn btn-success btn-lg" onClick={this.handleClick}>{subscribed ? "Unsubscribe" : "Subscribe" }</button>
+            <button type="button" className="btn btn-success btn-lg" onClick={this.handleClick}>{this.state.isSubscribed ? "Unsubscribe" : "Subscribe" }</button>
         )
     }
 }

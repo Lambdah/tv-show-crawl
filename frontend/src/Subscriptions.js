@@ -1,3 +1,7 @@
+/**
+ * Page for /subscriptions
+ */
+
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import auth0Client from "./Auth";

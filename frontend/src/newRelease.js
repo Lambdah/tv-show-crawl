@@ -1,3 +1,7 @@
+/**
+ * Page for /new_release
+ */
+
 import React from 'react';
 import axios from "axios";
 import EpisodeCard from './child/episodeCard';

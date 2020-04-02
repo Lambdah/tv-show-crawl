@@ -58,26 +58,16 @@ app.post('/users', checkJwt, (req, res) => {
 
 app.post('/users/subscribed', checkJwt, (req, res) =>{
     const email = req.user.email;
-    const {tvShow} = req.body;
+    const {tvShow, isSub} = req.body;
     let userQuery = User.where({email: email});
     userQuery.findOne(function(err, user){
         try{
-            let isSubscribed = false;
-            const subList = user.subscribedShows;
-            for(let i=0; i < subList.length; i++){
-                if (tvShow === subList[i].title){
-                    isSubscribed = true;
-                    break;
-                }
-            }
-            if (isSubscribed){
-                user.subscribedShows = user.subscribedShows.filter(show => show.title !== tvShow);
-                console.log(user);
-                user.save();
-            }else{
+            if (isSub){
                 user.subscribedShows.push({title: tvShow});
-                user.save();
+            } else {
+                user.subscribedShows = user.subscribedShows.filter(show => show.title !== tvShow);
             }
+            user.save();
         }
         catch(err){
             if(err instanceof TypeError){

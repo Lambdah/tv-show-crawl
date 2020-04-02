@@ -1,7 +1,10 @@
+/**
+ * Page for /
+ */
+
 import React from 'react';
 import axios from 'axios';
 import EpisodeCard from './child/episodeCard';
-import UserShows from './child/UserShows';
 
 
 
