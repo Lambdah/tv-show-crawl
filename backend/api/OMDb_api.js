@@ -1,11 +1,14 @@
 const config = require('config');
 const axios = require('axios');
 
-function fixString(name){
-    name = name.toLowerCase();
-    name = name.replace(" ", "+");
-    name = name.replace("&", "and");
-    return name;
+/**
+ *
+ * @param name
+ * @returns {string}
+ */
+function encodeShow(name){
+    let fixedName = encodeURIComponent(name);
+    return `${config.OMDb_key}${fixedName}&type=series`;
 }
 
 /**
@@ -32,12 +35,15 @@ function callAPI(tvObject){
  */
 async function callTvShowAPI(tvObject, tvShowName){
     try{
-        tvShowName = fixString(tvShowName);
-        let uri = config.OMDb_key + tvShowName + '&type=series';
-        const response = await axios.get(encodeURI(uri));
+        let uri = encodeShow(tvShowName);
+        let response = await axios.get(uri);
         if (response.data.Response === 'False'){
-            // console.log("The error on " + tvShowName);
-            return { error: 'Does not exist.' };
+            const replaceAnd = tvShowName.replace('&', 'and');
+            uri = encodeShow(replaceAnd);
+            response = await axios.get(uri);
+            if(response.data.Response === 'False'){
+                return { error: 'Does not exist.' };
+            }
         }
         return Object.assign(tvObject,
             {
@@ -79,6 +85,5 @@ async function callEpisodeAPI(tvObject, tvShowName, seasonNum, episodeNum){
         console.error(err);
     }
 }
-
 
 module.exports = callAPI;

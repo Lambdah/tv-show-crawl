@@ -115,3 +115,34 @@ describe('OMDb episode api', function(){
             })
     });
 });
+
+describe('OMDb tv call with non alphanumeric characters in the title', function(){
+
+    it('gets the information on Hudson & Rex', function(done){
+        OMDb(new Network({
+            network: 'citytv',
+            tvTitle: 'Hudson & Rex'
+        }))
+            .then(function (result) {
+                console.log(result);
+                expect(result).to.have.property('tvTitle').to.be.eql('Hudson & Rex');
+                expect(result).to.have.property('synopsis')
+                    .to.be.eql('Detective Charlie Hudson teams up with what he calls his "highly trained law enforcement animal" German Shepherd dog named Rex who he prefers to team up with because he doesn\'t talk his ear off.');
+                done();
+            });
+    });
+
+    it('gets the information on Bob\'s Burgers', function(done){
+        OMDb(new Network({
+            network: 'citytv',
+            tvTitle: 'Bob\'s Burgers'
+        }))
+            .then(function (result) {
+                console.log(result);
+                expect(result).to.have.property('tvTitle').to.be.eql('Bob\'s Burgers');
+                expect(result).to.have.property('synopsis')
+                    .to.be.eql('Bob Belcher, along with his wife and 3 children, try to run their last hope of holding the family together, which is running Bob\'s dream restaurant.');
+                done();
+            });
+    });
+});
