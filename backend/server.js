@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const morgan = require('morgan');
 let config = require('config');
-const {crawlManager} = require('./crawler/crawlManager');
 const {User, Show} = require('./schema/userSchema');
 const Episode = require('./schema/episodeSchema');
 const showCrawl = require(__dirname + '/crawler/herokuCrawl/showCrawl');
@@ -18,8 +17,7 @@ const conn = mongoose.connection;
 conn.once('open', function(){
    console.log("Successfully connected to the database");
    if(process.env.NODE_ENV !== 'test'){
-       // crawlManager();
-       // showCrawl();
+       showCrawl();
    }
 });
 

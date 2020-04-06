@@ -1,9 +1,27 @@
 /**
  * Page for /networks
  */
-
 import React from 'react';
 import axios from 'axios';
+import styled from "styled-components";
+import NoPosterImg from "./child/NoPosterImg";
+
+const PosterShow = styled.div`
+    .poster-class{
+        height: auto;
+        width: auto;
+        padding-right:2em;
+        background-color: lightgrey;
+        min-height: 93.5%;
+        min-width: 20.5em;
+        }
+        
+    img{
+       display: block;
+       margin: auto;
+    }
+     
+`;
 
 export default class Networks extends React.Component{
     constructor(props) {
@@ -43,11 +61,18 @@ export default class Networks extends React.Component{
                         <h3 className="display-5 text-left">{network}</h3>
                         <div className="row">
                             {this.filterNetworks(network).map(tvShow =>
-                                <div className="col-4 my-3">
-                                    <img src={tvShow.poster} alt={tvShow.tvTitle} />
-                                    <a className="stretched-link" href={this.handleUrl(tvShow.tvTitle)} aria-hidden={true} />
-                                </div>
+                                <PosterShow>
+                                <div className="col-4 my-3 poster-class rounded border border-primary">
 
+                                    {tvShow.poster !== "N/A" ?
+                                        <img src={tvShow.poster} alt={tvShow.tvTitle} className="rounded"/>
+                                    :
+                                        <NoPosterImg tvTitle={tvShow.tvTitle}/>
+                                    }
+
+                                        <a className="stretched-link" href={this.handleUrl(tvShow.tvTitle)} aria-hidden={true} />
+                                </div>
+                                </PosterShow>
                             )}
                         </div>
 

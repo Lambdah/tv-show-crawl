@@ -6,6 +6,7 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import axios from 'axios';
 import SubscribeButton from "./child/SubscribeButton";
+import NoPosterImg from "./child/NoPosterImg";
 
 
 class TvShow extends React.Component{
@@ -41,7 +42,12 @@ class TvShow extends React.Component{
 
                     <div className="row">
                         <div className="col-4">
-                            <img src={this.state.tvShow.poster} className="rounded float-left" alt="poster" />
+                            {this.state.tvShow.poster !== "N/A" ?
+                                <img src={this.state.tvShow.poster} className="rounded float-left" alt="poster" />
+                                :
+                                <NoPosterImg tvTitle={this.state.title}/>
+                            }
+
                         </div>
                         <div className="col-8">
                             <h1 className="display-4 text-left">{this.state.title}</h1>
