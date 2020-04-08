@@ -11,10 +11,6 @@ const Vertical = styled.div`
 
 
 export default class Sidebar extends React.Component{
-    constructor(props) {
-        super(props);
-    }
-
     render(){
         return(
           <div className="col-1 order-2 pl-5 ml-5 py-5 d-flex bd-sidebar" id="sticky-sidebar">

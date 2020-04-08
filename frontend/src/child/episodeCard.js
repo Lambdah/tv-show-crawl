@@ -16,7 +16,11 @@ const LinkPoster = styled.a`
 const Image = styled.img`
    opacity: 1.0;
    transition: 0.5s ease;
+   max-width: ${props => props.maxImage.width};
+   max-height: ${props => props.maxImage.height};
    
+   min-width: ${props => props.maxImage.width};
+   min-height: ${props => props.maxImage.height};
    ${LinkPoster}:hover & {
       opacity: 0.3;
    }
@@ -35,17 +39,20 @@ const Play = styled.div`
     }
 `;
 
-function returnURL(url){
-    return "http://localhost:3000/show/" + url;
-}
 
 export default function EpisodeCard(props){
+    const imageSize = {
+      width: `${props.sizeWidth}px`,
+      height: `${props.sizeWidth*0.56249992968}px`
+    };
         return(
             <div className="card-body">
+
                 <LinkPoster data-toggle="tooltip" data-placement="top" title={props.description} href={props.episode_url}>
-                        <Image className="rounded float-center" src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode poster" />
-                        <Play>PLAY</Play>
+                    <Image className="rounded float-center" maxImage={imageSize} src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode poster" />
+                    <Play>PLAY</Play>
                 </LinkPoster>
+
                 <Link to={`/show/${props.title}`}><h5 className="card-title text-dark">{props.title}</h5></Link>
                 <h5 className="card-text text-dark">(S{props.season}E{props.episode_num}) {props.episode}</h5>
             </div>

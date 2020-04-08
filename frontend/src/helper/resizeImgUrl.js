@@ -3,7 +3,8 @@ function resizeImgUrl(url, sizeWidth){
     var pattList = [
         /cf-images\.us-east-1\.prod\.boltdns\.net/i,
         /images2\.9c9media\.com/i,
-        /m\.media-amazon\.com/i
+        /m\.media-amazon\.com/i,
+        /\.watch\.cbc\.ca/i
     ];
 
     var i=0;
@@ -21,6 +22,8 @@ function resizeImgUrl(url, sizeWidth){
             return url.replace(/size=\d\d\d/i, 'size=' + sizeWidth);
         case 2:
             return url.replace(/_SX\d\d\d/i, "_SX" + sizeWidth);
+        case 3:
+            return url;
         default:
             return null;
     }
