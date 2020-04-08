@@ -19,6 +19,7 @@ const PosterShow = styled.div`
     img{
        display: block;
        margin: auto;
+       padding: 3em 0em 2em 0em;
     }
      
 `;
