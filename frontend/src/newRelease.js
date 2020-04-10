@@ -28,9 +28,9 @@ export default class NewRelease extends React.Component{
                 <div className="row">
                     <h3 className="col-0">New Release</h3>
                 </div>
-                <div className="row">
+                <div className="row paginate">
                         {this.state.newReleases.map(tvShow =>
-                            <div className="card col-3 border-0">
+                            <div className="card col-3 border-0" key={tvShow._id}>
                                 <EpisodeCard title={tvShow.show} episode={tvShow.episode_name} poster={tvShow.episode_poster}
                                              description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
                                              episode_url={tvShow.episode_url} season={tvShow.season} episode_num={tvShow.episode_num} sizeWidth={200}/>

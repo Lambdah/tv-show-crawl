@@ -17,7 +17,7 @@ const conn = mongoose.connection;
 conn.once('open', function(){
    console.log("Successfully connected to the database");
    if(process.env.NODE_ENV !== 'test'){
-       showCrawl();
+       // showCrawl();
    }
 });
 

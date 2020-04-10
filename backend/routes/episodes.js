@@ -18,6 +18,18 @@ router.route('/new_releases').get(function(req, res){
         .catch(err => res.status(400).json('error: ' + err));
 });
 
+router.route('/new_releases/:num').get(function(req, res){
+    const paginationNum = req.params.num;
+    Episode.find({new_release: true, unlisted: false}).limit(18).skip(18*paginationNum)
+        .then(episodes => {
+            if (Array.isArray(episodes) && episodes.length === 0){
+                return res.status(404).json({error: 'No new Content'});
+            }
+            return res.json(episodes);
+        })
+        .catch(err => res.status(400).json('error: ' + err));
+});
+
 router.route('/:id').get(function(req, res){
    Episode.find({_id: req.params.id})
        .then(episode => res.json(episode))
