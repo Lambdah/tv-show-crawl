@@ -2,7 +2,7 @@
  * Page for /
  */
 
-import React, {createRef, useCallback} from 'react';
+import React, {createRef} from 'react';
 import axios from 'axios';
 import EpisodeCard from './child/episodeCard';
 
@@ -12,7 +12,7 @@ export default class Home extends React.Component{
         this.state = {
             episodes: [],
             hasMore: false,
-            loading: true,
+            loading: false,
             pagination: 0,
             error: false
         };
@@ -27,12 +27,11 @@ export default class Home extends React.Component{
     }
 
     episodePagination(){
-        this.setState({loading: true});
         this.setState({error: false});
-        axios.get(`http://localhost:8018/episodes/new_releases/${this.state.pagination}`)
+        axios.get(`http://localhost:8018/episodes/new_releases/page/${this.state.pagination}/sizes/18`)
             .then(res => {
                 const {data} = res;
-                this.setState({episodes: [...this.state.episodes, ...data]});
+                this.setState({episodes: [...new Set([...this.state.episodes, ...data])]});
                 this.setState({hasMore: data.length > 0});
                 this.setState({loading: false});
             }).catch(e => {
@@ -48,25 +47,25 @@ export default class Home extends React.Component{
 
         this.observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting){
-                // console.log("Last Node");
                 this.setState({pagination: this.state.pagination + 1});
-                setTimeout(this.episodePagination, 1000);
+                this.setState({loading: true});
+                setTimeout(this.episodePagination, 3000);
 
             }
         });
         if (node) this.observer.current.observe(node);
 
-        // console.log(this.observer.current);
 
     }
 
 
 
     render(){
+        console.log("pagination number  " + this.state.pagination);
         return(
             <div className="container">
                 <div className="row">
-                    <h2 className="col-0">New Releases</h2>
+                    <h2 className="col-0" style={{paddingTop: 100}}>New Releases</h2>
                 </div>
                 <div className="row paginate">
                     {this.state.episodes.map((tvShow, index) =>
@@ -76,8 +75,8 @@ export default class Home extends React.Component{
                                          episode_url={tvShow.episode_url} sizeWidth={300} season={tvShow.season} episode_num={tvShow.episode_num} />
                         </li>)}
                 </div>
-                <div>{this.state.loading && 'Loading...'}</div>
-                <div>{this.state.error && 'Error'}</div>
+                <div className="display-3 loading-text" style={{paddingBottom: 100}}>{this.state.loading && 'Loading...'}</div>
+                <div className="error-text">{this.state.error && 'Error'}</div>
 
             </div>
         )
