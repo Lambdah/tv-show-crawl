@@ -1,85 +1,94 @@
 /**
  * Page for /networks
  */
-import React from 'react';
-import axios from 'axios';
+import React, { createRef, useState } from 'react';
 import styled from "styled-components";
-import NoPosterImg from "./child/NoPosterImg";
+import NetworkFragment from "./child/NetworkFragment";
 
-const PosterShow = styled.div`
-    .poster-class{
-        height: auto;
-        width: auto;
-        padding-right:2em;
-        background-color: lightgrey;
-        min-height: 93.5%;
-        min-width: 20.5em;
-        }
-        
-    img{
-       display: block;
-       margin: auto;
-       padding: 3em 0em 2em 0em;
-    }
-     
+const ShowElement = styled.div`
+    display: ${props => props.display};
 `;
 
-export default class Networks extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            networks: ["citytv", "much", "CBC"],
-            tvShows: []
-        };
-        this.filterNetworks = this.filterNetworks.bind(this);
-        this.handleUrl = this.handleUrl.bind(this);
-    }
+export default function Networks(){
+    const networks = ["CBC", "citytv", "much"];
+    const [cbcExpanded, setCbcExpanded] = useState(false);
+    const [citytvExpanded, setCitytvExpanded] = useState(false);
+    const [muchExpanded, setMuchExpanded] = useState(false);
 
-    componentDidMount() {
-        axios.get('http://localhost:8018/networks/')
-            .then(res =>{
-                const tvShows = res.data;
-                this.setState({tvShows});
-            });
-    }
 
-    filterNetworks(network){
-        return this.state.tvShows.filter(show => {
-            return show.network === network;
+    const networkExpandList = {
+        "CBC": [cbcExpanded, setCbcExpanded],
+        "citytv": [citytvExpanded, setCitytvExpanded],
+        "much": [muchExpanded, setMuchExpanded]
+    };
+
+
+    const expandRefs = networks.reduce((acc, value) => {
+        acc[value] = createRef();
+        return acc;
+    }, {});
+
+    const networkRefs = networks.reduce((acc, value) =>{
+        acc[value] = createRef();
+        return acc;
+    }, {});
+
+    const handleClick = id =>{
+        networkRefs[id].current.scrollIntoView({
+            behavior:'smooth',
+            block: 'center'
         });
-    }
+        handleExpand(id);
+    };
 
-    handleUrl(url){
-        return `http://localhost:3000/show/${url}`
-    }
 
-    render(){
-        return (
-            <div className="container">
-                <h1 className="display-4 text-left">Networks</h1>
-                {this.state.networks.map(network =>
-                    <div>
-                        <h3 className="display-5 text-left">{network}</h3>
-                        <div className="row">
-                            {this.filterNetworks(network).map(tvShow =>
-                                <PosterShow>
-                                <div className="col-4 my-3 poster-class rounded border border-primary">
+    const handleExpand = id => {
+        for (let key in networkExpandList) {
+            if (key !== id && networkExpandList.hasOwnProperty(key)){
+                const setExpand = networkExpandList[key][1];
+                setExpand(false);
+            }
+        }
+        const setter = networkExpandList[id][1];
+        const result = networkExpandList[id][0];
+        setter(!result);
+    };
 
-                                    {tvShow.poster !== "N/A" ?
-                                        <img src={tvShow.poster} alt={tvShow.tvTitle} className="rounded"/>
-                                    :
-                                        <NoPosterImg tvTitle={tvShow.tvTitle}/>
-                                    }
+    return(
+        <div className="container">
+            <div className="row py-2">
+                <div className="col-0 order-2 pl-5 ml-5 py-5 d-flex bd-sidebar" id="sticky-sidebar">
+                    <div className="position-fixed text-left px-4">
+                        <div className="sidebar-header" style={{paddingTop:30}}>
+                            <h4>Networks</h4>
+                        </div>
+                        <ul className="list-unstyled components">
+                            {networks.map(network =>
+                                <li key={network}><button type="button" className="btn btn-link" onClick={() => handleClick(network)}>{network}</button></li>)}
+                        </ul>
+                    </div>
+                </div>{/* Side bar*/}
+                <div className="col" id="main" style={{paddingTop: 90}}>
 
-                                        <a className="stretched-link" href={this.handleUrl(tvShow.tvTitle)} aria-hidden={true} />
-                                </div>
-                                </PosterShow>
-                            )}
+                    {networks.map(network =>
+                        <div className="network-element">
+                            <div className="row">
+                                <div className="display-3 network-header text-left col-11" ref={networkRefs[network]}>{network}</div>
+                                <button type="button" ref={expandRefs[network]} onClick={() => handleExpand(network)}
+                                        className="mt-5 col-1 align-text-bottom text-black-50 btn btn-link">{networkExpandList[network][0] ? "Collapse" : "Expand"}</button>
+                            </div>
+                            <hr style={{marginTop: 0}}/>
+                            <ShowElement display={networkExpandList[network][0] ? "block" : "none"}>
+                                <NetworkFragment network={network}/>
+                            </ShowElement>
                         </div>
 
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-        )
-    }
+
+        </div>
+
+    )
+
 }

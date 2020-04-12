@@ -27,6 +27,19 @@ router.route('/tv/:network').get(function(req, res){
        .catch(err => res.status(400).json('Error' + err));
 });
 
+router.route('/tv/pagination/:network').get(function(req, res){
+    try {
+        let network = req.params.network;
+        let page = parseInt(req.query.page);
+        let size = parseInt(req.query.size);
+        Network.find({network: {$regex: network, $options: "i"}}).limit(size).skip(page*size)
+            .then((network) => res.json(network))
+    } catch (err) {
+        console.log(err);
+        res.status(400).json('Error occurred')
+    }
+});
+
 router.route('/categories/:tag').get(function(req, res){
     const metaTag = req.params.tag;
    Network.find({metaTags: {$in: metaTag.charAt(0).toUpperCase() + metaTag.slice(1)}})
