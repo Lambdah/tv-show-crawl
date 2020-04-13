@@ -70,8 +70,8 @@ export default function Networks(){
                 </div>{/* Side bar*/}
                 <div className="col" id="main" style={{paddingTop: 90}}>
 
-                    {networks.map(network =>
-                        <div className="network-element">
+                    {networks.map((network, index) =>
+                        <div className="network-element" key={network+index}>
                             <div className="row">
                                 <div className="display-3 network-header text-left col-11" ref={networkRefs[network]}>{network}</div>
                                 <button type="button" ref={expandRefs[network]} onClick={() => handleExpand(network)}

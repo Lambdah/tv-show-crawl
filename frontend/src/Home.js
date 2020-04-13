@@ -27,8 +27,8 @@ export default class Home extends React.Component{
     }
 
     episodePagination(){
-        this.setState({error: false});
-        axios.get(`http://localhost:8018/episodes/new_releases/page/${this.state.pagination}/sizes/18`)
+        this.setState({loading: true, error: false});
+        axios.get(`http://localhost:8018/episodes/new_releases/page/${this.state.pagination}/sizes/24`)
             .then(res => {
                 const {data} = res;
                 this.setState({episodes: [...new Set([...this.state.episodes, ...data])]});
@@ -46,10 +46,10 @@ export default class Home extends React.Component{
         }
 
         this.observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting){
+            if (entries[0].isIntersecting && this.state.hasMore){
                 this.setState({pagination: this.state.pagination + 1});
                 this.setState({loading: true});
-                setTimeout(this.episodePagination, 3000);
+                setTimeout(this.episodePagination, 500);
 
             }
         });
@@ -61,7 +61,6 @@ export default class Home extends React.Component{
 
 
     render(){
-        console.log("pagination number  " + this.state.pagination);
         return(
             <div className="container">
                 <div className="row">

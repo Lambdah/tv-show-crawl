@@ -53,8 +53,8 @@ export default class Categories extends React.Component{
                 <div className="jumbotron">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group row">
-                            {this.state.genres.map(genre =>
-                                <div className="form-check col-3 text-left">
+                            {this.state.genres.map((genre, index) =>
+                                <div className="form-check col-3 text-left" key={genre+index}>
                                     <label className="form-check-label ml-5" htmlFor={genre}>
                                     <input className="form-check-input" type="radio" name="categoryRadio" id={genre}
                                            value={genre} checked={this.state.search === genre} onChange={this.handleChange}/>

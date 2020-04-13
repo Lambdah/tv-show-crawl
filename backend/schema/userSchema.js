@@ -1,12 +1,18 @@
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
+const _ = require('underscore');
 
 
 var showSchema = new Schema({
     title: {type: String},
     subscribeTime: {type: Date, default: Date.now}
 });
+showSchema.pre('save', function(next){
+    this.title = _.unique(this.title);
+    next();
+});
+
 var userSchema = new Schema({
     email: {
         type: String,

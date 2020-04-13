@@ -38,6 +38,7 @@
     "morgan": "^1.9.1",
     "puppeteer": "^2.0.0",
     "puppeteer-extra": "^3.1.9",
-    "puppeteer-extra-plugin-stealth": "^2.4.9"
+    "puppeteer-extra-plugin-stealth": "^2.4.9",
+    "underscore": "^1.10.2"
   }
 }

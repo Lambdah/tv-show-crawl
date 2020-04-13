@@ -50,7 +50,7 @@ export default function NetworkFragment(props){
         <>
             <div className="row">
                 {shows.map((tvShow, index) =>
-                    <PosterShow>
+                    <PosterShow key={tvShow._id}>
                         <div className="col-4 my-3 poster-class rounded border border-primary" ref={shows.length === index + 1 ? lastShowRef : null}>
                             {tvShow.poster !== "N/A" ?
                                 <img src={tvShow.poster} alt={tvShow.tvTitle} className="rounded"/>

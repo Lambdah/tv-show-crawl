@@ -61,7 +61,7 @@ app.post('/users/subscribed', checkJwt, (req, res) =>{
     userQuery.findOne(function(err, user){
         try{
             if (isSub){
-                user.subscribedShows.push({title: tvShow});
+                user.subscribedShows.push(new Show({title: tvShow}));
             } else {
                 user.subscribedShows = user.subscribedShows.filter(show => show.title !== tvShow);
             }
@@ -80,17 +80,20 @@ app.post('/users/subscribed', checkJwt, (req, res) =>{
     });
 });
 
-app.post('/users/shows', checkJwt, (req, res) => {
+app.post('/users/shows/:pagination', checkJwt, (req, res) => {
     const email = req.user.email;
+    const pagination = req.params.pagination;
+    const pageSize = 24;
     const query = User.findOne({email: email}).select('subscribedShows');
     query.exec((err, shows) => {
         if (err){
             console.log(err);
             res.json({err: 'Error has occurred'});
         }
-        const subShows = shows.subscribedShows.map(show => {return show.title});
+        const subShows = shows.subscribedShows.map(show => {return new RegExp(show.title, "i")});
+        console.log("subbed shows" + subShows);
         try{
-            const episodeQuery = Episode.find({show: {$in: subShows}}).sort({show: 1, date: -1});
+            const episodeQuery = Episode.find({show: {$in: subShows}}).sort({show: 1, date: -1}).limit(pageSize).skip(pageSize*pagination);
             episodeQuery.exec((err, episode) => {
                 if (err) {
                     console.error(err);

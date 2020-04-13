@@ -29,15 +29,16 @@ class Subscriptions extends React.Component{
         super(props);
         this.state = {
             subList: [],
-            episodes: [],
             isSubLoaded: false,
-            isEpiLoaded: false
+            error: false,
+            textLoading: ''
         };
         this.handleUserCall = this.handleUserCall.bind(this);
     }
 
     componentDidMount(){
         setTimeout(this.handleUserCall, 1000);
+        setTimeout(() => this.setState({textLoading: 'Subscribe to shows through Network'}), 4000);
     }
 
     async handleUserCall(){
@@ -49,28 +50,21 @@ class Subscriptions extends React.Component{
                 const {data} = res;
                 this.setState({subList: data, isSubLoaded: true});
             });
-        await axios.post(`http://localhost:8018/users/shows`, {email}, {
-            headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
-        })
-            .then((res) => {
-                const {data} = res;
-                this.setState({episodes: data, isEpiLoaded: true});
-            });
     }
 
     render(){
         if (this.state.subList.length === 0) return(
-          <Container className="container">
-              <div className="row text-left display-4 mt-4">Subscribe to shows through Network</div>
+          <Container className="container" style={{paddingTop: 100}}>
+              <div className="row text-left display-4 mt-4">{this.state.textLoading}</div>
           </Container>
         );
         return(
             <Container className="container">
                 <div className="row py-2">
-                    {this.state.isSubLoaded ? <Sidebar subscription={this.state.subList}/> : <p>Loading...</p>}
+                    {this.state.isSubLoaded ? <Sidebar subscription={this.state.subList}/> : <p>Loading</p>}
                     <div className="col" id="main">
                         <div className="row text-right display-4">Your Shows</div>
-                        {this.state.isEpiLoaded ? <UserShow subscription={this.state.episodes}/> : <p>Loading ...</p>}
+                        <UserShow />
                     </div>
 
                 </div>
