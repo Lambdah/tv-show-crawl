@@ -14,17 +14,8 @@ const Container = styled.div`
     
 `;
 
-const Jumbotron = styled.div`
-    background-color: darkslategray;
-    opacity: 0.8;
-    padding: 1em 3em 1em 3em; 
-    margin: 1em;
-    &:hover {
-       opacity: 1;
-    }
-`;
-
 class Subscriptions extends React.Component{
+
     constructor(props) {
         super(props);
         this.state = {
@@ -34,11 +25,19 @@ class Subscriptions extends React.Component{
             textLoading: ''
         };
         this.handleUserCall = this.handleUserCall.bind(this);
+        this._isMounted = false;
     }
 
     componentDidMount(){
+        this._isMounted = true;
         setTimeout(this.handleUserCall, 1000);
-        setTimeout(() => this.setState({textLoading: 'Subscribe to shows through Network'}), 4000);
+        if (this._isMounted){
+            setTimeout(() => this.setState({textLoading: 'Subscribe to shows through Network'}), 4000);
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     async handleUserCall(){

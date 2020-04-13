@@ -28,26 +28,44 @@ class UserShow extends Component{
         this.episodePagination = this.episodePagination.bind(this);
         this.lastEpisodeRef = this.lastEpisodeRef.bind(this);
         this.episodeTimeSplit = this.episodeTimeSplit.bind(this);
+        this._isMount = false;
     }
 
     async componentDidMount() {
+        this._isMount = true;
         this.episodePagination();
+    }
 
+    componentWillUnmount() {
+        this._isMount = false;
     }
 
     episodePagination(){
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
         this.setState({loading: true, error: false});
         const {email} = auth0Client.getProfile();
         axios.post(`http://localhost:8018/users/shows/${this.state.pagination}`, {email}, {
-            headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
-        })
+            headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`,
+            cancelToken: source.token
+            }
+            })
             .then((res) => {
                 const {data} = res;
                 this.setState({hasMore: data.length > 0});
                 this.setState({episodes: [...this.state.episodes, ...data], loading: false});
-                setTimeout(() => this.episodeTimeSplit(), 500);
-            }).catch(() => {
-            this.setState({error: true});
+                if(this._isMount){
+                    setTimeout(() => this.episodeTimeSplit(), 500);
+                }
+            }).catch(e => {
+                if(axios.isCancel(e)){
+                    source.cancel();
+                    return ;
+                }
+                this.setState({error: true});
+
+
+
         });
     }
 

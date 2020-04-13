@@ -9,6 +9,8 @@ const ShowElement = styled.div`
     display: ${props => props.display};
 `;
 
+
+
 export default function Networks(){
     const networks = ["CBC", "citytv", "much"];
     const [cbcExpanded, setCbcExpanded] = useState(false);
@@ -57,9 +59,9 @@ export default function Networks(){
     return(
         <div className="container">
             <div className="row py-2">
-                <div className="col-0 order-2 pl-5 ml-5 py-5 d-flex bd-sidebar" id="sticky-sidebar">
-                    <div className="position-fixed text-left px-4">
-                        <div className="sidebar-header" style={{paddingTop:30}}>
+                <div className="col-0 order-2 pl-5 ml-5 d-flex px-4 bd-sidebar" id="sticky-sidebar">
+                    <div className="position-fixed text-left py-5">
+                        <div className="sidebar-header" style={{paddingTop:100}}>
                             <h4>Networks</h4>
                         </div>
                         <ul className="list-unstyled components">

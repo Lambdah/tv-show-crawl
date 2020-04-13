@@ -27,15 +27,24 @@ export default class Home extends React.Component{
     }
 
     episodePagination(){
+        const CancelToken = axios.CancelToken;
+        let cancel;
         this.setState({loading: true, error: false});
-        axios.get(`http://localhost:8018/episodes/new_releases/page/${this.state.pagination}/sizes/24`)
+        axios.get(`http://localhost:8018/episodes/new_releases/page/${this.state.pagination}/sizes/24`,
+            {cancelToken: new CancelToken((c) => cancel = c)})
             .then(res => {
                 const {data} = res;
                 this.setState({episodes: [...new Set([...this.state.episodes, ...data])]});
                 this.setState({hasMore: data.length > 0});
                 this.setState({loading: false});
             }).catch(e => {
+                if (axios.isCancel(e)){
+                    cancel();
+                    return ;
+                }
                 this.setState({error: e});
+
+
             });
     }
 
@@ -49,7 +58,7 @@ export default class Home extends React.Component{
             if (entries[0].isIntersecting && this.state.hasMore){
                 this.setState({pagination: this.state.pagination + 1});
                 this.setState({loading: true});
-                setTimeout(this.episodePagination, 500);
+                this.episodePagination();
 
             }
         });

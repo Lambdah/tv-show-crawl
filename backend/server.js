@@ -91,7 +91,6 @@ app.post('/users/shows/:pagination', checkJwt, (req, res) => {
             res.json({err: 'Error has occurred'});
         }
         const subShows = shows.subscribedShows.map(show => {return new RegExp(show.title, "i")});
-        console.log("subbed shows" + subShows);
         try{
             const episodeQuery = Episode.find({show: {$in: subShows}}).sort({show: 1, date: -1}).limit(pageSize).skip(pageSize*pagination);
             episodeQuery.exec((err, episode) => {

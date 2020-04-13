@@ -8,7 +8,7 @@ const PosterShow = styled.div`
     .poster-class{
         height: auto;
         width: auto;
-        padding-right:1.5em;
+        padding-right: 1em;
         background-color: lightgrey;
         min-height: 93.5%;
         min-width: 20.5em;
