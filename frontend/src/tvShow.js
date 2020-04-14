@@ -72,7 +72,7 @@ class TvShow extends React.Component{
                                     <h5 className="card-title">{epi.episode_name} (S{epi.season}E{epi.episode_num})</h5>
                                     <p className="card-text my-3 text-center">{epi.description_alt ? epi.description_alt : epi.description}</p>
                                 </div>{/* card-info */}
-                                <a href={epi.episode_url} className="stretched-link" aria-label={epi.episode_name} aria-hidden="true" name="Watch Episode"/>
+                                <a href={epi.episode_url} className="stretched-link" aria-label={epi.episode_name} aria-hidden="true" name="Watch Episode" style={{fontSize: 0}}>Link to {epi.episode_name}</a>
                             </div>{/* card-body */}
                             <hr className="my-4" />
                         </div>

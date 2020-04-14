@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 
 export default class Categories extends React.Component{
@@ -74,7 +75,7 @@ export default class Categories extends React.Component{
                     {this.state.tvShows.map(tv =>
                         <div className="col-4 my-2" key={tv._id}>
                             <img className="rounded float-left" src={tv.poster} alt={tv.tvTitle} />
-                            <a href={this.handleUrl(tv.tvTitle)} className="stretched-link" aria-hidden="true" />
+                            <Link to={`/show/${tv.tvTitle}`} className="stretched-link" aria-hidden="true" style={{fontSize: 0}}>Link to {tv.tvTitle}</Link>
                         </div>
                     )}
                 </div>{/* row */}

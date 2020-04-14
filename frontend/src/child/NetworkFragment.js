@@ -23,7 +23,7 @@ const PosterShow = styled.div`
 `;
 
 export default function NetworkFragment(props){
-    const [network, setNetwork] = useState(props.network);
+    const [network] = useState(props.network);
     const [pageNumber, setPageNumber] = useState(0);
     const observer = useRef();
     const {
