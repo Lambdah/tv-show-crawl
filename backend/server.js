@@ -92,7 +92,7 @@ app.post('/users/shows/:pagination', checkJwt, (req, res) => {
         }
         const subShows = shows.subscribedShows.map(show => {return new RegExp(show.title, "i")});
         try{
-            const episodeQuery = Episode.find({show: {$in: subShows}}).sort({show: 1, date: -1}).limit(pageSize).skip(pageSize*pagination);
+            const episodeQuery = Episode.find({show: {$in: subShows}}).sort({date: -1, episode: -1, season: -1}).limit(pageSize).skip(pageSize*pagination);
             episodeQuery.exec((err, episode) => {
                 if (err) {
                     console.error(err);

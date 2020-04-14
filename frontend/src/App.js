@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Header from './Header';
-import {withRouter,BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {withRouter, BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Categories from './Categories';
 import NewRelease from './newRelease';
 import Home from './Home';
@@ -12,6 +12,7 @@ import Subscriptions from "./Subscriptions";
 import Callback from "./Callback";
 import SecuredRoute from "./securedRoute/SecuredRoute";
 import auth0Client from "./Auth";
+import NotFoundPage from "./NotFoundPage";
 
 class App extends React.Component{
     constructor(props) {
@@ -58,6 +59,7 @@ class App extends React.Component{
                     <Route path="/show/:title" component={TvShow} />
                     <Route path="/search/:search" component={Search} />
                     <SecuredRoute path="/subscriptions" component={Subscriptions}/>
+                    <Route path="*" component={NotFoundPage}/>
                 </Switch>
             </Router>
         </div>

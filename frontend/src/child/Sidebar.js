@@ -14,6 +14,7 @@ const Vertical = styled.div`
 
 export default class Sidebar extends React.Component{
     render(){
+        const uniqueTitle = this.props.subscription.reduce((acc, cV) => [...new Set([...acc, cV.title])], []);
         return(
           <div className="col-1 order-2 pl-5 ml-5 py-5 d-flex bd-sidebar" id="sticky-sidebar">
               <Vertical>
@@ -23,9 +24,9 @@ export default class Sidebar extends React.Component{
                       <h4>Subscriptions</h4>
                   </div>
                   <ul className="list-unstyled components">
-                      {this.props.subscription.map((tv) =>
-                          <li key={tv._id}>
-                              <a href={`/show/${tv.title}`}>{tv.title}</a>
+                      {uniqueTitle.map((tv, index) =>
+                          <li key={tv + index + new Date().getTime()}>
+                              <a href={`/show/${tv}`}>{tv}</a>
                           </li>
                       )}
 

@@ -23,9 +23,9 @@ router.route('/new_releases/page/:num/sizes/:size').get(function(req, res){
     const pageSize = parseInt(req.params.size);
     Episode.find({new_release: true, unlisted: false}).limit(pageSize).skip(pageSize*paginationNum)
         .then(episodes => {
-            if (Array.isArray(episodes) && episodes.length === 0){
-                return res.status(404).json({error: 'No new Content'});
-            }
+            // if (Array.isArray(episodes) && episodes.length === 0){
+            //     return res.status(404).json({error: 'No new Content'});
+            // }
             return res.json(episodes);
         })
         .catch(err => res.status(400).json('error: ' + err));
