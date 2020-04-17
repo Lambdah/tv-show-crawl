@@ -7,7 +7,7 @@ import {withRouter} from 'react-router';
 import axios from 'axios';
 import SubscribeButton from "./child/SubscribeButton";
 import NoPosterImg from "./child/NoPosterImg";
-
+import NoEpisodeImg from "./img/noEpisodeImage.svg";
 
 class TvShow extends React.Component{
     constructor(props) {
@@ -41,21 +41,38 @@ class TvShow extends React.Component{
                 <div className="jumbotron my-3">
 
                     <div className="row">
-                        <div className="col-4">
-                            {this.state.tvShow.poster !== "N/A" ?
-                                <img src={this.state.tvShow.poster} className="rounded float-left" alt="poster" />
+
+                            {this.state.tvShow ?
+                            <>
+                                <div className="col-4">
+                                    {this.state.tvShow.poster !== "N/A" ?
+                                        <img src={this.state.tvShow.poster} className="rounded float-left" alt="poster" />
+                                        :
+                                        <NoPosterImg tvTitle={this.state.title}/>
+                                    }
+
+                                </div>
+                                <div className="col-8">
+                                    <h1 className="display-4 text-left">{this.state.title}</h1>
+                                <hr className="my-0" />
+                                <p className="lead my-5 text-left">{this.state.tvShow.synopsis}</p>
+                                <SubscribeButton tvShow={this.state.title} />
+                                </div>
+                            </>
                                 :
-                                <NoPosterImg tvTitle={this.state.title}/>
+                                <>
+                                    <div className="col-4">
+                                            <NoPosterImg tvTitle={this.state.title}/>
+                                    </div>
+                                    <div className="col-8">
+                                        <h1 className="display-4 text-left">{this.state.title}</h1>
+                                        <hr className="my-0" />
+                                        <p className="lead my-5 text-left">Description seems to be missing</p>
+                                        <SubscribeButton tvShow={this.state.title} />
+                                    </div>
+                                </>
+
                             }
-
-                        </div>
-                        <div className="col-8">
-                            <h1 className="display-4 text-left">{this.state.title}</h1>
-                            <hr className="my-0" />
-                            <p className="lead my-5 text-left">{this.state.tvShow.synopsis}</p>
-                            <SubscribeButton tvShow={this.state.title} />
-                        </div>
-
                     </div> {/* row */}
 
                 </div> {/* jumbotron */}
@@ -66,7 +83,7 @@ class TvShow extends React.Component{
                         <div className="card col-12 border-0" key={epi._id}>
                             <div className="card-body row">
                                 <div className="col-6">
-                                        <img src={epi.episode_poster} className="rounded float-left" alt="epi poster" style={{ maxHeight:197, maxWidth: 300}} />
+                                        <img src={epi.episode_poster ? epi.episode_poster : NoEpisodeImg} className="rounded float-left" alt="epi poster" style={{ maxHeight:197, maxWidth: 300}} />
                                 </div> {/* card-image */}
                                 <div className="col-6">
                                     <h5 className="card-title">{epi.episode_name} (S{epi.season}E{epi.episode_num})</h5>

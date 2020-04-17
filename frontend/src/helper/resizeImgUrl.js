@@ -4,7 +4,8 @@ function resizeImgUrl(url, sizeWidth){
         /cf-images\.us-east-1\.prod\.boltdns\.net/i,
         /images2\.9c9media\.com/i,
         /m\.media-amazon\.com/i,
-        /\.watch\.cbc\.ca/i
+        /\.watch\.cbc\.ca/i,
+        /\.globaltv\.com/i
     ];
 
     var i=0;
@@ -23,6 +24,8 @@ function resizeImgUrl(url, sizeWidth){
         case 2:
             return url.replace(/_SX\d\d\d/i, "_SX" + sizeWidth);
         case 3:
+            return url;
+        case 4:
             return url;
         default:
             return null;

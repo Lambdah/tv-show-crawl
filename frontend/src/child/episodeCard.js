@@ -49,7 +49,7 @@ export default function EpisodeCard(props){
             <div className="card-body">
 
                 <LinkPoster data-toggle="tooltip" data-placement="top" title={props.description} href={props.episode_url}>
-                    <Image className="rounded float-center" maxImage={imageSize} src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode poster" />
+                    <Image className="rounded float-center" maxImage={imageSize} src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode Poster" />
                     <Play>PLAY</Play>
                 </LinkPoster>
 
