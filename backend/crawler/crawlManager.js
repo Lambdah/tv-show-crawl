@@ -18,12 +18,12 @@ function episodeInputDatabase(episodes) {
         let epi = new Episode({
             epi_id: episodes[k].epi_id,
             title: episodes[k].title,
-            episode_name: episodes[k].episode,
+            title: episodes[k].episode,
             description: episodes[k].description,
-            episode_url: episodes[k].link,
-            episode_poster: episodes[k].episode_poster,
+            link: episodes[k].link,
+            poster: episodes[k].poster,
             season: episodes[k].season,
-            episode_num: episodes[k].episode_num
+            episode: episodes[k].episode
         });
         epiSavePromises[k] = episodeDocumentSave(epi)
     }
@@ -83,7 +83,7 @@ async function puppetCrawler(scraper, parser, url, network){
                     if (Array.isArray(episodes)){
                         await episodeInputDatabase(episodes);
                         let tvTitle = episodes[0].title;
-                        OMDbAPI(new Network({tvTitle: tvTitle, network: network}))
+                        OMDbAPI(new Network({title: tvTitle, network: network}))
                             .then(networkObj => {
                                 if (!(networkObj instanceof Network)){
                                     return;

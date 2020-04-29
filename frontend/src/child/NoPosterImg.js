@@ -25,8 +25,8 @@ const Poster = styled.div`
 export default function NoPosterImg(props){
     return(
         <Poster>
-            <h5>{props.tvTitle}</h5>
-            <img src={NoPoster} alt={props.tvTitle ? props.tvTitle : "No Poster Image"}/>
+            <h5>{props.title}</h5>
+            <img src={NoPoster} alt={props.title ? props.title : "No Poster Image"}/>
         </Poster>
     )
 }

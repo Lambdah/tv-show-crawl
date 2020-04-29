@@ -45,9 +45,9 @@ export default function NewRelease(){
             <div className="row paginate">
                                          {episodes.map((tvShow, index) =>
                              <div className="card col-3 border-0" key={tvShow._id} ref={episodes.length === index + 1 ? lastEpisodeRef : null}>
-                                 <EpisodeCard title={tvShow.show} episode={tvShow.episode_name} poster={tvShow.episode_poster}
+                                 <EpisodeCard show={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                               description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                              episode_url={tvShow.episode_url} season={tvShow.season} episode_num={tvShow.episode_num} sizeWidth={200}/>
+                                              episode_url={tvShow.link} season={tvShow.season} episode={tvShow.episode} sizeWidth={200}/>
                             </div>
                         )}
                  </div>

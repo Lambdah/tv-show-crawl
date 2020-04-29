@@ -5,6 +5,7 @@
 import React, {createRef} from 'react';
 import axios from 'axios';
 import EpisodeCard from './child/episodeCard';
+// import styled from "styled-components";
 
 export default class Home extends React.Component{
     constructor(props) {
@@ -22,7 +23,6 @@ export default class Home extends React.Component{
     }
 
     componentDidMount() {
-        window.$('[data-toggle="tooltip"]').tooltip();
         this.episodePagination();
     }
 
@@ -72,15 +72,34 @@ export default class Home extends React.Component{
     render(){
         return(
             <div className="container">
-                <div className="row">
-                    <h2 className="col-0" style={{paddingTop: 100}}>New Releases</h2>
+
+                <div id="carouselShows" className="carousel slide" data-ride="carousel" style={{paddingTop: 100}}>
+                        <div className="carousel-inner">
+                            <div className="carousel-item active">
+                                <div className="d-block w-100 display-1">TV Poop Shoot</div>
+                                <p>Stay up-to-date with the latest Canadian shows that can be watched online</p>
+                            </div>
+                            <div className="carousel-item">
+                                <div className="d-block w-100 display-1">TV Poop Shoot</div>
+                                <p>Watch from Canadian Networks: CBC, CityTV, CTV, Global, and MUCH</p>
+                            </div>
+                            <div className="carousel-item">
+                                <div className="d-block w-100 display-1">TV Poop Shoot</div>
+                                <p>Shows include: Schitt's Creek, The Tonight Show, and many more.</p>
+                            </div>
+                        </div>
                 </div>
+
+                <div className="row">
+                    <h2 className="col-0" >New Releases</h2>
+                </div>
+
                 <div className="row paginate">
                     {this.state.episodes.map((tvShow, index) =>
                         <li className="card col-4 my-2 border-0" key={tvShow._id} ref={this.state.episodes.length === index + 1 ? this.lastEpisodeRef : null}>
-                            <EpisodeCard title={tvShow.show} episode={tvShow.episode_name} poster={tvShow.episode_poster}
+                            <EpisodeCard title={tvShow.show} episode={tvShow.title} poster={tvShow.poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                         episode_url={tvShow.episode_url} sizeWidth={300} season={tvShow.season} episode_num={tvShow.episode_num} />
+                                         episode_url={tvShow.link} sizeWidth={300} season={tvShow.season} episode_num={tvShow.episode} />
                         </li>)}
                 </div>
                 <div className="display-3 loading-text" style={{paddingBottom: 100}}>{this.state.loading && 'Loading...'}</div>

@@ -44,14 +44,14 @@ router.route('/:id').delete(function(req, res){
 });
 
 router.route('/update/:id').post(function(req, res){
-    if(!req.body.show || !req.body.episode_name || !req.body.episode_url){
+    if(!req.body.show || !req.body.title || !req.body.link){
         return res.status(400).json({err: "TV show, Episode Name and Episode URL must not be empty"});
     }
     let episode = {
         show : req.body.show,
-        episode_name : req.body.episode_name,
+        title : req.body.title,
         description : req.body.description,
-        episode_url : req.body.episode_url
+        link : req.body.link
     };
     Episode.findOneAndUpdate({_id: req.params.id}, episode,
         {new: true, useFindAndModify: false}).then(epi => {
@@ -95,14 +95,14 @@ router.route('/update/new/:id').post(function(req, res){
 
 router.route('/add').post(function(req, res){
     const show = req.body.show;
-    const episode_name = req.body.episode_name;
+    const title = req.body.title;
     const description = req.body.description;
-    const episode_url = req.body.episode_url;
+    const link = req.body.link;
     const newEpisode = new Episode({
         show,
-        episode_name,
+        title,
         description,
-        episode_url,
+        link,
     });
     newEpisode.save()
         .then(() => res.json({status: "Episode Added"}))
@@ -110,7 +110,7 @@ router.route('/add').post(function(req, res){
 });
 
 router.route('/tv/:tvTitle').get(function(req, res){
-   Episode.find({show: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false}).sort({season: -1, episode_num: -1})
+   Episode.find({show: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false}).sort({season: -1, episode: -1})
        .then(tvShow => {
            if(tvShow.length === 0){
                res.status(404).json([{err: "TV show does not exist"}]);
@@ -122,7 +122,7 @@ router.route('/tv/:tvTitle').get(function(req, res){
 });
 
 router.route('/tv/:tvTitle/:tvEpisode').get(function(req, res){
-    Episode.find({show: {$regex: new RegExp(req.params['tvTitle'], "i")}, episode_name: {$regex: new RegExp(req.params['tvEpisode'], "i")}})
+    Episode.find({show: {$regex: new RegExp(req.params['tvTitle'], "i")}, title: {$regex: new RegExp(req.params['tvEpisode'], "i")}})
         .then(episode => {
             if (episode.length === 0){
                 res.status(404).json([{err: "TV Show or Episode does not exist"}]);
@@ -134,7 +134,7 @@ router.route('/tv/:tvTitle/:tvEpisode').get(function(req, res){
 });
 
 router.route('/tv/new/listed/:tvTitle').get(function(req, res){
-    Episode.find({show: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false, new_release: true}).sort({season: -1, episode_num: -1})
+    Episode.find({show: {$regex: new RegExp(req.params['tvTitle'], "i")}, unlisted: false, new_release: true}).sort({season: -1, episode: -1})
         .then(tvShow => {
             if(tvShow.length === 0){
                 res.status(404).json([{err: "TV show does not exist"}]);
@@ -147,7 +147,7 @@ router.route('/tv/new/listed/:tvTitle').get(function(req, res){
 
 router.route('/title/:tvEpisode').get(function(req, res){
     let tvEpisode = new RegExp(req.params['tvEpisode'], "i");
-    Episode.find({episode_name: {$regex: tvEpisode}})
+    Episode.find({title: {$regex: tvEpisode}})
         .then(episode => {
             if (!episode){
                 res.status(404).json({err: "Episode does not exist"});

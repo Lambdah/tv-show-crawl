@@ -32,9 +32,9 @@ async function muchParse(url){
                     title: tvShowTitle,
                     episode: title[i].innerText.trim(),
                     description: airdate[0].innerText.trim(),
-                    episode_poster: episodePoster[i].src,
+                    poster: episodePoster[i].src,
                     season: seasonArr[0],
-                    episode_num: seasonArr[1]
+                    episode: seasonArr[1]
                 }
             }
             return tv;

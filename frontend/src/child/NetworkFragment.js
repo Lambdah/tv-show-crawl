@@ -53,10 +53,10 @@ export default function NetworkFragment(props){
                     <PosterShow key={tvShow._id}>
                         <div className="col-4 my-3 poster-class rounded border border-primary" ref={shows.length === index + 1 ? lastShowRef : null}>
                             {tvShow.poster !== "N/A" ?
-                                <img src={tvShow.poster} alt={tvShow.tvTitle} className="rounded"/>
+                                <img src={tvShow.poster} alt={tvShow.title} className="rounded"/>
                                 :
-                                <NoPosterImg tvTitle={tvShow.tvTitle}/>}
-                                <Link to={`/show/${tvShow.tvTitle}`} className="stretched-link" aria-hidden={true} />
+                                <NoPosterImg tvTitle={tvShow.title}/>}
+                                <Link to={`/show/${tvShow.title}`} className="stretched-link" aria-hidden={true} />
                         </div>
                     </PosterShow>
                 )}

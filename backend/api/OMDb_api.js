@@ -19,9 +19,9 @@ function encodeShow(name){
 function callAPI(tvObject){
     switch(tvObject.collection.collectionName){
         case 'episodes':
-            return callEpisodeAPI(tvObject, tvObject.show, tvObject.season, tvObject.episode_num);
+            return callEpisodeAPI(tvObject, tvObject.show, tvObject.season, tvObject.episode);
         case 'networks':
-            return callTvShowAPI(tvObject, tvObject.tvTitle);
+            return callTvShowAPI(tvObject, tvObject.title);
         default:
             throw new Error('No existing Schema');
     }
@@ -47,7 +47,7 @@ async function callTvShowAPI(tvObject, tvShowName){
         }
         return Object.assign(tvObject,
             {
-                tvTitle: response.data.Title,
+                title: response.data.Title,
                 synopsis: response.data.Plot,
                 metaTags: response.data.Genre.split(",").map(meta => meta.trim()),
                 poster: response.data.Poster
@@ -78,7 +78,7 @@ async function callEpisodeAPI(tvObject, tvShowName, seasonNum, episodeNum){
         return Object.assign(tvObject,
             {
                 description_alt: response.data.Plot,
-                episode_poster_alt: response.data.Poster,
+                poster_alt: response.data.Poster,
                 release_date: response.data.Released
         });
     } catch (err){

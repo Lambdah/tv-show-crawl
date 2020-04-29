@@ -20,9 +20,9 @@ export default class SubscriptionCard extends React.Component{
             <div className="row">
                 {this.state.episodes.map(episode =>
                     <div key={episode._id} className="card col-3">
-                    <EpisodeCard title={episode.show} episode={episode.episode_name} poster={episode.episode_poster}
+                    <EpisodeCard title={episode.show} episode={episode.title} poster={episode.poster}
                                  description={episode.description_alt ? episode.description_alt : episode.description }
-                                 episode_url={episode.episode_url} sizeWidth={200}/>
+                                 episode_url={episode.link} sizeWidth={200}/>
                     </div>
                 )}
             </div>

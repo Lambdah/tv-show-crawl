@@ -12,18 +12,20 @@ const ShowElement = styled.div`
 
 
 export default function Networks(){
-    const networks = ["CBC", "citytv", "much", "CTV"];
+    const networks = ["CBC", "citytv", "much", "ctv", "global"];
     const [cbcExpanded, setCbcExpanded] = useState(false);
     const [citytvExpanded, setCitytvExpanded] = useState(false);
     const [muchExpanded, setMuchExpanded] = useState(false);
     const [ctvExpanded, setCtvExpanded] = useState(false);
+    const [globalExpanded, setGlobalExpanded] = useState(false);
 
 
     const networkExpandList = {
         "CBC": [cbcExpanded, setCbcExpanded],
         "citytv": [citytvExpanded, setCitytvExpanded],
         "much": [muchExpanded, setMuchExpanded],
-        "CTV": [ctvExpanded, setCtvExpanded]
+        "ctv": [ctvExpanded, setCtvExpanded],
+        "global": [globalExpanded, setGlobalExpanded]
     };
 
 

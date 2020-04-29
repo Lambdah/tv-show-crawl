@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var networkSchema = new Schema({
     network: {type: String, required: true},
-    tvTitle: {type: String, unique: true},
+    title: {type: String, unique: true},
     synopsis: {type: String},
     metaTags: {type: [String]},
     poster: {type: String}

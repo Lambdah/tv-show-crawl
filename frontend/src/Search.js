@@ -61,9 +61,9 @@ export default class Search extends React.Component{
                 <div className="row">
                     {this.state.filtered.map(tvShow =>
                         <div className="card col-4" key={tvShow._id}>
-                            <EpisodeCard title={tvShow.show} episode={tvShow.episode_name} poster={tvShow.episode_poster}
+                            <EpisodeCard title={tvShow.show} episode={tvShow.title} poster={tvShow.poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                         episode_url={tvShow.episode_url} sizeWidth={300}/>
+                                         episode_url={tvShow.link} sizeWidth={300}/>
                         </div>)}
                 </div>{/* row */}
             </div>

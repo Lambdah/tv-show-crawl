@@ -46,13 +46,13 @@ class UserShows extends Component {
                 <Show>
                     <div className="row">
                         <Poster src={resizeImgUrl(this.state.tvShow.poster, 200)} className="rounded col-4 float-left" alt="poster" />
-                        <div className="col-6 display-3 text-center text-white mx-5 mt-2">{this.state.tvShow.tvTitle}</div>
+                        <div className="col-6 display-3 text-center text-white mx-5 mt-2">{this.state.tvShow.title}</div>
                         <div className="col-3">
                             <div className="row">
                                 {/*<button className="btn btn-primary ml-5 mb-3 px-4">Subscribe</button>*/}
                                 <div className="custom-control custom-switch">
-                                    <input type="checkbox" className="custom-control-input" checked={this.state.isChecked} onClick={this.handleChange} id={this.state.tvShow.tvTitle}/>
-                                    <label className="custom-control-label" for={this.state.tvShow.tvTitle}>Subscribe</label>
+                                    <input type="checkbox" className="custom-control-input" checked={this.state.isChecked} onClick={this.handleChange} id={this.state.tvShow.title}/>
+                                    <label className="custom-control-label" for={this.state.tvShow.title}>Subscribe</label>
                                 </div>
                             </div>
                             <div className="row">

@@ -27,9 +27,9 @@ async function cityTvShow(url){
                     title: titleNode[i].getAttribute("data-show-name"),
                     episode: epiTitlesplit[1],
                     description: descriptNode[i].innerText.trim(),
-                    episode_poster: episodePoster[i].src,
+                    poster: episodePoster[i].src,
                     season: seasonNum,
-                    episode_num: parseInt(epiTitlesplit[0])
+                    episode: parseInt(epiTitlesplit[0])
                     }
             }
             return titles;

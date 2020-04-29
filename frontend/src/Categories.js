@@ -74,8 +74,8 @@ export default class Categories extends React.Component{
                 <div className="row">
                     {this.state.tvShows.map(tv =>
                         <div className="col-4 my-2" key={tv._id}>
-                            <img className="rounded float-left" src={tv.poster} alt={tv.tvTitle} />
-                            <Link to={`/show/${tv.tvTitle}`} className="stretched-link" aria-hidden="true" style={{fontSize: 0}}>Link to {tv.tvTitle}</Link>
+                            <img className="rounded float-left" src={tv.poster} alt={tv.title} />
+                            <Link to={`/show/${tv.title}`} className="stretched-link" aria-hidden="true" style={{fontSize: 0}}>Link to {tv.title}</Link>
                         </div>
                     )}
                 </div>{/* row */}

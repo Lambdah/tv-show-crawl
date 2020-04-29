@@ -15,7 +15,7 @@ router.route('/:id').get(function(req, res){
 
 router.route('/title/:tvTitle').get(function(req, res){
     let tvTitle = new RegExp(req.params.tvTitle, "i");
-   Network.findOne({tvTitle: {$regex: tvTitle}})
+   Network.findOne({title: {$regex: tvTitle}})
        .then(show => res.json(show))
        .catch(err => res.status(400).json('Error' + err));
 });

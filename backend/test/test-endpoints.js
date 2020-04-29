@@ -200,9 +200,9 @@ describe('Episode',function() {
     it('/episodes/add/ adds a new tv show and episode', function(done){
         let episode = {
             show: "South Park",
-            episode_name: "Cartman Gets an Anal Probe",
+            title: "Cartman Gets an Anal Probe",
             description: "Cartman tells his friends Stan, Kyle, and Kenny he had a dream about being abducted by aliens. The boys realize that this did actually happen when Kyle's baby brother, Ike is abducted also. They manage to rescue Ike while the aliens conclude that cows are the most intelligent species on the planet.",
-            episode_url: "https://www.much.com/shows/south-park/episode/1824093/Cartman-Gets-an-Anal-Probe/"
+            link: "https://www.much.com/shows/south-park/episode/1824093/Cartman-Gets-an-Anal-Probe/"
         };
         chai.request(server)
             .post('/episodes/add')
@@ -237,7 +237,7 @@ describe('Episode',function() {
                     res.body.should.be.a('array');
                     res.body[0].should.include({
                         show: 'South Park',
-                        episode_name: 'Cartman Gets an Anal Probe'});
+                        title: 'Cartman Gets an Anal Probe'});
                     done();
                 });
         });
@@ -267,9 +267,9 @@ describe('Episode',function() {
         epi_id.then(function(_id){
             let episode = {
                 show: "South Park",
-                episode_name: "Cartman Gets an Anal Probe",
+                title: "Cartman Gets an Anal Probe",
                 description: "Updated description",
-                episode_url: "https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/"
+                link: "https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/"
             };
             chai.request(server)
                 .post('/episodes/update/' + _id)
@@ -282,9 +282,9 @@ describe('Episode',function() {
                     res.body.should.be.a('object');
                     res.body.should.include({
                         show: 'South Park',
-                        episode_name: 'Cartman Gets an Anal Probe',
+                        title: 'Cartman Gets an Anal Probe',
                         description: 'Updated description',
-                        episode_url: 'https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/'
+                        link: 'https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/'
 
                     });
                     done();
@@ -295,9 +295,9 @@ describe('Episode',function() {
     it('/episodes/update/:id should give error if id does not exist', function(done){
         let episode = {
             show: "South Park",
-            episode_name: "Cartman Gets an Anal Probe",
+            title: "Cartman Gets an Anal Probe",
             description: "random description",
-            episode_url: "https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/"
+            link: "https://www.much.com/shows/south-park/episode/57271/Cartman-Gets-an-Anal-Probe/"
         };
         chai.request(server)
             .post('/episodes/update/390nmjsdaklfma90p8')
@@ -399,7 +399,7 @@ describe('Episode',function() {
                     res.body.should.include({
                        new_release: false,
                        show: 'South Park',
-                       episode_name: 'Cartman Gets an Anal Probe'
+                       title: 'Cartman Gets an Anal Probe'
                     });
                     done();
                 });

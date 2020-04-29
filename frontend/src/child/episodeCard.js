@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import resizeImgUrl from '../helper/resizeImgUrl';
 import styled from "styled-components";
@@ -45,16 +45,21 @@ export default function EpisodeCard(props){
       width: `${props.sizeWidth}px`,
       height: `${props.sizeWidth*0.56249992968}px`
     };
+
+    useEffect(() => {
+        window.$('[data-toggle="tooltip"]').tooltip();
+    }, []);
+
         return(
             <div className="card-body">
 
-                <LinkPoster data-toggle="tooltip" data-placement="top" title={props.description} href={props.episode_url}>
+                <LinkPoster data-toggle="tooltip" data-placement="top" title={props.description} href={props.link}>
                     <Image className="rounded float-center" maxImage={imageSize} src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode Poster" />
                     <Play>PLAY</Play>
                 </LinkPoster>
 
-                <Link to={`/show/${props.title}`}><h5 className="card-title text-dark">{props.title}</h5></Link>
-                <h5 className="card-text text-dark">(S{props.season}E{props.episode_num}) {props.episode}</h5>
+                <Link to={`/show/${props.show}`}><h5 className="card-title text-dark">{props.show}</h5></Link>
+                <h5 className="card-text text-dark">(S{props.season}E{props.episode}) {props.title}</h5>
             </div>
         )
 

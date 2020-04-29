@@ -263,15 +263,15 @@ describe('Testing parser for CBC is retrieving the correct information', functio
 var database_1 =
     [{
     "show": "Crank Yankers",
-    "episode_name": "Sarah Silverman, Tiffany Haddish & Kevin Nealon",
+    "title": "Sarah Silverman, Tiffany Haddish & Kevin Nealon",
     "description": "AIRED OCTOBER 30, 2019",
-    "episode_url": "http://www.much.com/shows/crank-yankers/episode/1811367/sarah-silverman-tiffany-haddish-and-kevin-nealon/"
+    "link": "http://www.much.com/shows/crank-yankers/episode/1811367/sarah-silverman-tiffany-haddish-and-kevin-nealon/"
     },
     {
         "show": "Crank Yankers",
-        "episode_name": "Jimmy Kimmel, Tracy Morgan & David Alan Grier",
+        "title": "Jimmy Kimmel, Tracy Morgan & David Alan Grier",
         "description": "AIRED OCTOBER 30, 2019",
-        "episode_url": "http://www.much.com/shows/crank-yankers/episode/1786809/jimmy-kimmel-tracy-morgan-and-david-alan-grier/"
+        "link": "http://www.much.com/shows/crank-yankers/episode/1786809/jimmy-kimmel-tracy-morgan-and-david-alan-grier/"
     }];
 
 
@@ -339,7 +339,7 @@ describe('Tests with the crawl manager', function(){
     it('expects episodes that are not crawled to be unlisted', function(done){
         Episode.findOne({
                 "show": "Crank Yankers",
-                "episode_name": "Sarah Silverman, Tiffany Haddish & Kevin Nealon"},
+                "title": "Sarah Silverman, Tiffany Haddish & Kevin Nealon"},
             function(err, epi){
                 if(err){
                     console.error(err);
@@ -353,7 +353,7 @@ describe('Tests with the crawl manager', function(){
     it('expects episodes that is in the database and crawled before to still not be unlisted but no longer new_release', function(done){
         Episode.findOne({
             "show": "Crank Yankers",
-            "episode_name": "Jimmy Kimmel, Tracy Morgan & David Alan Grier"
+            "title": "Jimmy Kimmel, Tracy Morgan & David Alan Grier"
         }, function(err, epi){
             if(err){
                 console.error(err);
@@ -367,7 +367,7 @@ describe('Tests with the crawl manager', function(){
     it('expects episode that has not been crawled before to not be unlisted and new_release', function(done){
         Episode.findOne({
             "show": "Crank Yankers",
-            "episode_name": "Sarah Silverman, Abbi Jacobson & Will Forte"
+            "title": "Sarah Silverman, Abbi Jacobson & Will Forte"
         }, function(err, epi){
             expect(epi).to.have.property("unlisted", false);
             expect(epi).to.have.property("new_release", true);

@@ -22,7 +22,7 @@ describe('OMDb network api', function(){
     it('gets the data for South Park in the API', function(done){
         OMDb(new Network({
             network: 'much',
-            tvTitle: 'South Park'
+            title: 'South Park'
         }))
             .then(result => {
                 expect(result).to.have.property('metaTags').to.include('Comedy');
@@ -40,7 +40,7 @@ describe('OMDb network api', function(){
     it('gets the data for Jasper & Errol\'s First Time in the API', function(done){
         OMDb(new Network({
             network: 'much',
-            tvTitle: 'Jasper & Errol\'s First Time'
+            title: 'Jasper & Errol\'s First Time'
         }))
             .then(result => {
                 expect(result).to.have.property('tvTitle').to.be.eql('Jasper and Errol\'s First Time');
@@ -58,7 +58,7 @@ describe('OMDb network api', function(){
     it('gets data for Tosh.0', function(done){
         OMDb(new Network({
             network: 'much',
-            tvTitle: 'Tosh.0'
+            title: 'Tosh.0'
         }))
             .then(result => {
                 expect(result).to.have.property('tvTitle').to.be.eql('Tosh.0');
@@ -76,7 +76,7 @@ describe('OMDb network api', function(){
     it('does not get any data for TV show that does not exist', function(done){
         OMDb(new Network({
             network: 'much',
-            tvTitle: 'Does asdfnot existasdf'
+            title: 'Does asdfnot existasdf'
         }))
            .then(result => {
               expect(result).to.have.property('error').to.be.eql('Does not exist.');
@@ -85,7 +85,7 @@ describe('OMDb network api', function(){
     });
 
     it('checks to see if networks saved in the database', function(done){
-        Network.findOne({tvTitle: 'South Park'}, function(err, epi){
+        Network.findOne({title: 'South Park'}, function(err, epi){
            if (err) {
                throw new Error('Error: ' + err);
            }
@@ -104,9 +104,9 @@ describe('OMDb episode api', function(){
     it('gets the episode information of South Park', function(done){
         OMDb(new Episode({
             show: 'South Park',
-            episode_name: 'Tegridy Farms Halloween Special',
+            title: 'Tegridy Farms Halloween Special',
             season: 23,
-            episode_num: 5
+            episode: 5
         }))
             .then(result => {
                 console.log(result);
@@ -121,7 +121,7 @@ describe('OMDb tv call with non alphanumeric characters in the title', function(
     it('gets the information on Hudson & Rex', function(done){
         OMDb(new Network({
             network: 'citytv',
-            tvTitle: 'Hudson & Rex'
+            title: 'Hudson & Rex'
         }))
             .then(function (result) {
                 console.log(result);
@@ -135,7 +135,7 @@ describe('OMDb tv call with non alphanumeric characters in the title', function(
     it('gets the information on Bob\'s Burgers', function(done){
         OMDb(new Network({
             network: 'citytv',
-            tvTitle: 'Bob\'s Burgers'
+            title: 'Bob\'s Burgers'
         }))
             .then(function (result) {
                 console.log(result);
