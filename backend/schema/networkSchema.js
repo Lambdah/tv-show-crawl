@@ -7,7 +7,12 @@ var networkSchema = new Schema({
     title: {type: String, unique: true},
     synopsis: {type: String},
     metaTags: {type: [String]},
-    poster: {type: String}
+    poster: {type: String},
+    episodeCount: {type: Number}
+});
+
+networkSchema.static('updateEpisodeCount', function(count){
+    return this.findOneAndUpdate({title: count._id}, {episodeCount: count.episodeCount}, {new: true});
 });
 
 networkSchema.plugin(uniqueValidator);
