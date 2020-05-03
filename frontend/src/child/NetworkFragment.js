@@ -17,7 +17,7 @@ const PosterShow = styled.div`
     img{
        display: block;
        margin: auto;
-       padding: 3em 0em 2em 0em;
+       padding: 1em 0em 2em 0em;
     }
      
 `;
@@ -52,10 +52,16 @@ export default function NetworkFragment(props){
                 {shows.map((tvShow, index) =>
                     <PosterShow key={tvShow._id}>
                         <div className="col-4 my-3 poster-class rounded border border-primary" ref={shows.length === index + 1 ? lastShowRef : null}>
+                            {tvShow.hasOwnProperty("episodeCount") ? <p className="text-primary">{tvShow.episodeCount} Episodes</p>
+                                : <p className="text-secondary">No Episodes</p>
+                            }
                             {tvShow.poster !== "N/A" ?
                                 <img src={tvShow.poster} alt={tvShow.title} className="rounded"/>
                                 :
-                                <NoPosterImg tvTitle={tvShow.title}/>}
+                                <>
+                                <NoPosterImg title={tvShow.title}/>
+                                </>
+                            }
                                 <Link to={`/show/${tvShow.title}`} className="stretched-link" aria-hidden={true} />
                         </div>
                     </PosterShow>

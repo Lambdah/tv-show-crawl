@@ -49,7 +49,6 @@ export default class Home extends React.Component{
     }
 
     componentDidMount() {
-        // this.episodePagination();
         axios.get('http://localhost:8018/networks/stats')
             .then((network) => {
                 const networkStats = network.data;
@@ -80,7 +79,6 @@ export default class Home extends React.Component{
 
 
     render(){
-
         return(
             <>
             <div className="container">
@@ -129,7 +127,7 @@ export default class Home extends React.Component{
 
 
             </div>
-            <NetworkBand id="muchNetwork" className="container-fluid mt-4" bgColor="#000000" textColor="#ffffff" >
+            <NetworkBand id="muchNetwork" className="container-fluid mt-4" bgColor="#000000" textColor="#ffffff">
                 <div className="container">
                     <div className="text-stats display-4 ml-3 text-left">MUCH has...</div>
                     <div className="text-stats display-4 text-center">{this.state.much.showCount} Shows</div>
@@ -137,7 +135,7 @@ export default class Home extends React.Component{
                 </div>
             </NetworkBand>
 
-            <NetworkBand className="container-fluid" bgColor="#0301fc" textColor="#f9fb00">
+            <NetworkBand className="container-fluid" bgColor="#0301fc" textColor="#f9fb00" >
                 <div className="container">
                     <div className="text-stats display-4 ml-3 text-right">CityTV has...</div>
                     <div className="text-stats display-4 text-center">{this.state.citytv.showCount} Shows</div>
@@ -161,7 +159,7 @@ export default class Home extends React.Component{
                     </div>
                 </NetworkBand>
 
-                <NetworkBand className="container-fluid" bgColor="#01ff00" textColor="#fd00fb">
+                <NetworkBand className="container-fluid" bgColor="#01ff00" textColor="#fd00fb" >
                     <div className="container">
                         <div className="text-stats display-4 ml-3 text-left">CTV has...</div>
                         <div className="text-stats display-4 text-center">{this.state.ctv.showCount} Shows</div>

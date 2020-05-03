@@ -45,10 +45,10 @@ class TvShow extends React.Component{
                             {this.state.tvShow ?
                             <>
                                 <div className="col-4">
-                                    {this.state.tvShow.hasOwnProperty("poster") ?
+                                    {this.state.tvShow.poster !== "N/A" ?
                                         <img src={this.state.tvShow.poster} className="rounded float-left" alt="poster" />
                                         :
-                                        <NoPosterImg tvTitle={this.state.title}/>
+                                        <NoPosterImg title={this.state.title}/>
                                     }
 
                                 </div>
