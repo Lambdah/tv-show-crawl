@@ -117,9 +117,9 @@ class UserShow extends Component{
                             {this.state.today.map((tvShow, index) => {
                                 return(
                                     <div className="col-4" key={tvShow._id} ref={this.state.episodes.length === index + 1 ? this.lastEpisodeRef : null}>
-                                        <EpisodeCard title={tvShow.show} episode={tvShow.title} poster={tvShow.poster}
+                                        <EpisodeCard show={tvShow.show} title={tvShow.title}  poster={tvShow.poster}
                                                      description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode_num={tvShow.episode} />
+                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                     </div>
                                 );
                             })}
@@ -135,9 +135,9 @@ class UserShow extends Component{
                         {this.state.week.map((tvShow, index) => {
                             return(
                                 <div className="col-4" key={tvShow._id} ref={this.state.episodes.length === this.state.today.length + index + 1 ? this.lastEpisodeRef : null}>
-                                    <EpisodeCard title={tvShow.show} episode={tvShow.title} poster={tvShow.poster}
+                                    <EpisodeCard title={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                                  description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                 episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode_num={tvShow.episode} />
+                                                 episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                 </div>
                             );
                         })}
@@ -153,9 +153,9 @@ class UserShow extends Component{
                             {this.state.month.map((tvShow, index) => {
                                 return(
                                     <div className="col-4" key={tvShow._id} ref={this.state.episodes.length === this.state.week.length + this.state.today.length + index + 1 ? this.lastEpisodeRef : null}>
-                                        <EpisodeCard title={tvShow.show} episode={tvShow.title} poster={tvShow.poster}
+                                        <EpisodeCard title={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                                      description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode_num={tvShow.episode} />
+                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                     </div>
                                 );
                             })}
@@ -172,9 +172,9 @@ class UserShow extends Component{
                             {this.state.older.map(tvShow => {
                                 return(
                                     <div className="col-4" key={tvShow._id}>
-                                        <EpisodeCard title={tvShow.show} episode={tvShow.title} poster={tvShow.poster}
+                                        <EpisodeCard title={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                                      description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode_num={tvShow.episode} />
+                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                     </div>
                                 );
                             })}

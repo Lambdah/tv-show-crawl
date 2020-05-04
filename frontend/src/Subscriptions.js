@@ -30,9 +30,9 @@ class Subscriptions extends React.Component{
 
     componentDidMount(){
         this._isMounted = true;
-        setTimeout(this.handleUserCall, 1000);
+        setTimeout(this.handleUserCall, 500);
         if (this._isMounted){
-            setTimeout(() => this.setState({textLoading: 'Subscribe to shows through Network'}), 4000);
+            setTimeout(() => this.setState({textLoading: 'Subscribe to shows through Network'}), 1000);
         }
     }
 
