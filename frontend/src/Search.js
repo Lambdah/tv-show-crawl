@@ -24,16 +24,20 @@ export default class Search extends React.Component{
 
     handleChange(event){
         const search = event.target.value;
-        this.setState(prevState => {
-            const filtered = prevState.episodes.filter(epi => {
-                let epiDesc = epi.description_alt ? epi.description_alt : epi.description;
-                return epi.show.toLowerCase().includes(search.toLowerCase()) || epiDesc.toLowerCase().includes(search.toLowerCase());
+        if (search.trim().length > 3){
+            this.setState(prevState => {
+                const filtered = prevState.episodes.filter(epi => {
+                    return epi.show.toLowerCase().includes(search.trim().toLowerCase());
+                });
+                return {
+                    search,
+                    filtered
+                };
             });
-            return {
-                search,
-                filtered
-            };
-        });
+        }else{
+            this.setState({filtered: [], search: search});
+        }
+
     }
 
     componentDidMount() {
@@ -42,26 +46,35 @@ export default class Search extends React.Component{
         axios.get(`http://localhost:8018/episodes/`)
             .then(res => {
                 const episodes = res.data;
-                const filtered = episodes.filter(epi => {
-                    let epiDesc = epi.description_alt ? epi.description_alt : epi.description;
-                    return epi.show.toLowerCase().includes(search.toLowerCase()) || epiDesc.toLowerCase().includes(search.toLowerCase());
-                });
-                this.setState({episodes, filtered});
+                if (search.trim().length > 3){
+                    const filtered = episodes.filter(epi => {
+                        return epi.show.toLowerCase().includes(search.trim().toLowerCase());
+                    });
+                    this.setState({episodes, filtered});
+                } else {
+                    this.setState({filtered: [], search: search});
+                }
             });
     }
 
     render(){
         return(
             <div className="container">
-                <div className="display-3 text-left">Find the right poop search...</div>
+                <div className="display-3 text-left" style={{paddingTop: '100px'}}>Find the right poop search...</div>
                 <form>
-                    <input className="form-control my-5" type="search" placeholder="Search" aria-label="Search" value={this.state.search} onChange={this.handleChange}/>
+                    <input className="form-control my-5" type="search" placeholder="Use this search bar!" aria-label="Search" value={this.state.search} onChange={this.handleChange}/>
                 </form>
-                <div className="display-4 text-left">Results</div>
+                <div className="display-3 text-left">Results</div>
                 <div className="row">
+                    {this.state.filtered.length === 0 ?
+                        <div className="display-4 text-info mx-3">No Results Yet</div>
+                        :
+                        <span></span>
+                    }
+
                     {this.state.filtered.map(tvShow =>
                         <div className="card col-4" key={tvShow._id}>
-                            <EpisodeCard title={tvShow.show} episode={tvShow.title} poster={tvShow.poster}
+                            <EpisodeCard title={tvShow.show} season={tvShow.season} episode={tvShow.episode} poster={tvShow.poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
                                          episode_url={tvShow.link} sizeWidth={300}/>
                         </div>)}

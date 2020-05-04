@@ -104,21 +104,6 @@ export default class Home extends React.Component{
                     </div>
                 </TelevisionSet>
 
-                <div className="d-flex flex-column mx-5 px-5 " style={{backgroundColor: 'rgba(86,61,124,.15)', border: '1px solid rgba(86,61,124,.15)'}}>
-                    <div className="d-flex flex-row mx-5 px-2">
-                        <div className="p-2" style={{backgroundColor: '#ffffff', width: '9%'}}></div>
-                        <div className="p-2" style={{backgroundColor: '#f9fb00', width: '9%'}}></div>
-                        <div className="p-2" style={{backgroundColor: '#02feff', width: '9%'}}></div>
-                        <div className="p-2" style={{backgroundColor: '#01ff00', width: '9%'}}></div>
-                        <div className="p-2" style={{backgroundColor: '#fd00fb', width: '9%'}}></div>
-                        <div className="p-2" style={{backgroundColor: '#fb0102', width: '9%'}}></div>
-                        <div className="p-2" style={{backgroundColor: '#0301fc', width: '9%'}}></div>
-                        <div className="p-2" style={{backgroundColor: '#000000', width: '9%'}}></div>
-                    </div>
-                    <div className="p-2" style={{border: '1px solid rgba(86,61,124,.15)'}}>Flex item 2</div>
-                    <div className="p-2" style={{border: '1px solid rgba(86,61,124,.15)'}}>Flex item 3</div>
-                </div>
-
                 <div className="row">
                     <div className="display-4 p-4">TV Poop helps you navigate Free Episodes that are available from their respective Network</div>
                 </div>
