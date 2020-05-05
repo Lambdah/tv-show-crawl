@@ -7,23 +7,72 @@ import axios from 'axios';
 import styled from "styled-components";
 
 const TelevisionSet = styled.div`
-    * {
+    .container {
+        padding-top: 10%;
         position: relative;
         text-align: center;
         color: black;
     }
     
     img {
-        padding-top: 10%;
         z-index: 0;
     }
     
-    #carouselShows{
-        position: absolute;
-        top:220px;
-        left: 550px;
-        max-width: 500px;
-        z-index: -1;
+    @media screen and (min-width: 951px){
+        #carouselShows{
+            position: absolute;
+            top: 30%;
+            left: 17%;
+            max-width: 500px;
+            min-width: 500px;
+            z-index: -1;
+            background-color: blue;
+        }
+        
+        .carousel-item p {
+            font-size: 3vw;
+        }
+    }
+    
+    @media screen and (max-width: 950px){
+        #carouselShows{
+            position: absolute;
+            top: 35%;
+            left: 17%;
+            max-width: 300px;
+            min-width:300px;
+            z-index: -1;
+            background-color: pink;
+        }
+        
+        .carousel-item p {
+            font-size: 3vw;
+        }
+    }
+    
+    @media screen and (max-width: 750px){
+    
+        .container {
+            padding-top: 20%;
+        }
+        
+        #carouselShows{
+            position: absolute;
+            top: 50%;
+            left: 16%;
+            max-width: 160px;
+            min-width:160px;
+            z-index: -1;
+            background-color: green;
+        }
+        
+        img{
+            width: 100%;
+            height: auto;
+        }
+        .carousel-item p {
+            font-size: 3vw;
+        }
     }
 `
 
@@ -32,6 +81,45 @@ const NetworkBand = styled.div`
     
     .text-stats{
         color: ${props => props.textColor};
+        
+        // Large devices
+        @media (min-width: 1199px){
+            
+        }
+        
+        // Medium devices
+        @media (max-width: 991px){
+            font-size: 3em;
+        }
+        
+        // Small devices
+        @media (max-width: 767px){
+            font-size: 1.3em;
+        }
+    }
+`
+
+const DescriptionText = styled.div`
+    
+    // Large devices
+    @media (min-width: 1199px){
+        #info-site{
+            
+        }
+    }
+    
+    // Medium devices
+    @media (max-width: 991px){
+        #info-site{
+            font-size: 2em;
+        }
+    }
+    
+    // Small devices
+    @media (max-width: 767px){
+        #info-site{
+            font-size: 1.4em;
+        }
     }
 `
 
@@ -83,33 +171,41 @@ export default class Home extends React.Component{
             <>
             <div className="container">
                 <TelevisionSet>
-                    <img src={require('./img/televisionSet.png')} alt="Television"/>
-                    <div id="carouselShows" className="carousel slide" data-ride="carousel">
+                    <div className="container">
+
+                        <img src={require('./img/television-set-960w.png')} srcSet={`${require('./img/television-set-960w.png')} 960w,
+                        ${require('./img/televsion-set-672w.png')} 672w, 
+                        ${require('./img/televsion-set-480w.png')} 480px`} sizes="(max-width: 600px) 480px, (max-width: 950px) 672px, 960px" alt="Television"/>
+                        <div id="carouselShows" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner">
                                 <div className="carousel-item active">
-                                    <p className="display-3">Welcome to</p>
-                                    <div className="d-block w-100 display-2">TV Poop Shoot</div>
-                                </div>
-                                <div className="carousel-item">
-                                    <div className="d-block">
-                                        <p className="display-4">Watch Canadian Networks:</p>
-                                        <p className="display-4">CBC, CityTV, CTV, Global, and MUCH</p>
+                                    <div className="d-block w-100">
+                                        <p className="">Welcome to</p>
+                                        <p className="">TV Poop Shoot</p>
                                     </div>
-
                                 </div>
                                 <div className="carousel-item">
-                                    <div className="d-block display-4"><p>Stay up-to-date with the latest Canadian shows that can be watched online</p></div>
+                                    <div className="d-block w-100">
+                                        <p className="">Watch Canadian Networks:</p>
+                                        <p className="">CBC, CityTV, CTV, Global, and MUCH</p>
+                                    </div>
+                                </div>
+                                <div className="carousel-item">
+                                    <div className="d-block w-100">
+                                        <p>Keep track of the latest Canadian shows that can be watched online</p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
+
                 </TelevisionSet>
 
                 <div className="row">
-                    <div className="display-4 p-4">TV Poop helps you navigate Free Episodes that are available from their respective Network</div>
+                    <DescriptionText>
+                        <div id="info-site" className="display-4 p-4">TV Poop helps you navigate Free Episodes that are available from their respective Network</div>
+                    </DescriptionText>
                 </div>
-
-
-
 
             </div>
             <NetworkBand id="muchNetwork" className="container-fluid mt-4" bgColor="#000000" textColor="#ffffff">

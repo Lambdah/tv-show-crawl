@@ -44,13 +44,13 @@ export default function NewRelease(){
             </PageHeader>
             <div className="row paginate">
                                          {episodes.map((tvShow, index) =>
-                             <div className="card col-3 border-0" key={tvShow._id} ref={episodes.length === index + 1 ? lastEpisodeRef : null}>
+                             <div className="card col-lg-3 col-md-4 col-sm-1 border-0" key={tvShow._id} ref={episodes.length === index + 1 ? lastEpisodeRef : null}>
                                  <EpisodeCard show={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                               description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
                                               episode_url={tvShow.link} season={tvShow.season} episode={tvShow.episode} sizeWidth={200}/>
                             </div>
                         )}
-                 </div>
+            </div>
             <div className="display-3 loading-text" style={{paddingBottom: 150}}>{loading && 'Loading...'}</div>
             <div className="display-3 error-text">{error && 'Error'}</div>
         </div>
