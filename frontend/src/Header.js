@@ -59,7 +59,7 @@ class Header extends React.Component{
                                     <button className="btn btn-dark" onClick={() => {this.signOut()}}>Sign Out</button>
                                 </div>
                         }
-                        <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
+                        <form className="form-inline my-2 my-lg-0 justify-content-center" onSubmit={this.handleSubmit}>
                             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={this.handleChange}/>
                             <Link to={this.handleSubmit}>
                             <button className="btn btn-outline-light my-2 my-sm-0" type="Submit">Search</button>

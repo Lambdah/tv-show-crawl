@@ -4,9 +4,16 @@ import EpisodeCard from './child/episodeCard';
 import styled from "styled-components";
 
 const TextSize = styled.div`
-    *{
-        
     
+    
+    // Medium devices
+    @media (max-width: 991px){
+       font-size: 3.2em;
+    }
+    
+    // Small devices
+    @media (max-width: 767px){
+        font-size: 2.1em;
     }
 
 `
@@ -69,7 +76,7 @@ export default class Search extends React.Component{
     render(){
         return(
             <div className="container">
-                <div className="display-3 text-left" style={{paddingTop: '100px'}}>Find the right poop search...</div>
+                <TextSize className="display-3 text-lg-left text-md-center text-sm-center" style={{paddingTop: '100px'}}>Find the right poop search...</TextSize>
                 <form>
                     <input className="form-control my-5" type="search" placeholder="Use this search bar!" aria-label="Search" value={this.state.search} onChange={this.handleChange}/>
                 </form>
@@ -82,7 +89,7 @@ export default class Search extends React.Component{
                     }
 
                     {this.state.filtered.map(tvShow =>
-                        <div className="card col-4" key={tvShow._id}>
+                        <div className="card col-lg-4 col-md-6 col-sm-12" key={tvShow._id}>
                             <EpisodeCard title={tvShow.show} season={tvShow.season} episode={tvShow.episode} poster={tvShow.poster}
                                          description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
                                          episode_url={tvShow.link} sizeWidth={300}/>
