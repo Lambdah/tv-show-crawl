@@ -1,6 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import EpisodeCard from './child/episodeCard';
+import styled from "styled-components";
+
+const TextSize = styled.div`
+    *{
+        
+    
+    }
+
+`
 
 export default class Search extends React.Component{
     constructor(props) {

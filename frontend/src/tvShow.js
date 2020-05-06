@@ -44,24 +44,24 @@ class TvShow extends React.Component{
 
                             {this.state.tvShow ?
                             <>
-                                <div className="col-4">
+                                <div className="col-lg-4">
                                     {this.state.tvShow.poster !== "N/A" ?
-                                        <img src={this.state.tvShow.poster} className="rounded float-left" alt="poster" />
+                                        <img src={this.state.tvShow.poster} className="rounded float-lg-left float-md-none float-sm-none" alt="poster" />
                                         :
                                         <NoPosterImg title={this.state.title}/>
                                     }
 
                                 </div>
-                                <div className="col-8">
-                                    <h1 className="display-4 text-left">{this.state.title}</h1>
+                                <div className="col-lg-8">
+                                    <h1 className="display-4 text-lg-left text-md-center">{this.state.title}</h1>
                                 <hr className="my-0" />
-                                <p className="lead my-5 text-left">{this.state.tvShow.synopsis}</p>
+                                <p className="lead my-5 text-lg-left text-md-center">{this.state.tvShow.synopsis}</p>
                                 <SubscribeButton tvShow={this.state.title} />
                                 </div>
                             </>
                                 :
                                 <>
-                                    <div className="col-4">
+                                    <div className="col-lg-4">
                                             <NoPosterImg tvTitle={this.state.title}/>
                                     </div>
                                     <div className="col-8">
@@ -82,10 +82,10 @@ class TvShow extends React.Component{
                     {this.state.episodes.map(epi =>
                         <div className="card col-12 border-0" key={epi._id}>
                             <div className="card-body row">
-                                <div className="col-6">
-                                        <img src={epi.poster ? epi.poster : NoEpisodeImg} className="rounded float-left" alt="epi poster" style={{ maxHeight:197, maxWidth: 300}} />
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                        <img src={epi.poster ? epi.poster : NoEpisodeImg} className="rounded float-lg-left" alt="epi poster" style={{ maxHeight:197, maxWidth: 300}} />
                                 </div> {/* card-image */}
-                                <div className="col-6">
+                                <div className="col-lg-6 col-md-6 col-sm-12">
                                     <h5 className="card-title">{epi.title} (S{epi.season}E{epi.episode})</h5>
                                     <p className="card-text my-3 text-center">{epi.description_alt ? epi.description_alt : epi.description}</p>
                                 </div>{/* card-info */}

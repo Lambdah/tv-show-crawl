@@ -1,6 +1,23 @@
 import React from 'react';
 import axios from 'axios';
 import {Link} from "react-router-dom";
+import styled from "styled-components";
+
+const PosterTv = styled.div`
+
+     @media (max-width: 991px){
+      img {
+            max-width: 80%;
+        }  
+    }
+    
+    @media (max-width: 767px){
+        img {
+            max-width: 80%;
+        }
+    }
+
+`
 
 
 export default class Categories extends React.Component{
@@ -47,7 +64,7 @@ export default class Categories extends React.Component{
         return(
             <div className="container">
                 <div className="row">
-                    <div className="col-0 display-4">
+                    <div className="col-0 display-4 mb-lg-2 mb-4" style={{paddingTop: '100px'}}>
                         Categories Search
                     </div>
                 </div>
@@ -55,7 +72,7 @@ export default class Categories extends React.Component{
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group row">
                             {this.state.genres.map((genre, index) =>
-                                <div className="form-check col-3 text-left" key={genre+index}>
+                                <div className="form-check col-lg-3 col-md-4 col-sm-6 text-left" key={genre+index}>
                                     <label className="form-check-label ml-5" htmlFor={genre}>
                                     <input className="form-check-input" type="radio" name="categoryRadio" id={genre}
                                            value={genre} checked={this.state.search === genre} onChange={this.handleChange}/>
@@ -73,10 +90,10 @@ export default class Categories extends React.Component{
                 </div>
                 <div className="row">
                     {this.state.tvShows.map(tv =>
-                        <div className="col-4 my-2" key={tv._id}>
+                        <PosterTv className="col-lg-4 col-md-6 my-2" key={tv._id}>
                             <img className="rounded float-left" src={tv.poster} alt={tv.title} />
                             <Link to={`/show/${tv.title}`} className="stretched-link" aria-hidden="true" style={{fontSize: 0}}>Link to {tv.title}</Link>
-                        </div>
+                        </PosterTv>
                     )}
                 </div>{/* row */}
 

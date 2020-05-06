@@ -14,6 +14,24 @@ const PosterShow = styled.div`
         min-width: 20.5em;
         }
         
+    @media (min-width: 1199px){
+        .poster-class{
+            
+        }
+    }
+        
+    @media (max-width: 991px){
+      img {
+        max-width: 80%;
+        }  
+    }
+    
+    @media (max-width: 767px){
+        img {
+            max-width: 80%;
+        }
+    }
+    
     img{
        display: block;
        margin: auto;

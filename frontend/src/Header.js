@@ -2,7 +2,6 @@ import React from "react";
 import {Link, withRouter} from "react-router-dom";
 import auth0Client from "./Auth";
 
-
 class Header extends React.Component{
     constructor(props) {
         super(props);
@@ -36,16 +35,16 @@ class Header extends React.Component{
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item my-2">
+                            <li className="nav-item my-2" data-toggle="collapse" data-target="#navbarSupportedContent">
                                 <Link className="nav-link" to="/new_release">New Releases<span className="sr-only">(current)</span></Link>
                             </li>
-                            <li className="nav-item my-2">
+                            <li className="nav-item my-2" data-toggle="collapse" data-target="#navbarSupportedContent">
                                 <Link className="nav-link" to="/networks">Networks</Link>
                             </li>
-                            <li className="nav-link">
+                            <li className="nav-link" data-toggle="collapse" data-target="#navbarSupportedContent">
                                 <Link className="nav-link" to="/categories">Categories</Link>
                             </li>
-                            <li className="nav-link">
+                            <li className="nav-link" data-toggle="collapse" data-target="#navbarSupportedContent">
                                 <Link className="nav-link" to="/subscriptions">Subscriptions</Link>
                             </li>
                         </ul>
