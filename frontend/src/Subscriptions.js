@@ -62,7 +62,7 @@ class Subscriptions extends React.Component{
                 <div className="row py-2">
                     {this.state.isSubLoaded ? <Sidebar subscription={this.state.subList}/> : <p>Loading</p>}
                     <div className="col" id="main">
-                        <div className="row text-right display-4">Your Shows</div>
+                        <div className="row text-right display-4" style={{paddingTop: '90px'}}>Your Shows</div>
                         <UserShow />
                     </div>
 

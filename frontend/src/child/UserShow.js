@@ -116,10 +116,10 @@ class UserShow extends Component{
                         <ul className="row">
                             {this.state.today.map((tvShow, index) => {
                                 return(
-                                    <div className="col-4" key={tvShow._id} ref={this.state.episodes.length === index + 1 ? this.lastEpisodeRef : null}>
+                                    <div className="col-lg-4 col-md-6 col-sm-12" key={tvShow._id} ref={this.state.episodes.length === index + 1 ? this.lastEpisodeRef : null}>
                                         <EpisodeCard show={tvShow.show} title={tvShow.title}  poster={tvShow.poster}
                                                      description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
+                                                     link={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                     </div>
                                 );
                             })}
@@ -134,10 +134,10 @@ class UserShow extends Component{
                         <ul className="row">
                         {this.state.week.map((tvShow, index) => {
                             return(
-                                <div className="col-4" key={tvShow._id} ref={this.state.episodes.length === this.state.today.length + index + 1 ? this.lastEpisodeRef : null}>
+                                <div className="col-lg-4 col-md-6 col-sm-12" key={tvShow._id} ref={this.state.episodes.length === this.state.today.length + index + 1 ? this.lastEpisodeRef : null}>
                                     <EpisodeCard show={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                                  description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                 episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
+                                                 link={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                 </div>
                             );
                         })}
@@ -152,10 +152,10 @@ class UserShow extends Component{
                         <ul className="row">
                             {this.state.month.map((tvShow, index) => {
                                 return(
-                                    <div className="col-4" key={tvShow._id} ref={this.state.episodes.length === this.state.week.length + this.state.today.length + index + 1 ? this.lastEpisodeRef : null}>
+                                    <div className="col-lg-4 col-md-6 col-sm-12" key={tvShow._id} ref={this.state.episodes.length === this.state.week.length + this.state.today.length + index + 1 ? this.lastEpisodeRef : null}>
                                         <EpisodeCard show={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                                      description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
+                                                     link={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                     </div>
                                 );
                             })}
@@ -171,10 +171,10 @@ class UserShow extends Component{
                         <ul className="row">
                             {this.state.older.map(tvShow => {
                                 return(
-                                    <div className="col-4" key={tvShow._id}>
+                                    <div className="col-lg-4 col-md-6 col-sm-12" key={tvShow._id}>
                                         <EpisodeCard show={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                                      description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                                     episode_url={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
+                                                     link={tvShow.link} sizeWidth={240} season={tvShow.season} episode={tvShow.episode} />
                                     </div>
                                 );
                             })}

@@ -47,7 +47,7 @@ export default function NewRelease(){
                              <div className="card col-lg-3 col-md-4 col-sm-12 border-0" key={tvShow._id} ref={episodes.length === index + 1 ? lastEpisodeRef : null}>
                                  <EpisodeCard show={tvShow.show} title={tvShow.title} poster={tvShow.poster}
                                               description={tvShow.description_alt ? tvShow.description_alt : tvShow.description }
-                                              episode_url={tvShow.link} season={tvShow.season} episode={tvShow.episode} sizeWidth={200}/>
+                                              link={tvShow.link} season={tvShow.season} episode={tvShow.episode} sizeWidth={200}/>
                             </div>
                         )}
             </div>

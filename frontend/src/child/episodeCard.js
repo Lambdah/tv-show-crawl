@@ -29,9 +29,7 @@ const Image = styled.img`
 const Play = styled.div`
     opacity: 0.0;
     position: absolute;
-    bottom: 55%;
     left: 50%;
-    transform: translate(-50%, -50%);
     color: black;
     
     ${LinkPoster}:hover &{
@@ -54,8 +52,8 @@ export default function EpisodeCard(props){
             <div className="card-body">
 
                 <LinkPoster data-toggle="tooltip" data-placement="top" title={props.description} href={props.link}>
-                    <Image className="rounded float-center" maxImage={imageSize} src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode Poster" />
-                    <Play>PLAY</Play>
+                    <Image className="rounded mx-sm-auto d-block" maxImage={imageSize} src={resizeImgUrl(props.poster, props.sizeWidth)} alt="Episode Poster" />
+                    <Play className="row text-center">PLAY</Play>
                 </LinkPoster>
 
                 <Link to={`/show/${props.show}`}><h5 className="card-title text-dark">{props.show}</h5></Link>

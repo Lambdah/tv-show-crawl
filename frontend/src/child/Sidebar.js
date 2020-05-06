@@ -1,3 +1,7 @@
+/**
+ * Sidebar for displaying user's subscribed tv shows
+ */
+
 import React from 'react';
 import styled from "styled-components";
 
@@ -8,6 +12,11 @@ const Vertical = styled.div`
     .position-fixed{
         border-left: 1px solid rgba(0,0,0,0.1);
     }
+    
+    @media (max-width: 991px){
+        display: none;       
+     }
+    
 `;
 
 
