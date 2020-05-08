@@ -18,6 +18,41 @@ router.route('/stats').get(function(req, res){
         });
 });
 
+router.route('/top5').get(function(req, res){
+    Network.aggregate([{$unwind: "$metaTags"}, {$group: {_id: "$metaTags", epiCounter: {$sum: "$episodeCount"}}}])
+        .sort({epiCounter: -1})
+        .limit(3)
+        .then((top) => {
+            const query = Network.find({$or : top.map(obj => {return {metaTags: obj._id}})}).sort({episodeCount: -1});
+            query.exec((err, show) => {
+               if (err) {
+                   return res.status(404).json({err: 'Error'});
+               }
+               let meow = new Set();
+               const category = [new Set(), new Set(), new Set()];
+                function top5(category, setCategory){
+                    for(let i=0; i < show.length; i++){
+                        if(show[i].metaTags.includes(category) && show[i].poster !== "N/A"){
+                            setCategory.add(show[i]);
+                        }
+                        if (setCategory.size > 4){
+                            break;
+                        }
+                    }
+                    return [...setCategory];
+                }
+
+                top.map((obj, index) => {
+                    category[index] = top5(obj._id, category[index]);
+                })
+
+               return res.json({top, category});
+            });
+
+        })
+
+})
+
 router.route('/:id').get(function(req, res){
    Network.find({_id: req.params.id})
        .then(network => res.json(network))

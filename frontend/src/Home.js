@@ -2,13 +2,14 @@
  * Page for /
  */
 
-import React, {createRef} from 'react';
+import React from 'react';
 import axios from 'axios';
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 const TelevisionSet = styled.div`
     .container {
-        padding-top: 10%;
+        padding-top: 100px;
         position: relative;
         text-align: center;
         color: black;
@@ -16,17 +17,18 @@ const TelevisionSet = styled.div`
     
     img {
         z-index: 0;
+        display: block;
+        margin: 0 auto;
     }
     
     @media screen and (min-width: 951px){
         #carouselShows{
             position: absolute;
-            top: 30%;
+            top: 34%;
             left: 17%;
             max-width: 500px;
             min-width: 500px;
             z-index: -1;
-            background-color: blue;
         }
         
         .carousel-item p {
@@ -42,7 +44,6 @@ const TelevisionSet = styled.div`
             max-width: 300px;
             min-width:300px;
             z-index: -1;
-            background-color: pink;
         }
         
         .carousel-item p {
@@ -59,11 +60,10 @@ const TelevisionSet = styled.div`
         #carouselShows{
             position: absolute;
             top: 50%;
-            left: 16%;
+            left: 15%;
             max-width: 160px;
-            min-width:160px;
+            min-width: 160px;
             z-index: -1;
-            background-color: green;
         }
         
         img{
@@ -131,16 +131,25 @@ export default class Home extends React.Component{
             global: {},
             ctv: {},
             cbc: {},
-            citytv: {}
+            citytv: {},
+            total: {},
+            episodeCounter: 0,
+            showCounter: 0,
+            episodeId: {},
+            showId: {},
+            search: ""
         };
-        this.observer = createRef();
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         axios.get('http://localhost:8018/networks/stats')
             .then((network) => {
                 const networkStats = network.data;
+                let total = {episodeCount: 0, showCount: 0};
                 networkStats.forEach((stats) => {
+                    total = {episodeCount: total.episodeCount += stats.episodeCount, showCount: total.showCount += stats.showCount};
                     switch(stats.network){
                         case 'cbc':
                             this.setState({cbc: {episodeCount: stats.episodeCount, showCount: stats.showCount}});
@@ -161,8 +170,33 @@ export default class Home extends React.Component{
                             break;
                     }
                 })
-
+                this.setState({total});
+                const showId = setInterval(() => {
+                        if (this.state.showCounter < this.state.total.showCount) {
+                            this.setState({showCounter: this.state.showCounter + 1})
+                        }
+                    }, 10);
+                this.setState({showId});
+                const episodeId = setInterval(() => {
+                    if (this.state.episodeCounter < this.state.total.episodeCount) {
+                        this.setState({episodeCounter: this.state.episodeCounter + 1})
+                    }
+                }, 1);
+                this.setState({episodeId});
             })
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.showId);
+        clearInterval(this.state.episodeId);
+    }
+
+    handleChange(event){
+        this.setState({search: event.target.value});
+    }
+
+    handleSubmit(){
+        return '/search/' + this.state.search;
     }
 
 
@@ -172,26 +206,26 @@ export default class Home extends React.Component{
             <div className="container">
                 <TelevisionSet>
                     <div className="container">
-
                         <img src={require('./img/television-set-960w.png')} srcSet={`${require('./img/television-set-960w.png')} 960w,
                         ${require('./img/televsion-set-672w.png')} 672w, 
-                        ${require('./img/televsion-set-480w.png')} 480px`} sizes="(max-width: 600px) 480px, (max-width: 950px) 672px, 960px" alt="Television"/>
+                        ${require('./img/televsion-set-480w.png')} 480w`} sizes="(max-width: 600px) 480px, (max-width: 950px) 672px, 960px" alt="Television"
+                        className="img-fluid" />
                         <div id="carouselShows" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner">
                                 <div className="carousel-item active">
-                                    <div className="d-block w-100">
+                                    <div className="d-block w-100 mx-auto d-block">
                                         <p className="">Welcome to</p>
                                         <p className="">TV Poop Shoot</p>
                                     </div>
                                 </div>
                                 <div className="carousel-item">
-                                    <div className="d-block w-100">
+                                    <div className="d-block w-100 mx-auto d-block">
                                         <p className="">Watch Canadian Networks:</p>
                                         <p className="">CBC, CityTV, CTV, Global, and MUCH</p>
                                     </div>
                                 </div>
                                 <div className="carousel-item">
-                                    <div className="d-block w-100">
+                                    <div className="d-block w-100 mx-auto d-block">
                                         <p>Keep track of the latest Canadian shows that can be watched online</p>
                                     </div>
                                 </div>
@@ -203,52 +237,34 @@ export default class Home extends React.Component{
 
                 <div className="row">
                     <DescriptionText>
-                        <div id="info-site" className="display-4 p-4">TV Poop helps you navigate Free Episodes that are available from their respective Network</div>
+                        <div id="info-site" className="display-4 p-4">Search for some of your shows to watch!</div>
                     </DescriptionText>
                 </div>
 
             </div>
-            <NetworkBand id="muchNetwork" className="container-fluid mt-4" bgColor="#000000" textColor="#ffffff">
+            <NetworkBand className="container-fluid mt-0" bgColor="#000000" textColor="#ffffff">
                 <div className="container">
-                    <div className="text-stats display-4 ml-3 text-left">MUCH has...</div>
-                    <div className="text-stats display-4 text-center">{this.state.much.showCount} Shows</div>
-                    <div className="text-stats display-4 text-right">and {this.state.much.episodeCount} Episodes</div>
+                    <div style={{paddingTop: '1em'}}>&nbsp;</div>
+                    <form className="form-inline my-1 justify-content-center" onSubmit={this.handleSubmit}>
+                        <input className="form-control mr-sm-2" type="search" placeholder="Search TV show title here"
+                               aria-label="Search" onChange={this.handleChange}/>
+                        <Link to={this.handleSubmit}>
+                            <button className="btn btn-outline-light my-2 my-sm-0" type="Submit">Go!</button>
+                        </Link>
+                    </form>
+                    <div className="row">
+                        <h3 className="text-center my-4 text-white col-lg-4 col-md-12">
+                            Number of Shows of <br/>{this.state.showCounter}
+                        </h3>
+                        <h3 className="text-center my-4 text-white col-lg-4 col-md-12">
+                            Number of Episodes of <br/>{this.state.episodeCounter}
+                        </h3>
+                        <h3 className="text-center my-4 text-white col-lg-4 col-md-12">
+                            Watch Episodes for <br/>free!
+                        </h3>
+                    </div>
                 </div>
             </NetworkBand>
-
-            <NetworkBand className="container-fluid" bgColor="#0301fc" textColor="#f9fb00" >
-                <div className="container">
-                    <div className="text-stats display-4 ml-3 text-right">CityTV has...</div>
-                    <div className="text-stats display-4 text-center">{this.state.citytv.showCount} Shows</div>
-                    <div className="text-stats display-4 text-left">and {this.state.citytv.episodeCount} Episodes</div>
-                </div>
-            </NetworkBand>
-
-                <NetworkBand className="container-fluid" bgColor="#fb0102" textColor="#02feff">
-                    <div className="container">
-                        <div className="text-stats display-4 text-left">CBC has...</div>
-                        <div className="text-stats display-4 text-center">{this.state.cbc.showCount} Shows</div>
-                        <div className="text-stats display-4 text-right">and {this.state.cbc.episodeCount} Episodes</div>
-                    </div>
-                </NetworkBand>
-
-                <NetworkBand className="container-fluid" bgColor="#fd00fb" textColor="#01ff00">
-                    <div className="container">
-                        <div className="text-stats display-4 ml-3 text-right">Global has...</div>
-                        <div className="text-stats display-4 text-center">{this.state.global.showCount} Shows</div>
-                        <div className="text-stats display-4 text-left">and {this.state.global.episodeCount} Episodes</div>
-                    </div>
-                </NetworkBand>
-
-                <NetworkBand className="container-fluid" bgColor="#01ff00" textColor="#fd00fb" >
-                    <div className="container">
-                        <div className="text-stats display-4 ml-3 text-left">CTV has...</div>
-                        <div className="text-stats display-4 text-center">{this.state.ctv.showCount} Shows</div>
-                        <div className="text-stats display-4 text-right">and {this.state.ctv.episodeCount} Episodes</div>
-                    </div>
-                </NetworkBand>
-
-
             </>
         )
     }

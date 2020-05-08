@@ -106,7 +106,6 @@ app.post('/users/shows/:pagination', checkJwt, (req, res) => {
         }
 
     });
-
 });
 
 const episodeRouter = require('./routes/episodes');
