@@ -28,14 +28,13 @@ router.route('/top5').get(function(req, res){
                if (err) {
                    return res.status(404).json({err: 'Error'});
                }
-               let meow = new Set();
                const category = [new Set(), new Set(), new Set()];
                 function top5(category, setCategory){
                     for(let i=0; i < show.length; i++){
                         if(show[i].metaTags.includes(category) && show[i].poster !== "N/A"){
                             setCategory.add(show[i]);
                         }
-                        if (setCategory.size > 4){
+                        if (setCategory.size > 5){
                             break;
                         }
                     }

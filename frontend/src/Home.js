@@ -123,24 +123,57 @@ const DescriptionText = styled.div`
     }
 `
 
+const ShowPoster = styled.div`
+    @media (min-width: 1199px){
+    margin-left: 2em;
+        img {
+            min-width: 266px;
+            max-width: 267px;
+            min-height: 368px;
+            max-height: 370px;
+        }        
+    }
+    
+    // Medium devices
+    @media (max-width: 991px){
+        img {
+            max-width: 250px;
+            max-height: 360px;
+        }
+    }
+    
+    // Smaller devices for portrait and landscape
+    @media (max-width: 767px){
+        img{
+            max-width: 106px;
+        }
+    }
+    
+    // Portrait mode for the iPhone SE
+    @media (min-width: 568px) and (max-width: 580px){ 
+     img{
+            max-width: 94px;
+        }
+    }
+`
+
 export default class Home extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            much: {},
-            global: {},
-            ctv: {},
-            cbc: {},
-            citytv: {},
             total: {},
             episodeCounter: 0,
             showCounter: 0,
             episodeId: {},
             showId: {},
-            search: ""
+            search: "",
+            category: [{},{},{},{},{},{}],
+            top: [{}, {}, {}],
+            loaded: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.tvShowCategories = this.tvShowCategories.bind(this);
     }
 
     componentDidMount() {
@@ -150,25 +183,6 @@ export default class Home extends React.Component{
                 let total = {episodeCount: 0, showCount: 0};
                 networkStats.forEach((stats) => {
                     total = {episodeCount: total.episodeCount += stats.episodeCount, showCount: total.showCount += stats.showCount};
-                    switch(stats.network){
-                        case 'cbc':
-                            this.setState({cbc: {episodeCount: stats.episodeCount, showCount: stats.showCount}});
-                            break;
-                        case 'citytv':
-                            this.setState({citytv: {episodeCount: stats.episodeCount, showCount: stats.showCount}});
-                            break;
-                        case 'much':
-                            this.setState({much: {episodeCount: stats.episodeCount, showCount: stats.showCount}});
-                            break;
-                        case 'global':
-                            this.setState({global: {episodeCount: stats.episodeCount, showCount: stats.showCount}});
-                            break;
-                        case 'ctv':
-                            this.setState({ctv: {episodeCount: stats.episodeCount, showCount: stats.showCount}});
-                            break;
-                        default:
-                            break;
-                    }
                 })
                 this.setState({total});
                 const showId = setInterval(() => {
@@ -184,6 +198,14 @@ export default class Home extends React.Component{
                 }, 1);
                 this.setState({episodeId});
             })
+        axios.get('http://localhost:8018/networks/top5')
+            .then((resp) => {
+                const top = resp.data.top;
+                const category = resp.data.category;
+                this.setState({top, category});
+                this.setState({loaded: true});
+            })
+
     }
 
     componentWillUnmount() {
@@ -197,6 +219,23 @@ export default class Home extends React.Component{
 
     handleSubmit(){
         return '/search/' + this.state.search;
+    }
+
+    tvShowCategories(category, index){
+        if (!this.state.loaded) return ;
+        const episodes = this.state.category[index].map(obj =>
+            <div key={obj._id}>
+            <Link to={`/show/${obj.title}`}><img className="rounded img-fluid" src={obj.poster} alt={`${obj.title} Poster`}/></Link>
+            </div>
+            )
+        return(
+            <>
+            <div key={new Date().getTime() + category} className="row text-light ml-lg-5 display-4 justify-content-lg-start justify-content-center">{category}</div>
+                <ShowPoster className="row pb-4 justify-content-center">
+                    {episodes}
+                </ShowPoster>
+            </>
+        )
     }
 
 
@@ -237,7 +276,7 @@ export default class Home extends React.Component{
 
                 <div className="row">
                     <DescriptionText>
-                        <div id="info-site" className="display-4 p-4">Search for some of your shows to watch!</div>
+                        <div id="info-site" className="display-4 p-4 text-center">Search for some of your shows to watch!</div>
                     </DescriptionText>
                 </div>
 
@@ -264,6 +303,11 @@ export default class Home extends React.Component{
                         </h3>
                     </div>
                 </div>
+                <>
+                    {this.state.top.map((obj, index) =>
+                        <div key={index + "-" + obj._id}>{this.tvShowCategories(obj._id, index)}</div>
+                    )}
+                </>
             </NetworkBand>
             </>
         )
