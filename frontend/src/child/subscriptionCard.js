@@ -11,7 +11,7 @@ export default class SubscriptionCard extends React.Component{
     }
 
     async componentDidMount() {
-        const {data} = await axios.get(`http://localhost:8018/episodes/tv/new/listed/${this.props.tvShow}`);
+        const {data} = await axios.get(`${process.env.REACT_APP_SERVER}/episodes/tv/new/listed/${this.props.tvShow}`);
         this.setState({episodes: data});
     }
 

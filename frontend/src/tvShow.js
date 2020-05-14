@@ -23,12 +23,12 @@ class TvShow extends React.Component{
         const initTitle = this.props.match.params.title;
         const title = initTitle.replace(/(^\w|\s\w)/g, c=> c.toUpperCase());
         this.setState({title});
-        axios.get(`http://localhost:8018/networks/title/${title}`)
+        axios.get(`${process.env.REACT_APP_SERVER}/networks/title/${title}`)
             .then(res => {
                 const tvShow = res.data;
                 this.setState({tvShow});
             });
-        axios.get(`http://localhost:8018/episodes/tv/${title}`)
+        axios.get(`${process.env.REACT_APP_SERVER}/episodes/tv/${title}`)
             .then(res => {
                 const episodes = res.data;
                 this.setState({episodes});

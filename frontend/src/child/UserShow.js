@@ -45,7 +45,7 @@ class UserShow extends Component{
         const source = CancelToken.source();
         this.setState({loading: true, error: false});
         const {email} = auth0Client.getProfile();
-        axios.post(`http://localhost:8018/users/shows/${this.state.pagination}`, {email}, {
+        axios.post(`${process.env.REACT_APP_SERVER}/users/shows/${this.state.pagination}`, {email}, {
             headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`,
             cancelToken: source.token
             }

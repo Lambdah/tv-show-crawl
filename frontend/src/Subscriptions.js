@@ -42,7 +42,7 @@ class Subscriptions extends React.Component{
 
     async handleUserCall(){
         const {email} = auth0Client.getProfile();
-        await axios.post(`http://localhost:8018/users`, {email}, {
+        await axios.post(`${process.env.REACT_APP_SERVER}/users`, {email}, {
             headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
         })
             .then((res) =>{

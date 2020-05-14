@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Link} from "react-router-dom";
 import styled from "styled-components";
+import NoPosterImg from "./child/NoPosterImg";
 
 const PosterTv = styled.div`
 
@@ -91,7 +92,12 @@ export default class Categories extends React.Component{
                 <div className="row">
                     {this.state.tvShows.map(tv =>
                         <PosterTv className="col-lg-4 col-md-6 my-2" key={tv._id}>
-                            <img className="rounded float-left" src={tv.poster} alt={tv.title} />
+                            {tv.poster !== "N/A" ?
+                                <img className="rounded float-left" src={tv.poster} alt={tv.title} />
+                                :
+                                <NoPosterImg title={tv.title}/>
+                            }
+
                             <Link to={`/show/${tv.title}`} className="stretched-link" aria-hidden="true" style={{fontSize: 0}}>Link to {tv.title}</Link>
                         </PosterTv>
                     )}

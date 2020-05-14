@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/build
+/backend/build
 
 # misc
 .DS_Store
@@ -27,3 +27,4 @@ README.md
 
 /config
 /src/config
+/build

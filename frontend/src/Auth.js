@@ -8,7 +8,7 @@ class Auth{
             domain: config.Auth0Domain,
             audience: `https://${config.Auth0Domain}/userinfo`,
             clientID: config.Auth0Client,
-            redirectUri: `http://localhost:3000/callback`,
+            redirectUri: `${process.env.REACT_APP_FRONTEND}/callback`,
             responseType: 'id_token',
             scope: 'openid profile email'
         });
@@ -59,7 +59,7 @@ class Auth{
 
     signOut(){
         this.auth0.logout({
-            returnTo: 'http://localhost:3000',
+            returnTo: `${process.env.REACT_APP_FRONTEND}/`,
             clientID: `${config.Auth0Client}`
         });
     }

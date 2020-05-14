@@ -1,6 +1,7 @@
 import React from "react";
 import {Link, withRouter} from "react-router-dom";
 import auth0Client from "./Auth";
+import Logo from "./img/buttcrack.svg";
 
 class Header extends React.Component{
     constructor(props) {
@@ -28,7 +29,7 @@ class Header extends React.Component{
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">TV Poop</Link>
+                    <Link className="navbar-brand" to="/"><img src={Logo} alt="logo" style={{maxWidth: '16.7px'}}/>TV Poopshoot </Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -55,7 +56,7 @@ class Header extends React.Component{
                         {
                             auth0Client.isAuthenticated() &&
                                 <div>
-                                    <label className="mr-2 mt-2 text-white">{auth0Client.getProfile().name}</label>
+                                    <label className="mt-2 text-white">{auth0Client.getProfile().name}</label>
                                     <button className="btn btn-dark" onClick={() => {this.signOut()}}>Sign Out</button>
                                 </div>
                         }

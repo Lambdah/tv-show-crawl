@@ -5,7 +5,6 @@
 import React from 'react';
 import axios from "axios";
 import auth0Client from "../Auth";
-import dev from "../config/dev";
 
 export default class SubscribeButton extends React.Component{
     constructor(props) {
@@ -28,7 +27,7 @@ export default class SubscribeButton extends React.Component{
         if(auth0Client.isAuthenticated() && this.state.didClick){
             const tvShow = this.props.tvShow;
             const isSub = this.state.isSubscribed;
-            axios.post(`${dev.Server}/users/subscribed`, {tvShow, isSub}, {
+            axios.post(`${process.env.REACT_APP_SERVER}/users/subscribed`, {tvShow, isSub}, {
                 headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
             }).catch(function(error){
                 if(error.response){
@@ -43,7 +42,7 @@ export default class SubscribeButton extends React.Component{
     async handleCheckLogin(){
         if (auth0Client.isAuthenticated()){
             const {email} = auth0Client.getProfile();
-            const subscribedShows = await axios.post(`http://localhost:8018/users`, {email}, {
+            const subscribedShows = await axios.post(`${process.env.REACT_APP_SERVER}/users`, {email}, {
                 headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
             });
 

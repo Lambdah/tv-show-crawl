@@ -59,7 +59,7 @@ export default class Search extends React.Component{
     componentDidMount() {
         const search = this.props.match.params.search;
         this.setState({search: search});
-        axios.get(`http://localhost:8018/episodes/`)
+        axios.get(`${process.env.REACT_APP_SERVER}/episodes/`)
             .then(res => {
                 const episodes = res.data;
                 if (search.trim().length > 3){

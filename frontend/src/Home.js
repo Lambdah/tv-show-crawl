@@ -177,7 +177,7 @@ export default class Home extends React.Component{
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8018/networks/stats')
+        axios.get(`${process.env.REACT_APP_SERVER}/networks/stats`)
             .then((network) => {
                 const networkStats = network.data;
                 let total = {episodeCount: 0, showCount: 0};
@@ -198,7 +198,7 @@ export default class Home extends React.Component{
                 }, 1);
                 this.setState({episodeId});
             })
-        axios.get('http://localhost:8018/networks/top5')
+        axios.get(`${process.env.REACT_APP_SERVER}/networks/top5`)
             .then((resp) => {
                 const top = resp.data.top;
                 const category = resp.data.category;

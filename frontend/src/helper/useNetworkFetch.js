@@ -12,7 +12,7 @@ export default function useNetworkFetch(network, pageNumber, pageSize){
         let cancel;
         setLoading(true);
         setError(false);
-        axios.get(`http://localhost:8018/networks/tv/pagination/${network}`, {
+        axios.get(`${process.env.REACT_APP_SERVER}/networks/tv/pagination/${network}`, {
             params: {
                 page: pageNumber,
                 size: pageSize

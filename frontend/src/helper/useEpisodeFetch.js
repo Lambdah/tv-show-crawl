@@ -11,7 +11,7 @@ export default function useEpisodeFetch(pageNumber, pageSize){
         let cancel;
         setLoading(true);
         setError(false);
-        axios.get(`http://localhost:8018/episodes/new_releases/page/${pageNumber}/sizes/${pageSize}`,
+        axios.get(`${process.env.REACT_APP_SERVER}/episodes/new_releases/page/${pageNumber}/sizes/${pageSize}`,
             {cancelToken: new axios.CancelToken((c) => cancel = c)})
             .then((res) => {
                 setEpisodes(prevEpisodes => {

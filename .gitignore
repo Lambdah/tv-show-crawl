@@ -6,6 +6,7 @@ backend/mock-website/
 backend/mock-data/
 backend/config/
 backend/package-lock.json
+backend/build/
 frontend/node_modules/
 output.txt
 ./mock-data
