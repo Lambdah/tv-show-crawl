@@ -6,9 +6,10 @@ const morgan = require('morgan');
 let config = require('config');
 const {User, Show} = require('./schema/userSchema');
 const Episode = require('./schema/episodeSchema');
-const showCrawl = require(__dirname + '/crawler/herokuCrawl/showCrawl');
+const path = require('path');
 
 const app = express();
+app.use(cors());
 const port = config.PORT || 5000;
 
 
@@ -23,14 +24,16 @@ conn.once('open', function(){
 
 app.use(express.json());
 app.use(helmet());
-app.use(cors());
+
 if (process.env.NODE_ENV !== 'test'){
     app.use(morgan('combined'));
 }
 
+app.use(express.static(path.join(__dirname, 'build')));
+
 const checkJwt = require('./routes/checkJwt');
 
-app.post('/users', checkJwt, (req, res) => {
+app.post('/api/users', checkJwt, (req, res) => {
     const {email} = req.body;
     if (req.user.email !== email) return res.status(401);
     let userQuery = User.where({email: email});
@@ -54,7 +57,7 @@ app.post('/users', checkJwt, (req, res) => {
 });
 
 
-app.post('/users/subscribed', checkJwt, (req, res) =>{
+app.post('/api/users/subscribed', checkJwt, (req, res) =>{
     const email = req.user.email;
     const {tvShow, isSub} = req.body;
     let userQuery = User.where({email: email});
@@ -80,7 +83,7 @@ app.post('/users/subscribed', checkJwt, (req, res) =>{
     });
 });
 
-app.post('/users/shows/:pagination', checkJwt, (req, res) => {
+app.post('/api/users/shows/:pagination', checkJwt, (req, res) => {
     const email = req.user.email;
     const pagination = req.params.pagination;
     const pageSize = 24;
@@ -109,13 +112,10 @@ app.post('/users/shows/:pagination', checkJwt, (req, res) => {
 });
 
 const episodeRouter = require('./routes/episodes');
-app.use('/episodes', episodeRouter);
+app.use('/api/episodes', episodeRouter);
 
 const networkRouter = require('./routes/networks');
-app.use('/networks', networkRouter);
-
-
-
+app.use('/api/networks', networkRouter);
 
 app.listen(port, ()=> {
     console.log(`Server running on: ${port}`);

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "set NODE_ENV=default && node server.js --timeout 50000",
+    "product": "set NODE_ENV=production && node server.js --timeout 50000",
     "test": "./node_modules/.bin/mocha --timeout 30000"
   },
   "repository": {
@@ -36,7 +37,6 @@
     "mongoose": "^5.7.8",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.9.1",
-    "puppeteer": "^2.0.0",
     "puppeteer-extra": "^3.1.9",
     "puppeteer-extra-plugin-stealth": "^2.4.9",
     "underscore": "^1.10.2"

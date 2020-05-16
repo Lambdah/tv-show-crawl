@@ -7,11 +7,11 @@ const checkJwt = jwt({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `https://${config.Auth0Domain}/.well-known/jwks.json`
+        jwksUri: `https://${config.auth0.Auth0Domain}/.well-known/jwks.json`
     }),
 
-    audience: config.Auth0Client,
-    issuer: `https://${config.Auth0Domain}/`,
+    audience: `${config.auth0.Auth0Client}`,
+    issuer: `https://${config.auth0.Auth0Domain}/`,
     algorithms: ['RS256']
 });
 
