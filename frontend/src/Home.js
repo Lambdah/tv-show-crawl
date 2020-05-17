@@ -299,7 +299,7 @@ export default class Home extends React.Component{
                             Number of Episodes of <br/>{this.state.episodeCounter}
                         </h3>
                         <h3 className="text-center my-4 text-white col-lg-4 col-md-12">
-                            Watch Episodes for <br/>free!
+                            Number of Networks <br/>5
                         </h3>
                     </div>
                 </div>

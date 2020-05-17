@@ -42,7 +42,7 @@ export default class Categories extends React.Component{
     }
 
     handleGenre(){
-        axios.get(`http://localhost:8018/networks/categories/${this.state.genre}`)
+        axios.get(`${process.env.REACT_APP_SERVER}/networks/categories/${this.state.genre}`)
             .then(res => {
                 const tvShows = res.data;
                 this.setState({tvShows});
