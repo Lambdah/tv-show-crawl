@@ -6,29 +6,41 @@ import styled from "styled-components";
 
 const PosterShow = styled.div`
     .poster-class{
-        height: auto;
-        width: auto;
+        height: 27.5em;
+        width: 15em;
         padding-right: 1em;
         background-color: lightgrey;
         min-height: 93.5%;
         min-width: 20.5em;
+        img {
+            width: 84%;  
         }
+     }
         
     @media (min-width: 1199px){
         .poster-class{
             
+        img {
+            max-width: 90%;  
         }
     }
         
     @media (max-width: 991px){
-      img {
-        max-width: 80%;
-        }  
+        .poster-class{
+            img {
+            width: 80%;
+            }  
+        }
+            
+      
     }
     
     @media (max-width: 767px){
-        img {
-            max-width: 80%;
+        .poster-class{
+                
+            img {
+                width: 80%;
+            }  
         }
     }
     
@@ -69,7 +81,7 @@ export default function NetworkFragment(props){
             <div className="row">
                 {shows.map((tvShow, index) =>
                     <PosterShow key={tvShow._id}>
-                        <div className="col-4 my-3 poster-class rounded border border-primary" ref={shows.length === index + 1 ? lastShowRef : null}>
+                        <div className="col-4 my-3 m-1 poster-class rounded border border-primary" ref={shows.length === index + 1 ? lastShowRef : null}>
                             {tvShow.hasOwnProperty("episodeCount") ? <p className="text-primary">{tvShow.episodeCount} Episodes</p>
                                 : <p className="text-secondary">No Episodes</p>
                             }
